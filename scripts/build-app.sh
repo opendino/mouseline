@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Builds build/mgestures.app from the Swift package.
 #
-#   scripts/build-app.sh                 # release build, universal (arm64 + x86_64), ad-hoc signed
+#   scripts/build-app.sh                 # release build, universal (arm64 + x86_64), signed with
+#                                        # the local dev certificate if present, else ad hoc
 #   ARCHS=arm64 scripts/build-app.sh     # one architecture only (faster local builds)
 #   CONFIG=debug scripts/build-app.sh    # debug build
 #   SIGN_IDENTITY="Developer ID Application: …" scripts/build-app.sh
@@ -12,7 +13,27 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 CONFIG="${CONFIG:-release}"
-SIGN_IDENTITY="${SIGN_IDENTITY:--}"   # "-" = ad-hoc signature
+DEV_CERT="mgestures Local Development"
+DEV_KEYCHAIN="$HOME/Library/Keychains/mgestures-dev.keychain-db"
+SIGN_LABEL="${SIGN_IDENTITY:-}"
+if [[ -z "${SIGN_IDENTITY:-}" ]]; then
+  # Prefer the local development certificate (scripts/make-dev-cert.sh): its signature
+  # stays the same across builds, so the Accessibility permission is kept. It is
+  # self-signed and untrusted, so codesign takes it by SHA-1 fingerprint, not by name.
+  dev_sha1=""
+  if [[ -f "$DEV_KEYCHAIN" ]]; then
+    dev_sha1="$(security find-certificate -c "$DEV_CERT" -Z "$DEV_KEYCHAIN" 2>/dev/null | sed -n 's/^SHA-1 hash: //p' | head -1)"
+  fi
+  if [[ -n "$dev_sha1" ]]; then
+    security unlock-keychain -p "" "$DEV_KEYCHAIN"
+    SIGN_IDENTITY="$dev_sha1"
+    SIGN_LABEL="$DEV_CERT"
+  else
+    SIGN_IDENTITY="-"   # ad-hoc signature
+    SIGN_LABEL="ad hoc"
+    echo "note: signing ad hoc; run scripts/make-dev-cert.sh once to keep the Accessibility permission across builds" >&2
+  fi
+fi
 ARCHS="${ARCHS:-arm64 x86_64}"        # space-separated
 ENTITLEMENTS="Support/mgestures.entitlements"
 APP="build/mgestures.app"
@@ -92,6 +113,8 @@ shopt -u nullglob
 codesign --force --options runtime --timestamp=none \
   --entitlements "$ENTITLEMENTS" --sign "$SIGN_IDENTITY" "$APP"
 codesign --verify --strict --verbose=1 "$APP"
+echo "Signed with: $SIGN_LABEL"
+echo "Designated requirement: $(codesign -d -r- "$APP" 2>&1 | sed -n 's/^designated => //p')"
 
 echo
 echo "Architectures: $(lipo -archs "$APP/Contents/MacOS/$PRODUCT")"

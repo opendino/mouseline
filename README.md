@@ -88,9 +88,20 @@ On first launch macOS asks for it; you can also grant it in
 *System Settings → Privacy & Security → Accessibility*. Gestures start working
 within a couple of seconds after access is granted — no restart needed.
 
-The build script signs the app ad hoc. macOS ties the Accessibility permission to the
-signature, so **after every rebuild you have to remove mgestures from the
-Accessibility list and add it again**. Signing with a stable identity avoids this:
+macOS ties the Accessibility permission to the app's signature. An ad-hoc signature
+changes with every build, so **without a stable certificate you have to remove mgestures
+from the Accessibility list and add it again after every rebuild**. Create a local
+development certificate once and the build script uses it automatically:
+
+```bash
+scripts/make-dev-cert.sh
+```
+
+It creates a self-signed certificate in its own keychain
+(`~/Library/Keychains/mgestures-dev.keychain-db`, added to your keychain search list) and
+leaves your login keychain and trust settings alone. After the first build signed with it,
+grant Accessibility once more; later builds keep the permission. To use another identity,
+for example an Apple Development certificate:
 
 ```bash
 SIGN_IDENTITY="Apple Development: you@example.com (TEAMID)" scripts/build-app.sh
@@ -143,7 +154,7 @@ swift scripts/make-icon.swift Support/AppIcon.icns # regenerate the app icon
 |---|---|---|
 | `CONFIG` | `release` | `release` or `debug` |
 | `ARCHS` | `arm64 x86_64` | Architectures to build, space-separated. With more than one, the script builds them in one `swift build` when the toolchain supports it, otherwise one by one and merges them with `lipo` |
-| `SIGN_IDENTITY` | `-` (ad hoc) | Code signing identity |
+| `SIGN_IDENTITY` | local dev certificate if present, else `-` (ad hoc) | Code signing identity (name or SHA-1) |
 
 The app icon is drawn in code by `scripts/make-icon.swift` (AppKit, no design tools needed)
 and checked in as `Support/AppIcon.icns`; rerun the script after changing it.
