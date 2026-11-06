@@ -1,0 +1,9 @@
+mgestures
+Copyright 2026 The mgestures Authors
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+The shape recognizer is an adaptation of the "$1 Unistroke Recognizer"
+described in: J. O. Wobbrock, A. D. Wilson, Y. Li. "Gestures without
+Libraries, Toolkits or Training: A $1 Recognizer for User Interface
+Prototypes." UIST 2007.
