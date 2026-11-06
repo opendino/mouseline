@@ -163,6 +163,10 @@ To check the interface without clicking through it, render every window to PNG
 build/mgestures.app/Contents/MacOS/mgestures --snapshot /tmp/mgestures-shots --light
 ```
 
+Add `--onscreen` to show each window briefly in the middle of the screen and capture it
+there, so Liquid Glass and blur are included, and `--only settings-gestures,hud` to limit
+the windows.
+
 The app icon is drawn in code by `scripts/make-icon.swift` (AppKit, no design tools needed)
 and checked in as `Support/AppIcon.icns`; rerun the script after changing it.
 

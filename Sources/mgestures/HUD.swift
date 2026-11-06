@@ -1,72 +1,105 @@
 import AppKit
 import SwiftUI
 
-/// A click-through, frosted-glass bubble near the bottom of the screen under the cursor
-/// that briefly shows the recognized gesture and its action, like the system's own HUDs.
+/// A click-through bubble near the bottom of the screen under the cursor that briefly
+/// shows the recognized gesture and its action. Liquid Glass on macOS 26 and later
+/// (it materializes in and morphs between messages), frosted glass before.
 @MainActor
 final class HUD {
     static let shared = HUD()
 
+    /// The panel is larger than the bubble so the bubble can grow and animate inside it;
+    /// it is transparent and ignores the mouse, so the extra room is invisible.
+    private static let panelSize = NSSize(width: 560, height: 140)
+
+    private let model = HUDModel()
     private var panel: NSPanel?
-    private var host: NSHostingView<HUDView>?
     private var hideWork: DispatchWorkItem?
+    private var orderOutWork: DispatchWorkItem?
 
     func show(_ title: String, detail: String? = nil, symbol: String? = nil, duration: TimeInterval = 1.1) {
         let panel = self.panel ?? makePanel()
-        guard let host else { return }
-        // Setting rootView updates synchronously, so the size below is the new one.
-        host.rootView = HUDView(title: title, detail: detail, symbol: symbol)
-        host.layoutSubtreeIfNeeded()
-        let size = host.fittingSize
 
         let mouse = NSEvent.mouseLocation
         let screen = NSScreen.screens.first { NSMouseInRect(mouse, $0.frame, false) } ?? NSScreen.main
         let visible = screen?.visibleFrame ?? .zero
-        let origin = NSPoint(x: visible.midX - size.width / 2, y: visible.minY + max(80, visible.height * 0.12))
-        let wasVisible = panel.isVisible && panel.alphaValue > 0.01
-        panel.setFrame(NSRect(origin: origin, size: size), display: true)
+        let size = Self.panelSize
+        let origin = NSPoint(x: visible.midX - size.width / 2, y: visible.minY + max(40, visible.height * 0.08))
+        if panel.frame.origin != origin { panel.setFrameOrigin(origin) }
 
-        if !wasVisible {
-            panel.alphaValue = 0
-            panel.setFrameOrigin(NSPoint(x: origin.x, y: origin.y - 8))
-        }
+        orderOutWork?.cancel()
         panel.orderFrontRegardless()
-        NSAnimationContext.runAnimationGroup { ctx in
-            ctx.duration = 0.18
-            ctx.timingFunction = CAMediaTimingFunction(name: .easeOut)
-            panel.animator().alphaValue = 1
-            panel.animator().setFrameOrigin(origin)
+
+        let content = HUDContent(title: title, detail: detail, symbol: symbol)
+        withAnimation(.spring(response: 0.38, dampingFraction: 0.78)) {
+            model.content = content
+            model.visible = true
         }
 
         // Cancel the previous hide, so a second message is not cut short by the first one's timer.
         hideWork?.cancel()
-        let work = DispatchWorkItem { [weak panel] in
-            guard let panel else { return }
-            NSAnimationContext.runAnimationGroup { ctx in
-                ctx.duration = 0.3
-                panel.animator().alphaValue = 0
-            }
+        let hide = DispatchWorkItem { [weak self] in self?.hide() }
+        hideWork = hide
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration, execute: hide)
+    }
+
+    private func hide() {
+        withAnimation(.easeIn(duration: 0.25)) {
+            model.visible = false
         }
-        hideWork = work
-        DispatchQueue.main.asyncAfter(deadline: .now() + duration, execute: work)
+        let orderOut = DispatchWorkItem { [weak self] in self?.panel?.orderOut(nil) }
+        orderOutWork = orderOut
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: orderOut)
     }
 
     private func makePanel() -> NSPanel {
-        let panel = NSPanel(contentRect: .zero, styleMask: [.borderless, .nonactivatingPanel], backing: .buffered, defer: false)
+        let panel = NSPanel(
+            contentRect: NSRect(origin: .zero, size: Self.panelSize),
+            styleMask: [.borderless, .nonactivatingPanel], backing: .buffered, defer: false
+        )
         panel.isOpaque = false
         panel.backgroundColor = .clear
-        panel.hasShadow = true
+        panel.hasShadow = false // the bubble draws its own; a window shadow would outline the panel
         panel.ignoresMouseEvents = true
         panel.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.overlayWindow)))
         panel.collectionBehavior = [.canJoinAllSpaces, .stationary, .fullScreenAuxiliary, .ignoresCycle]
-        let host = NSHostingView(rootView: HUDView(title: "", detail: nil, symbol: nil))
-        panel.contentView = host
-        self.host = host
+        panel.contentView = NSHostingView(rootView: HUDStage(model: model))
         self.panel = panel
         return panel
     }
 }
 
+struct HUDContent: Equatable {
+    var title: String
+    var detail: String?
+    var symbol: String?
+}
+
+@MainActor
+final class HUDModel: ObservableObject {
+    @Published var content = HUDContent(title: "")
+    @Published var visible = false
+}
+
+/// The full panel: the bubble near the bottom, appearing and disappearing.
+private struct HUDStage: View {
+    @ObservedObject var model: HUDModel
+
+    var body: some View {
+        ZStack(alignment: .bottom) {
+            Color.clear
+            if model.visible {
+                HUDView(title: model.content.title, detail: model.content.detail, symbol: model.content.symbol)
+                    .glassAppearance()
+                    .transition(.scale(scale: 0.82, anchor: .bottom).combined(with: .opacity))
+                    .padding(.bottom, 24)
+            }
+        }
+        .glassGroup()
+    }
+}
+
+/// The bubble itself: symbol, gesture name and action.
 struct HUDView: View {
     let title: String
     let detail: String?
@@ -74,28 +107,42 @@ struct HUDView: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            if let symbol = symbol {
+            if let symbol {
                 Image(systemName: symbol)
-                    .font(.system(size: 20, weight: .medium))
+                    .font(.system(size: 19, weight: .semibold))
                     .frame(width: 26)
-                    .foregroundStyle(.primary)
+                    .contentTransition(.opacity)
             }
             VStack(alignment: .leading, spacing: 1) {
                 Text(verbatim: title)
                     .font(.system(size: 14, weight: .semibold))
-                if let detail = detail {
+                if let detail {
                     Text(verbatim: detail)
-                        .font(.system(size: 12))
+                        .font(.system(size: 12, weight: .medium))
                         .foregroundStyle(.secondary)
                 }
             }
+            .contentTransition(.opacity)
         }
-        .padding(.horizontal, 18)
-        .padding(.vertical, 11)
+        .padding(.horizontal, 20)
+        .padding(.vertical, 12)
         .fixedSize()
-        .background(VisualEffectBackground(material: .hudWindow))
-        .clipShape(Capsule(style: .continuous))
-        .overlay(Capsule(style: .continuous).strokeBorder(Color.white.opacity(0.12), lineWidth: 0.5))
+        .modifier(HUDBackground())
+    }
+}
+
+/// Liquid Glass capsule on macOS 26+, the HUD blur material before.
+private struct HUDBackground: ViewModifier {
+    func body(content: Content) -> some View {
+        if #available(macOS 26, *) {
+            content.glassEffect(.regular, in: Capsule(style: .continuous))
+        } else {
+            content
+                .background(VisualEffectBackground(material: .hudWindow))
+                .clipShape(Capsule(style: .continuous))
+                .overlay(Capsule(style: .continuous).strokeBorder(Color.white.opacity(0.12), lineWidth: 0.5))
+                .shadow(color: .black.opacity(0.25), radius: 14, y: 6)
+        }
     }
 }
 

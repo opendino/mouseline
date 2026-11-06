@@ -34,6 +34,7 @@ struct AppearanceSettingsView: View {
                     Button("Show") {
                         HUD.shared.show(L("Left"), detail: L(ActionKind.tileLeft.title), symbol: ActionKind.tileLeft.symbol)
                     }
+                    .glassButtonStyle()
                 }
             } header: {
                 Text("Gesture name")

@@ -90,6 +90,17 @@ done
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 cp "$BINARY" "$APP/Contents/MacOS/$PRODUCT"
+
+# SwiftPM with the Command Line Tools records the deployment target as the SDK version
+# (LC_BUILD_VERSION "sdk 13.0"). macOS decides from that field whether an app gets the
+# current system design — on macOS 26 the floating Liquid Glass sidebar, toolbar and
+# controls — so stamp the SDK that was actually used. The minimum macOS stays the same.
+MIN_MACOS="$(vtool -show-build "$APP/Contents/MacOS/$PRODUCT" | awk '/minos/ { print $2; exit }')"
+SDK_VERSION="$(xcrun --show-sdk-version)"
+if [[ -n "$MIN_MACOS" && -n "$SDK_VERSION" ]]; then
+  vtool -set-build-version macos "$MIN_MACOS" "$SDK_VERSION" -replace \
+    -output "$APP/Contents/MacOS/$PRODUCT" "$APP/Contents/MacOS/$PRODUCT"
+fi
 cp Support/Info.plist "$APP/Contents/Info.plist"
 
 if [[ -f Support/AppIcon.icns ]]; then

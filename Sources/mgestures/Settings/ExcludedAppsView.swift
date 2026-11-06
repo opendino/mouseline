@@ -60,6 +60,7 @@ struct ExcludedAppsView: View {
                     Button("Add App…") {
                         AppInfo.chooseApps(multiple: true).forEach(add)
                     }
+                    .glassButtonStyle()
                 }
             }
         }

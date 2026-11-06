@@ -102,9 +102,11 @@ struct OnboardingView: View {
             .padding(.bottom, 26)
             .frame(width: 290)
             .frame(maxHeight: .infinity, alignment: .top)
-            .background(VisualEffectBackground(material: .sidebar))
+            .background(Color.primary.opacity(0.035))
 
-            Divider()
+            Rectangle()
+                .fill(Color.primary.opacity(0.08))
+                .frame(width: 0.5)
 
             // Right: the steps and the buttons.
             VStack(spacing: 0) {
@@ -121,9 +123,9 @@ struct OnboardingView: View {
                 footer
             }
             .frame(width: 520)
-            .background(VisualEffectBackground(material: .windowBackground))
         }
         .fixedSize(horizontal: false, vertical: true)
+        .modifier(FloatingGlassPanel(cornerRadius: 26))
     }
 
     // MARK: Sections
@@ -134,8 +136,9 @@ struct OnboardingView: View {
                 .captionStyle()
             HStack {
                 Button("Move to Applications") { model.move() }
-                    .buttonStyle(.borderedProminent)
+                    .glassButtonStyle(prominent: true)
                 Button("Not Now") { model.skipMove() }
+                    .glassButtonStyle()
             }
             .padding(.top, 2)
             if let error = model.moveError {
@@ -154,7 +157,7 @@ struct OnboardingView: View {
                         Permissions.requestAccessibility()
                         Permissions.openAccessibilitySettings()
                     }
-                    .buttonStyle(.borderedProminent)
+                    .glassButtonStyle(prominent: true)
                     Text("Turn on mgestures in the list. This window updates by itself.")
                         .captionStyle()
                 }
@@ -217,9 +220,9 @@ struct OnboardingView: View {
 
     private var footer: some View {
         VStack(spacing: 0) {
-            Divider()
             HStack {
                 Button("Open Settings…", action: openSettings)
+                    .glassButtonStyle()
                 Spacer()
                 Button {
                     store.config.onboardingCompleted = true
@@ -228,7 +231,7 @@ struct OnboardingView: View {
                     Text(state.monitorRunning ? L("Get Started") : L("Later"))
                         .frame(minWidth: 90)
                 }
-                .buttonStyle(.borderedProminent)
+                .glassButtonStyle(prominent: true)
                 .keyboardShortcut(.defaultAction)
             }
             .controlSize(.large)
@@ -376,13 +379,32 @@ private struct StepCard<Content: View>: View {
         }
         .padding(14)
         .background(
-            RoundedRectangle(cornerRadius: 12, style: .continuous)
-                .fill(Color(nsColor: .controlBackgroundColor).opacity(0.7))
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .fill(Color.primary.opacity(done ? 0.035 : 0.06))
         )
         .overlay(
-            RoundedRectangle(cornerRadius: 12, style: .continuous)
-                .strokeBorder(Color.primary.opacity(0.08), lineWidth: 0.5)
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .strokeBorder(Color.primary.opacity(0.07), lineWidth: 0.5)
         )
         .animation(.easeInOut(duration: 0.25), value: done)
+    }
+}
+
+/// The welcome window's body: one panel floating over the desktop. Liquid Glass on
+/// macOS 26 and later, the under-window blur before. The window itself is transparent.
+private struct FloatingGlassPanel: ViewModifier {
+    let cornerRadius: CGFloat
+
+    func body(content: Content) -> some View {
+        let shape = RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+        if #available(macOS 26, *) {
+            content
+                .clipShape(shape)
+                .glassEffect(.regular, in: shape)
+        } else {
+            content
+                .background(VisualEffectBackground(material: .underWindowBackground))
+                .clipShape(shape)
+        }
     }
 }

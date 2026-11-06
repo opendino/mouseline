@@ -71,6 +71,7 @@ struct RecordGestureView: View {
                 Button("Save", action: save)
                     .keyboardShortcut(.defaultAction)
                     .disabled(!canSave)
+                    .glassButtonStyle(prominent: true)
             }
             .controlSize(.large)
         }

@@ -22,34 +22,57 @@ final class SettingsModel: ObservableObject {
     @Published var selection: SettingsPane? = .gestures
 }
 
-/// The settings window: a System Settings–style sidebar and a detail pane.
-struct SettingsView: View {
-    @ObservedObject var store: ConfigStore
-    @ObservedObject var state: AppState
-    @ObservedObject var model: SettingsModel
-    var onTitleChange: (String) -> Void = { _ in }
+/// Everything the sidebar and the detail pane share: the selected pane and app scopes.
+@MainActor
+struct SettingsActions {
+    let store: ConfigStore
+    let model: SettingsModel
 
-    private var pane: SettingsPane {
+    var pane: SettingsPane {
         if case .app(let id) = model.selection, store.config.appBindings[id] == nil { return .gestures }
         return model.selection ?? .gestures
     }
 
-    var body: some View {
-        NavigationSplitView {
-            sidebar
-                .navigationSplitViewColumnWidth(min: 200, ideal: 215, max: 260)
-        } detail: {
-            detail
-                .frame(minWidth: 520, maxWidth: .infinity, maxHeight: .infinity)
+    func title(for pane: SettingsPane) -> String {
+        switch pane {
+        case .general: return L("General")
+        case .gestures: return L("Gestures")
+        case .appearance: return L("Appearance")
+        case .recognition: return L("Recognition")
+        case .excludedApps: return L("Excluded Apps")
+        case .app(let id): return store.config.appBindings[id].map { $0.name.isEmpty ? id : $0.name } ?? id
         }
-        .frame(minWidth: 760, minHeight: 540)
-        .onAppear { onTitleChange(title(for: pane)) }
-        .onChange(of: model.selection) { _ in onTitleChange(title(for: pane)) }
     }
 
-    // MARK: Sidebar
+    func addApp(_ app: ExcludedApp) {
+        if store.config.appBindings[app.bundleID] == nil {
+            store.config.appBindings[app.bundleID] = AppBindings(name: app.name)
+        }
+        model.selection = .app(app.bundleID)
+    }
 
-    private var sidebar: some View {
+    func removeApp(_ bundleID: String) {
+        let name = title(for: .app(bundleID))
+        let confirmed = Alerts.confirm(
+            LF("Remove the gestures for %@?", name),
+            info: L("All shapes will use the All Apps settings in this app again."),
+            confirmTitle: L("Remove")
+        )
+        guard confirmed else { return }
+        if model.selection == .app(bundleID) { model.selection = .gestures }
+        store.config.appBindings.removeValue(forKey: bundleID)
+    }
+}
+
+/// The settings window's sidebar: panes, app-specific gestures and the status card.
+struct SettingsSidebar: View {
+    @ObservedObject var store: ConfigStore
+    @ObservedObject var state: AppState
+    @ObservedObject var model: SettingsModel
+
+    private var actions: SettingsActions { SettingsActions(store: store, model: model) }
+
+    var body: some View {
         List(selection: $model.selection) {
             Section {
                 row(.general, "General", symbol: "gearshape.fill", color: .gray)
@@ -67,13 +90,17 @@ struct SettingsView: View {
                     }
                     .tag(SettingsPane.app(app.bundleID))
                     .contextMenu {
-                        Button("Remove App…") { removeApp(app.bundleID) }
+                        Button("Remove App…") { actions.removeApp(app.bundleID) }
                     }
                 }
                 addAppMenu
             }
         }
         .listStyle(.sidebar)
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            SidebarStatus(store: store, state: state)
+                .padding(10)
+        }
     }
 
     private func row(_ pane: SettingsPane, _ title: LocalizedStringKey, symbol: String, color: Color) -> some View {
@@ -94,11 +121,11 @@ struct SettingsView: View {
                 .frame(width: 20)
             Menu("Add App…") {
                 ForEach(AppInfo.runningApps(excluding: Set(store.config.appBindings.keys)), id: \.bundleID) { app in
-                    Button(app.name) { addApp(app) }
+                    Button(app.name) { actions.addApp(app) }
                 }
                 Divider()
                 Button("Choose…") {
-                    if let app = AppInfo.chooseApps(multiple: false).first { addApp(app) }
+                    if let app = AppInfo.chooseApps(multiple: false).first { actions.addApp(app) }
                 }
             }
             .menuStyle(.borderlessButton)
@@ -107,12 +134,27 @@ struct SettingsView: View {
         }
         .foregroundStyle(.secondary)
     }
+}
 
-    // MARK: Detail
+/// The settings window's detail: the selected pane.
+struct SettingsDetail: View {
+    @ObservedObject var store: ConfigStore
+    @ObservedObject var state: AppState
+    @ObservedObject var model: SettingsModel
+    var onTitleChange: (String) -> Void = { _ in }
+
+    private var actions: SettingsActions { SettingsActions(store: store, model: model) }
+
+    var body: some View {
+        content
+            .frame(minWidth: 520, maxWidth: .infinity, maxHeight: .infinity)
+            .onAppear { onTitleChange(actions.title(for: actions.pane)) }
+            .onChange(of: model.selection) { _ in onTitleChange(actions.title(for: actions.pane)) }
+    }
 
     @ViewBuilder
-    private var detail: some View {
-        switch pane {
+    private var content: some View {
+        switch actions.pane {
         case .general:
             GeneralSettingsView(store: store, state: state)
         case .gestures:
@@ -124,41 +166,81 @@ struct SettingsView: View {
         case .excludedApps:
             ExcludedAppsView(store: store)
         case .app(let id):
-            GesturesView(store: store, scope: id, onRemove: { removeApp(id) })
+            GesturesView(store: store, scope: id, onRemove: { actions.removeApp(id) })
                 .id(id)
         }
     }
+}
 
-    private func title(for pane: SettingsPane) -> String {
-        switch pane {
-        case .general: return L("General")
-        case .gestures: return L("Gestures")
-        case .appearance: return L("Appearance")
-        case .recognition: return L("Recognition")
-        case .excludedApps: return L("Excluded Apps")
-        case .app(let id): return store.config.appBindings[id].map { $0.name.isEmpty ? id : $0.name } ?? id
-        }
+/// Builds the settings window from an AppKit split view, so the sidebar gets the system's
+/// own treatment — a floating Liquid Glass sidebar on macOS 26, the translucent one before.
+@MainActor
+enum SettingsWindow {
+    static func make(store: ConfigStore, state: AppState, model: SettingsModel, onTitleChange: @escaping (String) -> Void) -> NSWindow {
+        let sidebar = NSHostingController(rootView: SettingsSidebar(store: store, state: state, model: model))
+        let detail = NSHostingController(rootView: SettingsDetail(store: store, state: state, model: model, onTitleChange: onTitleChange))
+        sidebar.sizingOptions = []
+        detail.sizingOptions = []
+
+        let split = NSSplitViewController()
+        let sidebarItem = NSSplitViewItem(sidebarWithViewController: sidebar)
+        sidebarItem.minimumThickness = 215
+        sidebarItem.maximumThickness = 280
+        sidebarItem.canCollapse = false
+        let detailItem = NSSplitViewItem(viewController: detail)
+        detailItem.minimumThickness = 520
+        split.addSplitViewItem(sidebarItem)
+        split.addSplitViewItem(detailItem)
+
+        let window = NSWindow(contentViewController: split)
+        window.title = L("mgestures Settings")
+        window.styleMask = [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView]
+        window.toolbar = NSToolbar(identifier: "settings")
+        window.toolbarStyle = .unified
+        window.isReleasedWhenClosed = false
+        window.setContentSize(NSSize(width: 880, height: 640))
+        window.contentMinSize = NSSize(width: 760, height: 540)
+        return window
+    }
+}
+
+/// On/off switch and status at the bottom of the sidebar, on a glass card.
+struct SidebarStatus: View {
+    @ObservedObject var store: ConfigStore
+    @ObservedObject var state: AppState
+
+    private var color: Color {
+        !state.monitorRunning ? .orange : store.config.enabled ? .green : .secondary
     }
 
-    // MARK: App scopes
-
-    private func addApp(_ app: ExcludedApp) {
-        if store.config.appBindings[app.bundleID] == nil {
-            store.config.appBindings[app.bundleID] = AppBindings(name: app.name)
-        }
-        model.selection = .app(app.bundleID)
+    private var text: String {
+        if !state.monitorRunning { return L("Waiting for Accessibility access") }
+        if !store.config.enabled { return L("Gestures are off") }
+        return LF("Active · %@", L(store.config.triggerButton.title))
     }
 
-    private func removeApp(_ bundleID: String) {
-        let name = title(for: .app(bundleID))
-        let confirmed = Alerts.confirm(
-            LF("Remove the gestures for %@?", name),
-            info: L("All shapes will use the All Apps settings in this app again."),
-            confirmTitle: L("Remove")
-        )
-        guard confirmed else { return }
-        if model.selection == .app(bundleID) { model.selection = .gestures }
-        store.config.appBindings.removeValue(forKey: bundleID)
+    var body: some View {
+        HStack(spacing: 9) {
+            Circle()
+                .fill(color.gradient)
+                .frame(width: 8, height: 8)
+                .shadow(color: color.opacity(0.6), radius: 3)
+            Text(verbatim: text)
+                .font(.system(size: 11.5, weight: .medium))
+                .foregroundStyle(.secondary)
+                .lineLimit(2)
+                .fixedSize(horizontal: false, vertical: true)
+            Spacer(minLength: 4)
+            Toggle("Gestures enabled", isOn: $store.config.enabled)
+                .toggleStyle(.switch)
+                .controlSize(.mini)
+                .labelsHidden()
+                .disabled(!state.monitorRunning)
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 9)
+        .glassSurface(RoundedRectangle(cornerRadius: 14, style: .continuous))
+        .animation(.easeInOut(duration: 0.2), value: store.config.enabled)
     }
 }
 

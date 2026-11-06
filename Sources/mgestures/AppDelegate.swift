@@ -239,20 +239,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     @objc func openSettings() {
         if settingsWindow == nil {
-            let root = SettingsView(store: store, state: state, model: settingsModel) { [weak self] title in
+            let window = SettingsWindow.make(store: store, state: state, model: settingsModel) { [weak self] title in
                 self?.settingsWindow?.title = title
             }
-            let controller = NSHostingController(rootView: root)
-            controller.sizingOptions = [.minSize] // the window is resizable; don't track the ideal size
-            let window = NSWindow(contentViewController: controller)
-            window.title = L("mgestures Settings")
-            window.styleMask = [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView]
-            window.toolbar = NSToolbar(identifier: "settings")
-            window.toolbarStyle = .unified
-            window.titlebarSeparatorStyle = .automatic
-            window.isReleasedWhenClosed = false
-            window.setContentSize(NSSize(width: 860, height: 640))
-            window.contentMinSize = NSSize(width: 760, height: 540)
             window.center()
             window.setFrameAutosaveName("mgestures.settings")
             settingsWindow = window
@@ -273,6 +262,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             window.titlebarAppearsTransparent = true
             window.titleVisibility = .hidden
             window.isMovableByWindowBackground = true
+            // The SwiftUI content draws the (glass) panel; the window itself stays invisible.
+            window.isOpaque = false
+            window.backgroundColor = .clear
+            window.hasShadow = true
             window.isReleasedWhenClosed = false
             window.center()
             onboardingWindow = window

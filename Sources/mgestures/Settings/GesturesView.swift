@@ -66,6 +66,7 @@ struct GesturesView: View {
                 AppIconView(bundleID: scope, size: 40)
             } accessory: {
                 Button("Remove App…", role: .destructive, action: onRemove)
+                    .glassButtonStyle()
             }
         } else {
             PaneHeader(
@@ -76,7 +77,12 @@ struct GesturesView: View {
             ) {
                 IconTile(symbol: "hand.draw.fill", color: .blue, size: 40)
             } accessory: {
-                Button("Record Gesture…") { model.showRecorder = true }
+                Button {
+                    model.showRecorder = true
+                } label: {
+                    Label("Record Gesture…", systemImage: "plus")
+                }
+                .glassButtonStyle(prominent: true)
             }
         }
     }

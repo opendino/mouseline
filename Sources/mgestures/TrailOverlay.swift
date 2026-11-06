@@ -85,6 +85,9 @@ private final class OverlayWindow: NSWindow {
     private let line = CAShapeLayer()
     private let head = CAShapeLayer()
     private var headRadius: CGFloat = 6
+    /// On macOS 26 and later a small Liquid Glass lens rides on the tip of the stroke.
+    private var lens: NSView?
+    private var lensRadius: CGFloat = 10
     /// This screen's frame in global CG coordinates, grown by the glow margin.
     private var reach: CGRect = .null
     private(set) var hasContent = false
@@ -114,6 +117,13 @@ private final class OverlayWindow: NSWindow {
         line.lineJoin = .round
         line.shadowRadius = 5
         head.shadowRadius = 4
+        if #available(macOS 26, *) {
+            let glass = NSGlassEffectView(frame: .zero)
+            glass.style = .clear
+            glass.isHidden = true
+            view.addSubview(glass)
+            lens = glass
+        }
         setFrame(screen.frame, display: false)
 
         let primaryHeight = NSScreen.screens.first?.frame.height ?? screen.frame.height
@@ -130,6 +140,7 @@ private final class OverlayWindow: NSWindow {
         line.path = nil
         head.path = nil
         CATransaction.commit()
+        lens?.isHidden = true
     }
 
     func configure(color: NSColor, width: Double) {
@@ -139,6 +150,13 @@ private final class OverlayWindow: NSWindow {
         head.fillColor = color.cgColor
         head.shadowColor = color.cgColor
         headRadius = max(3, CGFloat(width) * 1.2)
+        lensRadius = max(9, CGFloat(width) * 2.4)
+        if #available(macOS 26, *), let glass = lens as? NSGlassEffectView {
+            glass.cornerRadius = lensRadius
+            glass.tintColor = color.withAlphaComponent(0.25)
+            // With the lens, the solid head becomes a small bright core inside it.
+            headRadius = max(2.5, CGFloat(width) * 0.7)
+        }
     }
 
     func update(points: [CGPoint]) {
@@ -156,6 +174,11 @@ private final class OverlayWindow: NSWindow {
         line.path = path
         head.path = CGPath(ellipseIn: CGRect(x: tip.x - r, y: tip.y - r, width: 2 * r, height: 2 * r), transform: nil)
         CATransaction.commit()
+        if let lens {
+            let l = lensRadius
+            lens.frame = NSRect(x: tip.x - l, y: tip.y - l, width: 2 * l, height: 2 * l)
+            lens.isHidden = false
+        }
     }
 
     /// Global CoreGraphics coordinates → this window's view coordinates (origin bottom-left).

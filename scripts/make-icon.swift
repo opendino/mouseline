@@ -8,10 +8,11 @@
 // natively at its own pixel resolution instead of being downscaled from 1024 px —
 // small sizes stay crisp that way.
 //
-// Design: a macOS-style rounded square ("squircle") on the standard icon grid, filled with
-// a warm orange-to-red gradient that matches the gesture trail color (RGB 1.0 / 0.55 / 0.1),
-// with a white "hand.draw" SF Symbol on top. If the symbol cannot be loaded (older system,
-// unusual environment), a white hand-drawn stroke with an arrow head is drawn instead.
+// Design (macOS 26 "Liquid Glass" icon style): a rounded square ("squircle") on the
+// standard icon grid with a deep indigo gradient; a glowing orange gesture stroke in the
+// trail color (RGB 1.0 / 0.55 / 0.1) sweeps across it; in front sits a frosted glass disc
+// with a white "hand.draw" SF Symbol, and a thin specular rim lights the tile's top edge.
+// If the symbol cannot be loaded, a white hand-drawn stroke with an arrow head is drawn.
 
 import AppKit
 import Foundation
@@ -60,11 +61,32 @@ func continuousRoundedRect(_ rect: CGRect, radius r: CGFloat) -> NSBezierPath {
     return path
 }
 
+extension NSBezierPath {
+    /// CGPath for any macOS version (`cgPath` needs macOS 14).
+    var cgPathCompat: CGPath {
+        let path = CGMutablePath()
+        var points = [CGPoint](repeating: .zero, count: 3)
+        for i in 0..<elementCount {
+            switch element(at: i, associatedPoints: &points) {
+            case .moveTo: path.move(to: points[0])
+            case .lineTo: path.addLine(to: points[0])
+            case .curveTo, .cubicCurveTo: path.addCurve(to: points[2], control1: points[0], control2: points[1])
+            case .quadraticCurveTo: path.addQuadCurve(to: points[1], control: points[0])
+            case .closePath: path.closeSubpath()
+            @unknown default: break
+            }
+        }
+        return path
+    }
+}
+
 // MARK: - Colors
 
 let trailOrange = NSColor(srgbRed: 1.0, green: 0.55, blue: 0.1, alpha: 1)
-let warmRed = NSColor(srgbRed: 0.92, green: 0.22, blue: 0.16, alpha: 1)
-let highlightOrange = NSColor(srgbRed: 1.0, green: 0.66, blue: 0.22, alpha: 1)
+let trailGlow = NSColor(srgbRed: 1.0, green: 0.42, blue: 0.08, alpha: 1)
+let indigoTop = NSColor(srgbRed: 0.33, green: 0.36, blue: 0.95, alpha: 1)
+let indigoMid = NSColor(srgbRed: 0.24, green: 0.20, blue: 0.70, alpha: 1)
+let indigoBottom = NSColor(srgbRed: 0.10, green: 0.07, blue: 0.30, alpha: 1)
 
 // MARK: - Drawing
 
@@ -141,37 +163,121 @@ func renderIcon(pixels: Int) -> Data {
     // 1. Drop shadow of the whole tile, inside the standard margin.
     NSGraphicsContext.saveGraphicsState()
     let tileShadow = NSShadow()
-    tileShadow.shadowColor = NSColor.black.withAlphaComponent(0.30)
+    tileShadow.shadowColor = NSColor.black.withAlphaComponent(0.32)
     tileShadow.shadowBlurRadius = canvas * 0.025
     tileShadow.shadowOffset = NSSize(width: 0, height: -canvas * 0.010)
     tileShadow.set()
-    warmRed.setFill()
+    indigoBottom.setFill()
     shape.fill()
     NSGraphicsContext.restoreGraphicsState()
 
-    // 2. Gradient fill: lighter orange at the top, the trail orange in the middle,
-    //    warm red at the bottom — like light falling on the tile from above.
+    let w = shapeRect.width
+    func p(_ x: CGFloat, _ y: CGFloat) -> CGPoint { CGPoint(x: shapeRect.minX + x * w, y: shapeRect.minY + y * w) }
+
     NSGraphicsContext.saveGraphicsState()
     shape.addClip()
-    let gradient = NSGradient(colorsAndLocations:
-        (highlightOrange, 0.0), (trailOrange, 0.40), (warmRed, 1.0))!
-    gradient.draw(in: shapeRect, angle: -90)   // -90: from top to bottom
-    // Faint top sheen so the tile does not look flat at large sizes.
-    let sheen = NSGradient(colorsAndLocations:
-        (NSColor.white.withAlphaComponent(0.18), 0.0), (NSColor.white.withAlphaComponent(0.0), 0.5))!
-    sheen.draw(in: shapeRect, angle: -90)
+
+    // 2. Background: indigo, lighter at the top, with a soft warm bloom where the stroke ends.
+    NSGradient(colorsAndLocations: (indigoTop, 0.0), (indigoMid, 0.45), (indigoBottom, 1.0))!
+        .draw(in: shapeRect, angle: -90)
+    NSGradient(colorsAndLocations:
+        (trailGlow.withAlphaComponent(0.45), 0.0), (trailGlow.withAlphaComponent(0.0), 1.0))!
+        .draw(fromCenter: p(0.80, 0.78), radius: 0, toCenter: p(0.80, 0.78), radius: w * 0.55, options: [])
+
+    // 3. The gesture stroke: a glowing orange arc from bottom left to top right.
+    let stroke = NSBezierPath()
+    stroke.move(to: p(0.10, 0.22))
+    stroke.curve(to: p(0.86, 0.80), controlPoint1: p(0.38, 0.02), controlPoint2: p(0.62, 0.98))
+    stroke.lineWidth = w * 0.055
+    stroke.lineCapStyle = .round
+    NSGraphicsContext.saveGraphicsState()
+    let glow = NSShadow()
+    glow.shadowColor = trailGlow
+    glow.shadowBlurRadius = w * 0.06
+    glow.shadowOffset = .zero
+    glow.set()
+    trailOrange.setStroke()
+    stroke.stroke()
+    stroke.stroke() // twice: a stronger glow
+    NSGraphicsContext.restoreGraphicsState()
+    // Bright head of the stroke.
+    let headR = w * 0.045
+    let head = NSBezierPath(ovalIn: CGRect(x: p(0.86, 0.80).x - headR, y: p(0.86, 0.80).y - headR, width: 2 * headR, height: 2 * headR))
+    NSColor(srgbRed: 1, green: 0.85, blue: 0.6, alpha: 1).setFill()
+    head.fill()
+
+    // 4. Frosted glass disc in front, slightly below center.
+    let discR = w * 0.30
+    let discCenter = p(0.47, 0.44)
+    let disc = NSBezierPath(ovalIn: CGRect(x: discCenter.x - discR, y: discCenter.y - discR, width: 2 * discR, height: 2 * discR))
+    NSGraphicsContext.saveGraphicsState()
+    let discShadow = NSShadow()
+    discShadow.shadowColor = NSColor.black.withAlphaComponent(0.35)
+    discShadow.shadowBlurRadius = w * 0.05
+    discShadow.shadowOffset = NSSize(width: 0, height: -w * 0.02)
+    discShadow.set()
+    // Frosted: an indigo veil hides most of the stroke behind, then white frost on top.
+    indigoMid.withAlphaComponent(0.55).setFill()
+    disc.fill()
+    NSColor.white.withAlphaComponent(0.16).setFill()
+    disc.fill()
+    NSGraphicsContext.restoreGraphicsState()
+    NSGraphicsContext.saveGraphicsState()
+    disc.addClip()
+    // Frost: light from the top, a little of the stroke's warmth showing through.
+    NSGradient(colorsAndLocations:
+        (NSColor.white.withAlphaComponent(0.30), 0.0), (NSColor.white.withAlphaComponent(0.08), 0.6),
+        (NSColor.white.withAlphaComponent(0.14), 1.0))!
+        .draw(in: disc.bounds, angle: -90)
+    NSGradient(colorsAndLocations:
+        (trailOrange.withAlphaComponent(0.22), 0.0), (trailOrange.withAlphaComponent(0.0), 1.0))!
+        .draw(fromCenter: p(0.62, 0.55), radius: 0, toCenter: p(0.62, 0.55), radius: discR, options: [])
+    NSGraphicsContext.restoreGraphicsState()
+    // Glass rim: bright at the top left, fading around.
+    NSGraphicsContext.saveGraphicsState()
+    disc.lineWidth = max(1, w * 0.008)
+    disc.addClip()
+    let rimGradient = NSGradient(colorsAndLocations:
+        (NSColor.white.withAlphaComponent(0.85), 0.0), (NSColor.white.withAlphaComponent(0.15), 0.55),
+        (NSColor.white.withAlphaComponent(0.35), 1.0))!
+    let rim = NSBezierPath(ovalIn: disc.bounds.insetBy(dx: disc.lineWidth / 2, dy: disc.lineWidth / 2))
+    rim.lineWidth = disc.lineWidth * 2
+    NSGraphicsContext.current?.cgContext.saveGState()
+    NSGraphicsContext.current?.cgContext.addPath(rim.cgPathCompat)
+    NSGraphicsContext.current?.cgContext.setLineWidth(rim.lineWidth)
+    NSGraphicsContext.current?.cgContext.replacePathWithStrokedPath()
+    NSGraphicsContext.current?.cgContext.clip()
+    rimGradient.draw(in: disc.bounds, angle: -60)
+    NSGraphicsContext.current?.cgContext.restoreGState()
     NSGraphicsContext.restoreGraphicsState()
 
-    // 3. The white glyph with a soft shadow, so it lifts off the gradient.
+    // 5. The white glyph on the disc.
     NSGraphicsContext.saveGraphicsState()
     let glyphShadow = NSShadow()
-    glyphShadow.shadowColor = NSColor(srgbRed: 0.45, green: 0.08, blue: 0.0, alpha: 0.35)
-    glyphShadow.shadowBlurRadius = canvas * 0.02
-    glyphShadow.shadowOffset = NSSize(width: 0, height: -canvas * 0.008)
+    glyphShadow.shadowColor = NSColor(srgbRed: 0.05, green: 0.02, blue: 0.25, alpha: 0.45)
+    glyphShadow.shadowBlurRadius = w * 0.02
+    glyphShadow.shadowOffset = NSSize(width: 0, height: -w * 0.008)
     glyphShadow.set()
-    let glyphRect = shapeRect.insetBy(dx: shapeRect.width * 0.17, dy: shapeRect.height * 0.17)
+    let glyphRect = CGRect(x: discCenter.x - discR * 0.62, y: discCenter.y - discR * 0.62, width: discR * 1.24, height: discR * 1.24)
     if !drawSymbol(in: glyphRect) {
         drawStrokeGlyph(in: glyphRect)
+    }
+    NSGraphicsContext.restoreGraphicsState()
+
+    NSGraphicsContext.restoreGraphicsState() // tile clip
+
+    // 6. Specular rim around the tile, brightest along the top edge.
+    NSGraphicsContext.saveGraphicsState()
+    if let cg = NSGraphicsContext.current?.cgContext {
+        cg.addPath(shape.cgPathCompat)
+        cg.setLineWidth(max(1, w * 0.012))
+        cg.replacePathWithStrokedPath()
+        cg.clip()
+        shape.addClip()
+        NSGradient(colorsAndLocations:
+            (NSColor.white.withAlphaComponent(0.55), 0.0), (NSColor.white.withAlphaComponent(0.0), 0.35),
+            (NSColor.white.withAlphaComponent(0.0), 0.8), (NSColor.white.withAlphaComponent(0.18), 1.0))!
+            .draw(in: shapeRect, angle: -90)
     }
     NSGraphicsContext.restoreGraphicsState()
 
