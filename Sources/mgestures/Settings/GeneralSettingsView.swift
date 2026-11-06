@@ -35,20 +35,31 @@ struct GeneralSettingsView: View {
     var body: some View {
         Form {
             Section {
-                if state.monitorRunning {
-                    Label("Accessibility access granted", systemImage: "checkmark.circle.fill")
-                        .foregroundStyle(.green)
-                } else {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Label("Accessibility access is required to capture mouse gestures.", systemImage: "exclamationmark.triangle.fill")
+                PaneHeader(title: "mgestures", subtitle: statusText) {
+                    OwnAppIcon(size: 44)
+                } accessory: {
+                    Toggle("Gestures enabled", isOn: $store.config.enabled)
+                        .toggleStyle(.switch)
+                        .labelsHidden()
+                        .disabled(!state.monitorRunning)
+                }
+                if !state.monitorRunning {
+                    HStack(alignment: .top, spacing: 10) {
+                        Image(systemName: "exclamationmark.triangle.fill")
                             .foregroundStyle(.orange)
-                        Button("Open Accessibility Settings…") {
-                            Permissions.requestAccessibility()
-                            Permissions.openAccessibilitySettings()
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Accessibility access is required to capture mouse gestures.")
+                            Button("Open Accessibility Settings…") {
+                                Permissions.requestAccessibility()
+                                Permissions.openAccessibilitySettings()
+                            }
                         }
                     }
+                    .padding(.vertical, 4)
                 }
-                Toggle("Gestures enabled", isOn: $store.config.enabled)
+            }
+
+            Section {
                 Toggle("Launch at login", isOn: Binding(get: { loginItem.enabled }, set: { loginItem.set($0) }))
                 if let error = loginItem.error {
                     Text(verbatim: error).font(.caption).foregroundStyle(.red)
@@ -57,11 +68,15 @@ struct GeneralSettingsView: View {
 
             triggerSection
             contextMenuSection
-            feedbackSection
-            recognitionSection
             dataSection
         }
         .formStyle(.grouped)
+    }
+
+    private var statusText: String {
+        if !state.monitorRunning { return L("Waiting for Accessibility access") }
+        if !store.config.enabled { return L("Gestures are off") }
+        return LF("Active · %@", L(store.config.triggerButton.title))
     }
 
     // MARK: Sections
@@ -90,8 +105,7 @@ struct GeneralSettingsView: View {
             Text("Trigger")
         } footer: {
             Text("With a required modifier key, gestures start only while it is held; otherwise the button works normally. The on/off shortcut works everywhere.")
-                .font(.caption)
-                .foregroundStyle(.secondary)
+                .footerStyle()
         }
     }
 
@@ -104,72 +118,38 @@ struct GeneralSettingsView: View {
             Text("Context menu")
         } footer: {
             Text("A quick click always works normally. With this option, pressing and holding without moving does too, so you can press, drag to a menu item and release.")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
-    }
-
-    private var feedbackSection: some View {
-        Section("Appearance and feedback") {
-            Toggle("Show trail while drawing", isOn: $store.config.showTrail)
-            ColorPicker("Trail color", selection: trailColor, supportsOpacity: true)
-                .disabled(!store.config.showTrail)
-            LabeledSlider(title: "Trail width", value: $store.config.trailWidth, range: 2...14, format: "%.0f pt")
-                .disabled(!store.config.showTrail)
-            Toggle("Show gesture name after drawing", isOn: $store.config.showGestureName)
-            Picker("Sound", selection: sound) {
-                Text("None").tag("")
-                ForEach(Feedback.availableSounds, id: \.self) { name in
-                    Text(verbatim: name).tag(name)
-                }
-            }
-            Toggle(isOn: $store.config.hapticFeedback) {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("Haptic feedback")
-                    Text("Force Touch trackpads only")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-            }
-        }
-    }
-
-    private var recognitionSection: some View {
-        Section {
-            LabeledSlider(title: "Minimum gesture length", value: $store.config.clickMaxPath, range: 20...250, format: "%.0f pt")
-            LabeledSlider(title: "Recognition tolerance", value: $store.config.matchMaxDistance, range: 10...60, format: "%.0f")
-            Button("Reset to Defaults") {
-                let d = AppConfig()
-                store.config.clickMaxPath = d.clickMaxPath
-                store.config.matchMaxDistance = d.matchMaxDistance
-            }
-        } header: {
-            Text("Recognition")
-        } footer: {
-            Text("Shorter strokes act as a normal click. A lower tolerance means fewer accidental matches, but shapes must be drawn more precisely. Strokes that match no shape, or a shape without an action, also act as a normal click. Use the Try tab to test.")
-                .font(.caption)
-                .foregroundStyle(.secondary)
+                .footerStyle()
         }
     }
 
     private var dataSection: some View {
-        Section("Settings") {
+        Section {
+            LabeledContent("Settings file") {
+                HStack(spacing: 6) {
+                    Text(verbatim: (store.fileURL.path as NSString).abbreviatingWithTildeInPath)
+                        .font(.caption.monospaced())
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+                        .textSelection(.enabled)
+                    Button {
+                        NSWorkspace.shared.activateFileViewerSelecting([store.fileURL])
+                    } label: {
+                        Image(systemName: "arrow.right.circle.fill")
+                    }
+                    .buttonStyle(.borderless)
+                    .foregroundStyle(.secondary)
+                    .help("Show in Finder")
+                }
+            }
             HStack {
                 Button("Export…", action: exportSettings)
                 Button("Import…", action: importSettings)
                 Spacer()
                 Button("Reset All Settings…", role: .destructive, action: resetSettings)
             }
-            HStack {
-                Text(verbatim: store.fileURL.path)
-                    .font(.caption.monospaced())
-                    .foregroundStyle(.secondary)
-                    .textSelection(.enabled)
-                Spacer()
-                Button("Show in Finder") {
-                    NSWorkspace.shared.activateFileViewerSelecting([store.fileURL])
-                }
-            }
+        } header: {
+            Text("Settings")
         }
     }
 
@@ -179,23 +159,6 @@ struct GeneralSettingsView: View {
         Binding(
             get: { store.config.holdDelay * 1000 },
             set: { store.config.holdDelay = $0 / 1000 }
-        )
-    }
-
-    private var trailColor: Binding<Color> {
-        Binding(
-            get: { Color(nsColor: store.config.trailColor.nsColor) },
-            set: { store.config.trailColor = RGBAColor(NSColor($0)) }
-        )
-    }
-
-    private var sound: Binding<String> {
-        Binding(
-            get: { store.config.feedbackSound },
-            set: { name in
-                store.config.feedbackSound = name
-                if !name.isEmpty { Feedback.preview(sound: name) }
-            }
         )
     }
 

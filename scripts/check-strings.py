@@ -27,7 +27,7 @@ SUPPORT = ROOT / "Support"
 
 # A Swift string literal on one line (no multi-line literals are used for UI text).
 LIT = r'"((?:[^"\\]|\\.)*)"'
-CALLS = r'(?:Text|Button|Toggle|Label|Section|TextField|Picker|Menu|ColorPicker|\.help|L|LF)'
+CALLS = r'(?:Text|Button|Toggle|Label|LabeledContent|Section|TextField|Picker|Menu|ColorPicker|\.help|L|LF)'
 PATTERNS = [
     re.compile(CALLS + r'\(\s*' + LIT),
     re.compile(r'\b(?:title|text):\s*' + LIT),

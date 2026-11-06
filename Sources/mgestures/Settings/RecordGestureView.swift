@@ -22,12 +22,16 @@ struct RecordGestureView: View {
     @StateObject private var model = RecordModel()
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Record a Gesture")
-                .font(.title3.bold())
-            Text("Draw the shape once, in the direction you will draw it with the trigger button.")
-                .foregroundStyle(.secondary)
-                .fixedSize(horizontal: false, vertical: true)
+        VStack(alignment: .leading, spacing: 14) {
+            HStack(spacing: 12) {
+                IconTile(symbol: "scribble.variable", color: .orange, size: 36)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Record a Gesture")
+                        .font(.system(size: 15, weight: .semibold))
+                    Text("Draw the shape once, in the direction you will draw it with the trigger button.")
+                        .captionStyle()
+                }
+            }
 
             DrawingPad(model: model.drawing, height: 260) { model.stroke = $0 }
 
@@ -38,8 +42,7 @@ struct RecordGestureView: View {
                 }
                 Spacer()
                 if !model.stroke.isEmpty {
-                    ShapePreview(points: model.stroke)
-                        .frame(width: 40, height: 40)
+                    ShapeTile(points: model.stroke, size: 40)
                 }
             }
 
@@ -51,14 +54,15 @@ struct RecordGestureView: View {
                     .foregroundStyle(.orange)
             }
 
-            TextField("Name", text: $model.name)
-            HStack {
-                Text("Action")
-                ActionPicker(kind: $model.kind)
+            Form {
+                TextField("Name", text: $model.name)
+                LabeledContent("Action") {
+                    ActionPicker(kind: $model.kind)
+                }
             }
+            .formStyle(.columns)
             Text("Shortcuts, apps, URLs, commands and scripts can be set up in the list after saving.")
-                .font(.caption)
-                .foregroundStyle(.secondary)
+                .captionStyle()
 
             HStack {
                 Spacer()
@@ -68,8 +72,9 @@ struct RecordGestureView: View {
                     .keyboardShortcut(.defaultAction)
                     .disabled(!canSave)
             }
+            .controlSize(.large)
         }
-        .padding(20)
+        .padding(22)
         .frame(width: 460)
     }
 

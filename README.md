@@ -156,6 +156,13 @@ swift scripts/make-icon.swift Support/AppIcon.icns # regenerate the app icon
 | `ARCHS` | `arm64 x86_64` | Architectures to build, space-separated. With more than one, the script builds them in one `swift build` when the toolchain supports it, otherwise one by one and merges them with `lipo` |
 | `SIGN_IDENTITY` | local dev certificate if present, else `-` (ad hoc) | Code signing identity (name or SHA-1) |
 
+To check the interface without clicking through it, render every window to PNG
+(light or dark; nothing is captured and your settings are not touched):
+
+```bash
+build/mgestures.app/Contents/MacOS/mgestures --snapshot /tmp/mgestures-shots --light
+```
+
 The app icon is drawn in code by `scripts/make-icon.swift` (AppKit, no design tools needed)
 and checked in as `Support/AppIcon.icns`; rerun the script after changing it.
 

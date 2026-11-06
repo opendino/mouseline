@@ -6,23 +6,159 @@ import SwiftUI
 // @State. In recent SDKs @State is a macro whose plugin ships only with Xcode, and this
 // project must build with the Command Line Tools alone.
 
+/// The panes of the settings window.
+enum SettingsPane: Hashable {
+    case general
+    case gestures
+    case appearance
+    case recognition
+    case excludedApps
+    /// Gestures for one app (bundle id).
+    case app(String)
+}
+
+@MainActor
+final class SettingsModel: ObservableObject {
+    @Published var selection: SettingsPane? = .gestures
+}
+
+/// The settings window: a System Settings–style sidebar and a detail pane.
 struct SettingsView: View {
     @ObservedObject var store: ConfigStore
     @ObservedObject var state: AppState
+    @ObservedObject var model: SettingsModel
+    var onTitleChange: (String) -> Void = { _ in }
+
+    private var pane: SettingsPane {
+        if case .app(let id) = model.selection, store.config.appBindings[id] == nil { return .gestures }
+        return model.selection ?? .gestures
+    }
 
     var body: some View {
-        TabView {
-            GesturesView(store: store)
-                .tabItem { Label("Gestures", systemImage: "hand.draw") }
-            TryView(store: store)
-                .tabItem { Label("Try", systemImage: "scribble") }
-            ExcludedAppsView(store: store)
-                .tabItem { Label("Excluded Apps", systemImage: "nosign") }
-            GeneralSettingsView(store: store, state: state)
-                .tabItem { Label("General", systemImage: "gearshape") }
+        NavigationSplitView {
+            sidebar
+                .navigationSplitViewColumnWidth(min: 200, ideal: 215, max: 260)
+        } detail: {
+            detail
+                .frame(minWidth: 520, maxWidth: .infinity, maxHeight: .infinity)
         }
-        .padding()
-        .frame(width: 780, height: 680)
+        .frame(minWidth: 760, minHeight: 540)
+        .onAppear { onTitleChange(title(for: pane)) }
+        .onChange(of: model.selection) { _ in onTitleChange(title(for: pane)) }
+    }
+
+    // MARK: Sidebar
+
+    private var sidebar: some View {
+        List(selection: $model.selection) {
+            Section {
+                row(.general, "General", symbol: "gearshape.fill", color: .gray)
+                row(.gestures, "Gestures", symbol: "hand.draw.fill", color: .blue)
+                row(.appearance, "Appearance", symbol: "paintbrush.pointed.fill", color: .pink)
+                row(.recognition, "Recognition", symbol: "scribble.variable", color: .orange)
+                row(.excludedApps, "Excluded Apps", symbol: "nosign", color: .red)
+            }
+            Section("App-Specific Gestures") {
+                ForEach(AppScopePicker.apps(in: store.config), id: \.bundleID) { app in
+                    Label {
+                        Text(verbatim: app.name)
+                    } icon: {
+                        AppIconView(bundleID: app.bundleID, size: 20)
+                    }
+                    .tag(SettingsPane.app(app.bundleID))
+                    .contextMenu {
+                        Button("Remove App…") { removeApp(app.bundleID) }
+                    }
+                }
+                addAppMenu
+            }
+        }
+        .listStyle(.sidebar)
+    }
+
+    private func row(_ pane: SettingsPane, _ title: LocalizedStringKey, symbol: String, color: Color) -> some View {
+        Label {
+            Text(title)
+        } icon: {
+            IconTile(symbol: symbol, color: color, size: 20)
+        }
+        .tag(pane)
+    }
+
+    /// The plus sits outside the menu: borderless menus show only their title.
+    private var addAppMenu: some View {
+        HStack(spacing: 7) {
+            Image(systemName: "plus.circle.fill")
+                .symbolRenderingMode(.hierarchical)
+                .font(.system(size: 16))
+                .frame(width: 20)
+            Menu("Add App…") {
+                ForEach(AppInfo.runningApps(excluding: Set(store.config.appBindings.keys)), id: \.bundleID) { app in
+                    Button(app.name) { addApp(app) }
+                }
+                Divider()
+                Button("Choose…") {
+                    if let app = AppInfo.chooseApps(multiple: false).first { addApp(app) }
+                }
+            }
+            .menuStyle(.borderlessButton)
+            .menuIndicator(.hidden)
+            .fixedSize()
+        }
+        .foregroundStyle(.secondary)
+    }
+
+    // MARK: Detail
+
+    @ViewBuilder
+    private var detail: some View {
+        switch pane {
+        case .general:
+            GeneralSettingsView(store: store, state: state)
+        case .gestures:
+            GesturesView(store: store, scope: nil)
+        case .appearance:
+            AppearanceSettingsView(store: store)
+        case .recognition:
+            TryView(store: store)
+        case .excludedApps:
+            ExcludedAppsView(store: store)
+        case .app(let id):
+            GesturesView(store: store, scope: id, onRemove: { removeApp(id) })
+                .id(id)
+        }
+    }
+
+    private func title(for pane: SettingsPane) -> String {
+        switch pane {
+        case .general: return L("General")
+        case .gestures: return L("Gestures")
+        case .appearance: return L("Appearance")
+        case .recognition: return L("Recognition")
+        case .excludedApps: return L("Excluded Apps")
+        case .app(let id): return store.config.appBindings[id].map { $0.name.isEmpty ? id : $0.name } ?? id
+        }
+    }
+
+    // MARK: App scopes
+
+    private func addApp(_ app: ExcludedApp) {
+        if store.config.appBindings[app.bundleID] == nil {
+            store.config.appBindings[app.bundleID] = AppBindings(name: app.name)
+        }
+        model.selection = .app(app.bundleID)
+    }
+
+    private func removeApp(_ bundleID: String) {
+        let name = title(for: .app(bundleID))
+        let confirmed = Alerts.confirm(
+            LF("Remove the gestures for %@?", name),
+            info: L("All shapes will use the All Apps settings in this app again."),
+            confirmTitle: L("Remove")
+        )
+        guard confirmed else { return }
+        if model.selection == .app(bundleID) { model.selection = .gestures }
+        store.config.appBindings.removeValue(forKey: bundleID)
     }
 }
 
@@ -35,13 +171,21 @@ struct LabeledSlider: View {
     let format: String
 
     var body: some View {
-        HStack {
+        LabeledContent {
+            HStack(spacing: 10) {
+                // No `step:` — on macOS it draws a tick mark per step. Snap in the binding instead.
+                Slider(value: Binding(
+                    get: { value },
+                    set: { value = min(range.upperBound, max(range.lowerBound, ($0 / step).rounded() * step)) }
+                ), in: range)
+                .frame(minWidth: 160, maxWidth: 240)
+                Text(String(format: format, value))
+                    .monospacedDigit()
+                    .frame(width: 56, alignment: .trailing)
+                    .foregroundStyle(.secondary)
+            }
+        } label: {
             Text(title)
-            Slider(value: $value, in: range, step: step)
-            Text(String(format: format, value))
-                .monospacedDigit()
-                .frame(width: 64, alignment: .trailing)
-                .foregroundStyle(.secondary)
         }
     }
 }

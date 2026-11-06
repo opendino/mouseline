@@ -15,7 +15,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     let store = ConfigStore()
     let state = AppState()
     private let overlay = TrailOverlay()
-    private let hud = HUD()
+    private let hud = HUD.shared
+    private let settingsModel = SettingsModel()
     private let hotKeys = HotKeyCenter()
     private var monitor: GestureMonitor!
     private var statusItem: NSStatusItem!
@@ -24,6 +25,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private var cancellables: Set<AnyCancellable> = []
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        if let folder = Snapshot.requestedFolder {
+            Snapshot.run(into: folder)
+            NSApp.terminate(nil)
+            return
+        }
         guard SingleInstance.claim() else {
             NSApp.terminate(nil)
             return
@@ -36,7 +42,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             },
             onCancel: { [weak self] in
                 guard let self, self.store.config.showGestureName else { return }
-                self.hud.show(L("Cancelled"))
+                self.hud.show(L("Cancelled"), symbol: "xmark")
             }
         )
         monitor.onStatusChange = { [weak self] in
@@ -66,6 +72,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         monitor.start()
     }
 
+    /// Opening the app again (Finder, Spotlight, Launchpad) while it runs shows Settings:
+    /// a menu bar app has no other window to bring forward.
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        if !flag { openSettings() }
+        return true
+    }
+
     /// `bundleID` is the app that was under the cursor when the press started (nil when no
     /// exclusions or per-app bindings exist), so its overrides apply.
     private func handleGesture(_ id: String, distance: Double, bundleID: String?) {
@@ -73,15 +86,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let name = config.localizedName(for: id)
         state.lastGesture = name
         Feedback.gestureRecognized(config: config)
-        if config.showGestureName { hud.show(name) }
-        ActionRunner.run(config.action(for: id, in: bundleID))
+        let action = config.action(for: id, in: bundleID)
+        if config.showGestureName { hud.show(name, detail: L(action.kind.title), symbol: action.kind.symbol) }
+        ActionRunner.run(action)
     }
 
     private func registerToggleShortcut(_ combo: KeyCombo?) {
         hotKeys.register(combo) { [weak self] in
             guard let self else { return }
             self.store.config.enabled.toggle()
-            self.hud.show(self.store.config.enabled ? L("Gestures on") : L("Gestures off"))
+            let on = self.store.config.enabled
+            self.hud.show(on ? L("Gestures on") : L("Gestures off"), symbol: on ? "hand.draw" : "hand.raised.slash")
         }
     }
 
@@ -106,8 +121,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     func menuNeedsUpdate(_ menu: NSMenu) {
         menu.removeAllItems()
 
-        if !(monitor?.isRunning ?? false) {
-            menu.addItem(item(L("Grant Accessibility Access…"), #selector(grantAccess)))
+        let running = monitor?.isRunning ?? false
+        menu.addItem(statusHeader(running: running))
+        menu.addItem(.separator())
+
+        if !running {
+            menu.addItem(item(L("Grant Accessibility Access…"), #selector(grantAccess), symbol: "lock.open"))
             menu.addItem(.separator())
         }
 
@@ -127,18 +146,44 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
         menu.addItem(.separator())
 
-        menu.addItem(item(L("Settings…"), #selector(openSettings), key: ","))
-        menu.addItem(item(L("Welcome Guide…"), #selector(openOnboarding)))
-        menu.addItem(item(L("About mgestures"), #selector(showAbout)))
+        menu.addItem(item(L("Settings…"), #selector(openSettings), key: ",", symbol: "gearshape"))
+        menu.addItem(item(L("Welcome Guide…"), #selector(openOnboarding), symbol: "sparkles"))
+        menu.addItem(item(L("About mgestures"), #selector(showAbout), symbol: "info.circle"))
         menu.addItem(.separator())
 
         menu.addItem(NSMenuItem(title: L("Quit mgestures"), action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
     }
 
-    private func item(_ title: String, _ action: Selector, key: String = "") -> NSMenuItem {
+    private func item(_ title: String, _ action: Selector, key: String = "", symbol: String? = nil) -> NSMenuItem {
         let item = NSMenuItem(title: title, action: action, keyEquivalent: key)
         item.target = self
+        if let symbol { item.image = NSImage(systemSymbolName: symbol, accessibilityDescription: nil) }
         return item
+    }
+
+    /// "mgestures" with a colored status line, as the first (disabled) menu item.
+    private func statusHeader(running: Bool) -> NSMenuItem {
+        let (status, color): (String, NSColor) = !running
+            ? (L("Waiting for Accessibility access"), .systemOrange)
+            : store.config.enabled
+                ? (LF("Active · %@", L(store.config.triggerButton.title)), .systemGreen)
+                : (L("Gestures are off"), .secondaryLabelColor)
+        let text = NSMutableAttributedString(string: "mgestures\n", attributes: [
+            .font: NSFont.menuFont(ofSize: 0).withWeight(.semibold),
+            .foregroundColor: NSColor.labelColor,
+        ])
+        text.append(NSAttributedString(string: "● ", attributes: [
+            .font: NSFont.systemFont(ofSize: 9),
+            .foregroundColor: color,
+        ]))
+        text.append(NSAttributedString(string: status, attributes: [
+            .font: NSFont.systemFont(ofSize: NSFont.smallSystemFontSize),
+            .foregroundColor: NSColor.secondaryLabelColor,
+        ]))
+        let header = NSMenuItem()
+        header.attributedTitle = text
+        header.isEnabled = false
+        return header
     }
 
     @objc private func toggleEnabled() {
@@ -194,8 +239,23 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     @objc func openSettings() {
         if settingsWindow == nil {
-            let root = SettingsView(store: store, state: state)
-            settingsWindow = makeWindow(title: L("mgestures Settings"), root: root)
+            let root = SettingsView(store: store, state: state, model: settingsModel) { [weak self] title in
+                self?.settingsWindow?.title = title
+            }
+            let controller = NSHostingController(rootView: root)
+            controller.sizingOptions = [.minSize] // the window is resizable; don't track the ideal size
+            let window = NSWindow(contentViewController: controller)
+            window.title = L("mgestures Settings")
+            window.styleMask = [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView]
+            window.toolbar = NSToolbar(identifier: "settings")
+            window.toolbarStyle = .unified
+            window.titlebarSeparatorStyle = .automatic
+            window.isReleasedWhenClosed = false
+            window.setContentSize(NSSize(width: 860, height: 640))
+            window.contentMinSize = NSSize(width: 760, height: 540)
+            window.center()
+            window.setFrameAutosaveName("mgestures.settings")
+            settingsWindow = window
         }
         show(settingsWindow)
     }
@@ -207,18 +267,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
                 openSettings: { [weak self] in self?.openSettings() },
                 close: { [weak self] in self?.onboardingWindow?.close() }
             )
-            onboardingWindow = makeWindow(title: L("Welcome to mgestures"), root: root)
+            let window = NSWindow(contentViewController: NSHostingController(rootView: root))
+            window.title = L("Welcome to mgestures")
+            window.styleMask = [.titled, .closable, .miniaturizable, .fullSizeContentView]
+            window.titlebarAppearsTransparent = true
+            window.titleVisibility = .hidden
+            window.isMovableByWindowBackground = true
+            window.isReleasedWhenClosed = false
+            window.center()
+            onboardingWindow = window
         }
         show(onboardingWindow)
-    }
-
-    private func makeWindow<V: View>(title: String, root: V) -> NSWindow {
-        let window = NSWindow(contentViewController: NSHostingController(rootView: root))
-        window.title = title
-        window.styleMask = [.titled, .closable, .miniaturizable]
-        window.isReleasedWhenClosed = false
-        window.center()
-        return window
     }
 
     private func show(_ window: NSWindow?) {
@@ -240,5 +299,12 @@ enum Permissions {
         if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility") {
             NSWorkspace.shared.open(url)
         }
+    }
+}
+
+private extension NSFont {
+    func withWeight(_ weight: NSFont.Weight) -> NSFont {
+        let descriptor = fontDescriptor.addingAttributes([.traits: [NSFontDescriptor.TraitKey.weight: weight]])
+        return NSFont(descriptor: descriptor, size: pointSize) ?? self
     }
 }

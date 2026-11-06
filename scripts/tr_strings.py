@@ -28,7 +28,6 @@ TR = {
 
     # Tabs
     "Gestures": "Jestler",
-    "Try": "Dene",
     "Excluded Apps": "Hariç Uygulamalar",
     "General": "Genel",
 
@@ -40,33 +39,21 @@ TR = {
     "Delete": "Sil",
     "Remove": "Kaldır",
     "Reset": "Sıfırla",
-    "Done": "Bitti",
     "Name": "Ad",
     "Action": "Eylem",
     "None": "Yok",
 
     # Gestures tab
-    "Gestures for": "Jestlerin geçerli olduğu yer",
     "All Apps": "Tüm Uygulamalar",
-    "Add App": "Uygulama Ekle",
-    "Remove App": "Uygulamayı Kaldır",
     "Shapes": "Şekiller",
     "Basic": "Temel",
     "All Shapes": "Tüm Şekiller",
     "Show unassigned": "Atanmamışları göster",
-    "Record New Gesture…": "Yeni Jest Kaydet…",
     "Hold the right mouse button and draw a shape. The dot marks where the stroke starts.":
         "Sağ fare tuşunu basılı tutup bir şekil çizin. Nokta, çizginin başladığı yeri gösterir.",
     "Hold the middle mouse button and draw a shape. The dot marks where the stroke starts.":
         "Orta fare tuşunu basılı tutup bir şekil çizin. Nokta, çizginin başladığı yeri gösterir.",
-    "Shapes not overridden here use the All Apps setting. Choose “No action” in an override to turn a shape off in %@.":
-        "Burada özelleştirilmeyen şekiller Tüm Uygulamalar ayarını kullanır. Bir şekli %@ içinde kapatmak için özelleştirip “Eylem yok” seçin.",
-    "No custom gestures yet. Use “Record New Gesture…” to draw your own.":
-        "Henüz özel jest yok. Kendi şeklinizi çizmek için “Yeni Jest Kaydet…” düğmesini kullanın.",
     "All custom gestures are unassigned.": "Özel jestlerin hiçbirine eylem atanmamış.",
-    "Default: %@": "Varsayılan: %@",
-    "Override": "Özelleştir",
-    "Use Default": "Varsayılanı Kullan",
     "Delete gesture": "Jesti sil",
     "Delete “%@”?": "“%@” silinsin mi?",
     "Its actions are removed too, in all apps.": "Eylemleri de tüm uygulamalarda kaldırılır.",
@@ -106,12 +93,10 @@ TR = {
     # Excluded apps tab
     "In these apps the mouse button works normally and gestures are off — useful for 3D tools, games, remote desktops and virtual machines. The app under the cursor decides, not the active one.":
         "Bu uygulamalarda fare tuşu normal çalışır ve jestler kapalıdır; 3B araçlar, oyunlar, uzak masaüstü ve sanal makineler için kullanışlıdır. Karar, etkin uygulamaya değil imlecin altındaki uygulamaya göre verilir.",
-    "No excluded apps.": "Hariç tutulan uygulama yok.",
     "Add Running App": "Çalışan Uygulamayı Ekle",
     "Add App…": "Uygulama Ekle…",
 
     # General tab
-    "Accessibility access granted": "Erişilebilirlik izni verildi",
     "Accessibility access is required to capture mouse gestures.": "Fare jestlerini yakalamak için Erişilebilirlik izni gerekiyor.",
     "Open Accessibility Settings…": "Erişilebilirlik Ayarlarını Aç…",
     "Gestures enabled": "Jestler açık",
@@ -129,7 +114,6 @@ TR = {
     "Hold time": "Basılı tutma süresi",
     "A quick click always works normally. With this option, pressing and holding without moving does too, so you can press, drag to a menu item and release.":
         "Kısa bir tıklama her zaman normal çalışır. Bu seçenekle, hareket etmeden basılı tutmak da normal çalışır; böylece basıp bir menü öğesine sürükleyip bırakabilirsiniz.",
-    "Appearance and feedback": "Görünüm ve geri bildirim",
     "Show trail while drawing": "Çizerken izi göster",
     "Trail color": "İz rengi",
     "Trail width": "İz kalınlığı",
@@ -141,8 +125,6 @@ TR = {
     "Minimum gesture length": "En kısa jest uzunluğu",
     "Recognition tolerance": "Tanıma toleransı",
     "Reset to Defaults": "Varsayılanlara Dön",
-    "Shorter strokes act as a normal click. A lower tolerance means fewer accidental matches, but shapes must be drawn more precisely. Strokes that match no shape, or a shape without an action, also act as a normal click. Use the Try tab to test.":
-        "Daha kısa çizgiler normal tıklama gibi davranır. Düşük tolerans daha az yanlış eşleşme demektir, ama şekillerin daha özenli çizilmesi gerekir. Hiçbir şekle uymayan ya da eylemi olmayan bir şekle uyan çizgiler de normal tıklama gibi davranır. Denemek için Dene sekmesini kullanın.",
     "Settings": "Ayarlar",
     "Export…": "Dışa Aktar…",
     "Import…": "İçe Aktar…",
@@ -178,10 +160,7 @@ TR = {
     "There's more": "Dahası da var",
     "Record your own shapes": "Kendi şekillerinizi kaydedin",
     "Different gestures for each app": "Her uygulama için farklı jestler",
-    "Try tab: see how a stroke is recognized": "Dene sekmesi: bir çizginin nasıl tanındığını görün",
     "Turn gestures off in apps that need the button": "Fare tuşuna ihtiyaç duyan uygulamalarda jestleri kapatın",
-    "On/off shortcut, sound and haptic feedback": "Aç/kapat kısayolu, ses ve dokunsal geri bildirim",
-    "Window, app, media and system actions, shortcuts and scripts": "Pencere, uygulama, medya ve sistem eylemleri, kısayollar ve scriptler",
     "Open Settings…": "Ayarları Aç…",
 
     # Trigger button / modifier titles
@@ -274,6 +253,38 @@ TR = {
     "Chevron Right Rev": "Sağ Köşeli Ok (Ters)",
     "Chevron Left": "Sol Köşeli Ok",
     "Chevron Left Rev": "Sol Köşeli Ok (Ters)",
+
+    # Redesigned settings and welcome guide
+    "Active · %@": "Etkin · %@",
+    "App-Specific Gestures": "Uygulamaya Özel Jestler",
+    "Appearance": "Görünüm",
+    "Closest shapes": "En yakın şekiller",
+    "Default (%@)": "Varsayılan (%@)",
+    "Draw your own shape and give it an action.": "Kendi şeklinizi çizin ve ona bir eylem atayın.",
+    "Gesture name": "Jest adı",
+    "Gestures are off": "Jestler kapalı",
+    "Get Started": "Başlayalım",
+    "How mgestures looks and sounds while you draw.": "Çizerken mgestures'ın görünümü ve sesi.",
+    "Later": "Sonra",
+    "No custom gestures yet": "Henüz özel jest yok",
+    "No excluded apps. Gestures work everywhere.": "Hariç uygulama yok. Jestler her yerde çalışır.",
+    "On/off shortcut, sound and haptics": "Aç/kapat kısayolu, ses ve dokunsal geri bildirim",
+    "Preview": "Önizleme",
+    "Record Gesture…": "Jest Kaydet…",
+    "Remove App…": "Uygulamayı Kaldır…",
+    "Sensitivity": "Hassasiyet",
+    "Settings file": "Ayar dosyası",
+    "Shapes set to Default use the All Apps setting. Choose “No action” to turn a shape off in %@.": "Varsayılan olarak bırakılan şekiller Tüm Uygulamalar ayarını kullanır. Bir şekli %@ içinde kapatmak için “Eylem yok”u seçin.",
+    "Shorter strokes act as a normal click. A lower tolerance means fewer accidental matches, but shapes must be drawn more precisely. Strokes that match no shape, or a shape without an action, also act as a normal click.": "Daha kısa çizgiler normal tıklama gibi davranır. Düşük tolerans yanlışlıkla eşleşmeyi azaltır ama şekillerin daha özenli çizilmesi gerekir. Hiçbir şekle uymayan ya da eylemi olmayan bir şekle uyan çizgiler de normal tıklama gibi davranır.",
+    "Show": "Göster",
+    "Sound and haptics": "Ses ve dokunsal geri bildirim",
+    "Test area": "Deneme alanı",
+    "Test strokes before you use them": "Çizgileri kullanmadan önce deneyin",
+    "The result appears here.": "Sonuç burada görünür.",
+    "Trail": "İz",
+    "Waiting for Accessibility access": "Erişilebilirlik izni bekleniyor",
+    "Window, media and system actions, scripts": "Pencere, medya ve sistem eylemleri, betikler",
+    "mgestures": "mgestures",
 }
 
 

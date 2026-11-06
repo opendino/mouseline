@@ -10,16 +10,42 @@ struct ActionPicker: View {
 
     var body: some View {
         Picker("Action", selection: $kind) {
-            Text(L(ActionKind.none.title)).tag(ActionKind.none)
-            ForEach(ActionCategory.allCases.filter { $0 != .none }, id: \.self) { category in
-                Section(L(category.rawValue)) {
-                    ForEach(ActionKind.kinds(in: category)) { kind in
-                        Text(L(kind.title)).tag(kind)
-                    }
+            ActionMenuItems { $0 }
+        }
+        .labelsHidden()
+        .fixedSize()
+    }
+}
+
+/// Picks an app-specific action; nil means "use the All Apps setting".
+struct ScopedActionPicker: View {
+    @Binding var kind: ActionKind?
+    let inherited: ActionKind
+
+    var body: some View {
+        Picker("Action", selection: $kind) {
+            Text(LF("Default (%@)", L(inherited.title))).tag(ActionKind?.none)
+            Divider()
+            ActionMenuItems { Optional($0) }
+        }
+        .labelsHidden()
+        .fixedSize()
+    }
+}
+
+/// "No action" plus every action, in sections by category.
+struct ActionMenuItems<Tag: Hashable>: View {
+    let tag: (ActionKind) -> Tag
+
+    var body: some View {
+        Text(L(ActionKind.none.title)).tag(tag(.none))
+        ForEach(ActionCategory.allCases.filter { $0 != .none }, id: \.self) { category in
+            Section(L(category.rawValue)) {
+                ForEach(ActionKind.kinds(in: category)) { kind in
+                    Text(L(kind.title)).tag(tag(kind))
                 }
             }
         }
-        .labelsHidden()
     }
 }
 
@@ -68,11 +94,24 @@ struct ActionDetailView: View {
     }
 }
 
+/// ActionDetailView laid out for a settings row: placeholders instead of form labels.
+struct ActionDetailRow: View {
+    @Binding var action: ActionConfig
+
+    var body: some View {
+        ActionDetailView(action: $action)
+            .labelsHidden()
+            .textFieldStyle(.roundedBorder)
+            .controlSize(.regular)
+    }
+}
+
 // MARK: - Shape preview
 
 /// Draws a shape, with a dot where the stroke starts and an arrowhead where it ends.
 struct ShapePreview: View {
     let points: [StrokePoint]
+    var tint: Color = .primary
 
     var body: some View {
         Canvas { context, size in
@@ -85,7 +124,8 @@ struct ShapePreview: View {
 
             var path = Path()
             path.addLines(mapped)
-            context.stroke(path, with: .color(.primary), style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
+            let width = max(1.5, min(size.width, size.height) / 15)
+            context.stroke(path, with: .color(tint), style: StrokeStyle(lineWidth: width, lineCap: .round, lineJoin: .round))
 
             // Arrowhead along the direction of the last segment.
             let before = mapped[max(0, mapped.count - 3)]
@@ -94,11 +134,14 @@ struct ShapePreview: View {
             for side in [-1.0, 1.0] {
                 let a = angle + .pi + side * .pi / 6
                 arrow.move(to: last)
-                arrow.addLine(to: CGPoint(x: last.x + 6 * cos(a), y: last.y + 6 * sin(a)))
+                arrow.addLine(to: CGPoint(x: last.x + width * 3 * cos(a), y: last.y + width * 3 * sin(a)))
             }
-            context.stroke(arrow, with: .color(.primary), style: StrokeStyle(lineWidth: 2, lineCap: .round))
+            context.stroke(arrow, with: .color(tint), style: StrokeStyle(lineWidth: width, lineCap: .round))
 
-            context.fill(Path(ellipseIn: CGRect(x: first.x - 3.5, y: first.y - 3.5, width: 7, height: 7)), with: .color(.accentColor))
+            let r = width * 1.6
+            let dot = CGRect(x: first.x - r, y: first.y - r, width: 2 * r, height: 2 * r)
+            context.fill(Path(ellipseIn: dot), with: .color(tint))
+            context.stroke(Path(ellipseIn: dot.insetBy(dx: -width * 0.4, dy: -width * 0.4)), with: .color(tint.opacity(0.35)), lineWidth: width * 0.5)
         }
     }
 }
@@ -144,13 +187,19 @@ struct DrawingPad: View {
 
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 10)
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
                 .fill(Color(nsColor: .textBackgroundColor))
-            RoundedRectangle(cornerRadius: 10)
-                .strokeBorder(Color.secondary.opacity(0.35), style: StrokeStyle(lineWidth: 1, dash: [5, 4]))
+            DotGrid()
+                .opacity(0.5)
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                .strokeBorder(Color.secondary.opacity(0.25), lineWidth: 1)
             if model.points.isEmpty {
-                Text("Draw here with the left mouse button")
-                    .foregroundStyle(.secondary)
+                VStack(spacing: 8) {
+                    Image(systemName: "scribble.variable")
+                        .font(.system(size: 28, weight: .light))
+                    Text("Draw here with the left mouse button")
+                }
+                .foregroundStyle(.tertiary)
             }
             Canvas { context, _ in
                 guard let first = model.points.first else { return }
@@ -162,13 +211,35 @@ struct DrawingPad: View {
             }
         }
         .frame(height: height)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         .contentShape(Rectangle())
         .gesture(
             DragGesture(minimumDistance: 0, coordinateSpace: .local)
                 .onChanged { model.changed($0.location) }
                 .onEnded { _ in onStroke(model.ended()) }
         )
+    }
+}
+
+/// A faint dot grid, like graph paper, behind the drawing area.
+struct DotGrid: View {
+    var spacing: CGFloat = 18
+
+    var body: some View {
+        Canvas { context, size in
+            var dots = Path()
+            var y = spacing / 2
+            while y < size.height {
+                var x = spacing / 2
+                while x < size.width {
+                    dots.addEllipse(in: CGRect(x: x - 0.75, y: y - 0.75, width: 1.5, height: 1.5))
+                    x += spacing
+                }
+                y += spacing
+            }
+            context.fill(dots, with: .color(.secondary.opacity(0.35)))
+        }
+        .allowsHitTesting(false)
     }
 }
 

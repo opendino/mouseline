@@ -2,56 +2,68 @@ import AppKit
 import MGesturesCore
 import SwiftUI
 
-/// The Excluded Apps tab: apps in which the trigger button behaves normally.
+/// The Excluded Apps pane: apps in which the trigger button behaves normally.
 struct ExcludedAppsView: View {
     @ObservedObject var store: ConfigStore
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text("In these apps the mouse button works normally and gestures are off — useful for 3D tools, games, remote desktops and virtual machines. The app under the cursor decides, not the active one.")
-                .font(.callout)
-                .foregroundStyle(.secondary)
-                .fixedSize(horizontal: false, vertical: true)
+        Form {
+            Section {
+                PaneHeader(
+                    title: L("Excluded Apps"),
+                    subtitle: L("In these apps the mouse button works normally and gestures are off — useful for 3D tools, games, remote desktops and virtual machines. The app under the cursor decides, not the active one.")
+                ) {
+                    IconTile(symbol: "nosign", color: .red, size: 40)
+                }
+            }
 
-            List {
+            Section {
                 if store.config.excludedApps.isEmpty {
-                    Text("No excluded apps.")
-                        .foregroundStyle(.secondary)
+                    HStack(spacing: 12) {
+                        Image(systemName: "checkmark.circle")
+                            .font(.title2)
+                            .foregroundStyle(.secondary)
+                        Text("No excluded apps. Gestures work everywhere.")
+                            .foregroundStyle(.secondary)
+                    }
+                    .padding(.vertical, 4)
                 }
                 ForEach(store.config.excludedApps) { app in
-                    HStack(spacing: 10) {
-                        Image(nsImage: AppInfo.icon(bundleID: app.bundleID))
-                            .resizable()
-                            .frame(width: 22, height: 22)
+                    HStack(spacing: 12) {
+                        AppIconView(bundleID: app.bundleID, size: 28)
                         VStack(alignment: .leading, spacing: 1) {
                             Text(verbatim: app.name)
-                            Text(verbatim: app.bundleID).font(.caption).foregroundStyle(.secondary)
+                            Text(verbatim: app.bundleID).captionStyle()
                         }
                         Spacer()
                         Button {
                             store.config.excludedApps.removeAll { $0.bundleID == app.bundleID }
                         } label: {
-                            Image(systemName: "minus.circle.fill").foregroundStyle(.secondary)
+                            Image(systemName: "minus.circle.fill")
+                                .font(.title3)
+                                .symbolRenderingMode(.hierarchical)
                         }
                         .buttonStyle(.borderless)
+                        .foregroundStyle(.secondary)
                         .help("Remove")
                     }
+                    .padding(.vertical, 1)
                 }
-            }
-
-            HStack {
-                Menu("Add Running App") {
-                    ForEach(AppInfo.runningApps(excluding: Set(store.config.excludedApps.map(\.bundleID))), id: \.bundleID) { app in
-                        Button(app.name) { add(app) }
+                HStack {
+                    Spacer()
+                    Menu("Add Running App") {
+                        ForEach(AppInfo.runningApps(excluding: Set(store.config.excludedApps.map(\.bundleID))), id: \.bundleID) { app in
+                            Button(app.name) { add(app) }
+                        }
+                    }
+                    .fixedSize()
+                    Button("Add App…") {
+                        AppInfo.chooseApps(multiple: true).forEach(add)
                     }
                 }
-                .fixedSize()
-                Button("Add App…") {
-                    AppInfo.chooseApps(multiple: true).forEach(add)
-                }
-                Spacer()
             }
         }
+        .formStyle(.grouped)
     }
 
     private func add(_ app: ExcludedApp) {

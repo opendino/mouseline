@@ -9,88 +9,75 @@ enum GestureFilter: String, CaseIterable {
 
 @MainActor
 final class GesturesModel: ObservableObject {
-    /// Bundle id of the app whose gestures are shown; nil = all apps (global bindings).
-    @Published var scope: String?
     @Published var filter = GestureFilter.all
     @Published var showUnassigned = true
     @Published var showRecorder = false
 }
 
-/// The Gestures tab: every shape with its action, globally or for one app.
+/// Every shape with its action — for all apps (scope nil) or as overrides for one app.
 struct GesturesView: View {
     @ObservedObject var store: ConfigStore
+    /// Bundle id of the app whose overrides are edited; nil = All Apps.
+    let scope: String?
+    var onRemove: () -> Void = {}
     @StateObject private var model = GesturesModel()
 
-    /// The selected app scope, if it still exists (an import or removal may have dropped it).
-    private var scope: String? {
-        guard let scope = model.scope, store.config.appBindings[scope] != nil else { return nil }
-        return scope
-    }
-
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            scopeBar
-            Group {
-                if let scope {
-                    Text("Shapes not overridden here use the All Apps setting. Choose “No action” in an override to turn a shape off in \(appName(scope)).")
-                } else if store.config.triggerButton == .middle {
-                    Text("Hold the middle mouse button and draw a shape. The dot marks where the stroke starts.")
-                } else {
-                    Text("Hold the right mouse button and draw a shape. The dot marks where the stroke starts.")
+        Form {
+            Section {
+                header
+            }
+
+            Section {
+                HStack {
+                    Picker("Shapes", selection: $model.filter) {
+                        Text("Basic").tag(GestureFilter.basic)
+                        Text("All Shapes").tag(GestureFilter.all)
+                    }
+                    .pickerStyle(.segmented)
+                    .labelsHidden()
+                    .fixedSize()
+                    Spacer()
+                    Toggle("Show unassigned", isOn: $model.showUnassigned)
+                        .toggleStyle(.switch)
+                        .controlSize(.small)
                 }
             }
-            .font(.callout)
-            .foregroundStyle(.secondary)
-            .fixedSize(horizontal: false, vertical: true)
 
-            filterBar
-            List {
-                ForEach(GestureGroup.allCases.filter { model.filter == .all || $0.isBasic }, id: \.self) { group in
-                    section(for: group)
-                }
+            ForEach(GestureGroup.allCases.filter { model.filter == .all || $0.isBasic }, id: \.self) { group in
+                section(for: group)
             }
         }
+        .formStyle(.grouped)
         .sheet(isPresented: $model.showRecorder) {
             RecordGestureView(store: store, isPresented: $model.showRecorder)
         }
     }
 
-    // MARK: Bars
+    // MARK: Header
 
-    private var scopeBar: some View {
-        HStack {
-            AppScopePicker(title: "Gestures for", store: store, scope: $model.scope)
-                .frame(maxWidth: 340)
-            Menu("Add App") {
-                ForEach(AppInfo.runningApps(excluding: Set(store.config.appBindings.keys)), id: \.bundleID) { app in
-                    Button(app.name) { addScope(app) }
-                }
-                Divider()
-                Button("Choose…") {
-                    if let app = AppInfo.chooseApps(multiple: false).first { addScope(app) }
-                }
+    @ViewBuilder
+    private var header: some View {
+        if let scope {
+            PaneHeader(
+                title: appName(scope),
+                subtitle: LF("Shapes set to Default use the All Apps setting. Choose “No action” to turn a shape off in %@.", appName(scope))
+            ) {
+                AppIconView(bundleID: scope, size: 40)
+            } accessory: {
+                Button("Remove App…", role: .destructive, action: onRemove)
             }
-            .fixedSize()
-            if let scope {
-                Button("Remove App") { removeScope(scope) }
+        } else {
+            PaneHeader(
+                title: L("Gestures"),
+                subtitle: store.config.triggerButton == .middle
+                    ? L("Hold the middle mouse button and draw a shape. The dot marks where the stroke starts.")
+                    : L("Hold the right mouse button and draw a shape. The dot marks where the stroke starts.")
+            ) {
+                IconTile(symbol: "hand.draw.fill", color: .blue, size: 40)
+            } accessory: {
+                Button("Record Gesture…") { model.showRecorder = true }
             }
-            Spacer()
-        }
-    }
-
-    private var filterBar: some View {
-        HStack {
-            Picker("Shapes", selection: $model.filter) {
-                Text("Basic").tag(GestureFilter.basic)
-                Text("All Shapes").tag(GestureFilter.all)
-            }
-            .pickerStyle(.segmented)
-            .labelsHidden()
-            .fixedSize()
-            Toggle("Show unassigned", isOn: $model.showUnassigned)
-                .toggleStyle(.checkbox)
-            Spacer()
-            Button("Record New Gesture…") { model.showRecorder = true }
         }
     }
 
@@ -100,10 +87,21 @@ struct GesturesView: View {
     private func section(for group: GestureGroup) -> some View {
         let templates = templates(in: group)
         if group == .custom {
-            Section(L(group.rawValue)) {
+            Section {
                 if store.config.customGestures.isEmpty {
-                    Text("No custom gestures yet. Use “Record New Gesture…” to draw your own.")
-                        .foregroundStyle(.secondary)
+                    HStack(spacing: 12) {
+                        Image(systemName: "scribble.variable")
+                            .font(.title2)
+                            .foregroundStyle(.secondary)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("No custom gestures yet")
+                            Text("Draw your own shape and give it an action.")
+                                .captionStyle()
+                        }
+                        Spacer()
+                        Button("Record Gesture…") { model.showRecorder = true }
+                    }
+                    .padding(.vertical, 4)
                 } else if templates.isEmpty {
                     Text("All custom gestures are unassigned.")
                         .foregroundStyle(.secondary)
@@ -111,12 +109,16 @@ struct GesturesView: View {
                 ForEach(templates) { template in
                     GestureRow(template: template, store: store, scope: scope)
                 }
+            } header: {
+                Text(L(group.rawValue))
             }
         } else if !templates.isEmpty {
-            Section(L(group.rawValue)) {
+            Section {
                 ForEach(templates) { template in
                     GestureRow(template: template, store: store, scope: scope)
                 }
+            } header: {
+                Text(L(group.rawValue))
             }
         }
     }
@@ -129,33 +131,13 @@ struct GesturesView: View {
         return all.filter { store.config.action(for: $0.id, in: scope).kind != .none }
     }
 
-    // MARK: Scopes
-
     private func appName(_ bundleID: String) -> String {
         let name = store.config.appBindings[bundleID]?.name ?? ""
         return name.isEmpty ? bundleID : name
     }
-
-    private func addScope(_ app: ExcludedApp) {
-        if store.config.appBindings[app.bundleID] == nil {
-            store.config.appBindings[app.bundleID] = AppBindings(name: app.name)
-        }
-        model.scope = app.bundleID
-    }
-
-    private func removeScope(_ bundleID: String) {
-        let confirmed = Alerts.confirm(
-            LF("Remove the gestures for %@?", appName(bundleID)),
-            info: L("All shapes will use the All Apps settings in this app again."),
-            confirmTitle: L("Remove")
-        )
-        guard confirmed else { return }
-        model.scope = nil
-        store.config.appBindings.removeValue(forKey: bundleID)
-    }
 }
 
-/// One shape with its action. In an app scope it shows the inherited action until overridden.
+/// One shape with its action. In an app scope the picker's first item follows All Apps.
 struct GestureRow: View {
     let template: GestureTemplate
     @ObservedObject var store: ConfigStore
@@ -164,51 +146,60 @@ struct GestureRow: View {
     private var id: String { template.id }
     private var isCustom: Bool { template.group == .custom }
     private var isOverridden: Bool { scope.map { store.config.hasOverride(for: id, in: $0) } ?? false }
+    private var effectiveKind: ActionKind { store.config.action(for: id, in: scope).kind }
+
+    /// Accent for shapes that do something here; in an app scope, only for overrides.
+    private var tileTint: Color {
+        if effectiveKind == .none { return .secondary }
+        if scope != nil && !isOverridden { return .secondary }
+        return .accentColor
+    }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack(spacing: 12) {
-                ShapePreview(points: template.points)
-                    .frame(width: 34, height: 34)
-                if isCustom {
-                    TextField("Name", text: nameBinding)
-                        .frame(width: 160)
-                } else {
-                    Text(L(id))
-                        .frame(width: 160, alignment: .leading)
-                }
-
-                if let scope, !isOverridden {
-                    Text(LF("Default: %@", L(store.config.action(for: id).kind.title)))
-                        .foregroundStyle(.secondary)
-                        .frame(width: 260, alignment: .leading)
-                    Button("Override") {
-                        store.config.appBindings[scope]?.bindings[id] = store.config.action(for: id)
+        VStack(alignment: .leading, spacing: 8) {
+            LabeledContent {
+                HStack(spacing: 8) {
+                    if scope != nil {
+                        ScopedActionPicker(kind: scopedKind, inherited: store.config.action(for: id).kind)
+                    } else {
+                        ActionPicker(kind: actionBinding.kind)
                     }
-                } else {
-                    ActionPicker(kind: actionBinding.kind)
-                        .frame(width: 260)
-                    if let scope {
-                        Button("Use Default") {
-                            store.config.appBindings[scope]?.bindings.removeValue(forKey: id)
+                    if isCustom {
+                        Button(action: deleteGesture) {
+                            Image(systemName: "trash")
                         }
+                        .buttonStyle(.borderless)
+                        .foregroundStyle(.secondary)
+                        .help("Delete gesture")
                     }
                 }
-                Spacer()
-                if isCustom {
-                    Button(role: .destructive, action: deleteGesture) {
-                        Image(systemName: "trash")
+            } label: {
+                HStack(spacing: 12) {
+                    ShapeTile(points: template.points, size: 34, tint: tileTint)
+                    if isCustom {
+                        TextField("Name", text: nameBinding)
+                            .textFieldStyle(.plain)
+                            .labelsHidden()
+                    } else {
+                        Text(L(id))
                     }
-                    .buttonStyle(.borderless)
-                    .help("Delete gesture")
+                    if isOverridden {
+                        Text("Custom")
+                            .font(.caption2.weight(.semibold))
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(Capsule().fill(Color.accentColor.opacity(0.18)))
+                            .foregroundStyle(Color.accentColor)
+                    }
                 }
             }
-            if scope == nil || isOverridden {
-                ActionDetailView(action: actionBinding)
+            if (scope == nil || isOverridden) && actionBinding.wrappedValue.kind.hasParameters {
+                ActionDetailRow(action: actionBinding)
                     .padding(.leading, 46)
+                    .padding(.bottom, 2)
             }
         }
-        .padding(.vertical, 2)
+        .padding(.vertical, 1)
     }
 
     /// Edits the global binding, or this app's override.
@@ -220,6 +211,23 @@ struct GestureRow: View {
                     store.config.appBindings[scope]?.bindings[id] = newValue
                 } else {
                     store.setBinding(newValue, for: id)
+                }
+            }
+        )
+    }
+
+    /// nil = no override (follow All Apps).
+    private var scopedKind: Binding<ActionKind?> {
+        Binding(
+            get: { isOverridden ? store.config.action(for: id, in: scope).kind : nil },
+            set: { kind in
+                guard let scope else { return }
+                if let kind {
+                    var action = isOverridden ? store.config.action(for: id, in: scope) : store.config.action(for: id)
+                    action.kind = kind
+                    store.config.appBindings[scope]?.bindings[id] = action
+                } else {
+                    store.config.appBindings[scope]?.bindings.removeValue(forKey: id)
                 }
             }
         )
