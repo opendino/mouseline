@@ -56,15 +56,18 @@ public struct Recognizer: Sendable {
         return .gesture(id: best.id, distance: best.distance)
     }
 
-    /// All templates sorted by distance to the stroke (closest first). Useful for debugging and tests.
+    /// Every shape sorted by distance to the stroke (closest first). A shape with several
+    /// templates (personal calibration samples) appears once, with its closest template.
     public func rankedMatches(for stroke: [StrokePoint]) -> [(id: String, distance: Double)] {
         let sample = Self.prepare(stroke)
+        var seen = Set<String>()
         return templates
             .map { (id: $0.id, distance: Self.pathDistance(sample, $0.points)) }
             .enumerated()
             // Stable sort: on equal distance, keep template declaration order.
             .sorted { $0.element.distance != $1.element.distance ? $0.element.distance < $1.element.distance : $0.offset < $1.offset }
             .map(\.element)
+            .filter { seen.insert($0.id).inserted }
     }
 
     // MARK: - Pipeline

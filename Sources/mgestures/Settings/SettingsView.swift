@@ -13,6 +13,7 @@ enum SettingsPane: Hashable {
     case appearance
     case recognition
     case excludedApps
+    case advanced
     /// Gestures for one app (bundle id).
     case app(String)
 }
@@ -40,6 +41,7 @@ struct SettingsActions {
         case .appearance: return L("Appearance")
         case .recognition: return L("Recognition")
         case .excludedApps: return L("Excluded Apps")
+        case .advanced: return L("Advanced")
         case .app(let id): return store.config.appBindings[id].map { $0.name.isEmpty ? id : $0.name } ?? id
         }
     }
@@ -80,6 +82,7 @@ struct SettingsSidebar: View {
                 row(.appearance, "Appearance", symbol: "paintbrush.pointed.fill", color: .pink)
                 row(.recognition, "Recognition", symbol: "scribble.variable", color: .orange)
                 row(.excludedApps, "Excluded Apps", symbol: "nosign", color: .red)
+                row(.advanced, "Advanced", symbol: "slider.horizontal.3", color: .gray)
             }
             Section("App-Specific Gestures") {
                 ForEach(AppScopePicker.apps(in: store.config), id: \.bundleID) { app in
@@ -165,6 +168,8 @@ struct SettingsDetail: View {
             TryView(store: store)
         case .excludedApps:
             ExcludedAppsView(store: store)
+        case .advanced:
+            AdvancedSettingsView(store: store)
         case .app(let id):
             GesturesView(store: store, scope: id, onRemove: { actions.removeApp(id) })
                 .id(id)

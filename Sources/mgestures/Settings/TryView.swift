@@ -51,20 +51,12 @@ struct TryView: View {
             }
 
             Section {
-                LabeledSlider(title: "Minimum gesture length", value: $store.config.clickMaxPath, range: 20...250, format: "%.0f pt")
-                LabeledSlider(title: "Recognition tolerance", value: $store.config.matchMaxDistance, range: 10...60, format: "%.0f")
-                HStack {
-                    Spacer()
-                    Button("Reset to Defaults") {
-                        let d = AppConfig()
-                        store.config.clickMaxPath = d.clickMaxPath
-                        store.config.matchMaxDistance = d.matchMaxDistance
-                    }
-                }
+                CalibrationStatus(store: store)
+                    .padding(.vertical, 4)
             } header: {
-                Text("Sensitivity")
+                Text("Calibration")
             } footer: {
-                Text("Shorter strokes act as a normal click. A lower tolerance means fewer accidental matches, but shapes must be drawn more precisely. Strokes that match no shape, or a shape without an action, also act as a normal click.")
+                Text("Calibration fits recognition to the way you draw. Manual settings are in Advanced.")
                     .footerStyle()
             }
         }

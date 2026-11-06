@@ -371,6 +371,8 @@ public struct AppConfig: Codable, Equatable, Sendable {
     public var clickMaxPath: Double
     public var matchMaxDistance: Double
     public var customGestures: [CustomGesture]
+    /// Strokes from calibration, used as extra templates (see `Calibration`).
+    public var personalSamples: [PersonalSample]
 
     /// Template id → action. Gestures without an entry do nothing.
     public var bindings: [String: ActionConfig]
@@ -387,6 +389,7 @@ public struct AppConfig: Codable, Equatable, Sendable {
         feedbackSound: String = "", hapticFeedback: Bool = false,
         clickMaxPath: Double = 70, matchMaxDistance: Double = 30,
         customGestures: [CustomGesture] = [],
+        personalSamples: [PersonalSample] = [],
         bindings: [String: ActionConfig] = AppConfig.defaultBindings,
         appBindings: [String: AppBindings] = [:]
     ) {
@@ -408,6 +411,7 @@ public struct AppConfig: Codable, Equatable, Sendable {
         self.clickMaxPath = clickMaxPath
         self.matchMaxDistance = matchMaxDistance
         self.customGestures = customGestures
+        self.personalSamples = personalSamples
         self.bindings = bindings
         self.appBindings = appBindings
     }
@@ -425,9 +429,23 @@ public struct AppConfig: Codable, Equatable, Sendable {
 
     // MARK: Templates
 
-    /// Built-in shapes followed by the user's custom gestures.
+    /// Built-in shapes, the user's custom gestures, then personal calibration samples
+    /// (extra templates for existing shapes; samples of deleted shapes are skipped).
     public var allTemplates: [GestureTemplate] {
+        shapeTemplates + personalTemplates
+    }
+
+    /// Built-in shapes followed by the user's custom gestures, without personal samples.
+    public var shapeTemplates: [GestureTemplate] {
         GestureTemplate.builtIn + customGestures.map(\.template)
+    }
+
+    private var personalTemplates: [GestureTemplate] {
+        personalSamples.compactMap { sample in
+            let group = GestureTemplate.builtIn.first { $0.id == sample.gestureID }?.group
+                ?? (customGesture(id: sample.gestureID) != nil ? .custom : nil)
+            return group.map { GestureTemplate(id: sample.gestureID, group: $0, points: sample.points) }
+        }
     }
 
     public func customGesture(id: String) -> CustomGesture? {
@@ -500,6 +518,7 @@ public struct AppConfig: Codable, Equatable, Sendable {
     /// Removes a custom gesture together with every binding that refers to it.
     public mutating func removeCustomGesture(id: String) {
         customGestures.removeAll { $0.id == id }
+        personalSamples.removeAll { $0.gestureID == id }
         bindings.removeValue(forKey: id)
         for key in appBindings.keys {
             appBindings[key]?.bindings.removeValue(forKey: id)
@@ -529,6 +548,7 @@ public struct AppConfig: Codable, Equatable, Sendable {
         clickMaxPath = try c.decodeIfPresent(Double.self, forKey: .clickMaxPath) ?? d.clickMaxPath
         matchMaxDistance = try c.decodeIfPresent(Double.self, forKey: .matchMaxDistance) ?? d.matchMaxDistance
         customGestures = try c.decodeIfPresent([CustomGesture].self, forKey: .customGestures) ?? d.customGestures
+        personalSamples = try c.decodeIfPresent([PersonalSample].self, forKey: .personalSamples) ?? d.personalSamples
         bindings = try c.decodeIfPresent([String: ActionConfig].self, forKey: .bindings) ?? d.bindings
         appBindings = try c.decodeIfPresent([String: AppBindings].self, forKey: .appBindings) ?? d.appBindings
     }

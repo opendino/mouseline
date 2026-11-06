@@ -115,6 +115,7 @@ struct OnboardingView: View {
                     accessStep
                     buttonStep
                     tryStep
+                    calibrateStep
                 }
                 .padding(.horizontal, 22)
                 .padding(.top, 44)
@@ -200,6 +201,17 @@ struct OnboardingView: View {
             }
         }
         .opacity(state.monitorRunning ? 1 : 0.5)
+    }
+
+    private var calibrateStep: some View {
+        StepCard(number: model.stepOffset + 4, title: "Fit it to your hand", done: store.config.isCalibrated) {
+            HStack(spacing: 12) {
+                Text("Optional, about 30 seconds: draw four shapes twice and mgestures tunes recognition to your strokes.")
+                    .captionStyle()
+                Spacer(minLength: 0)
+                CalibrationStatus(store: store, compact: true)
+            }
+        }
     }
 
     private var features: some View {
