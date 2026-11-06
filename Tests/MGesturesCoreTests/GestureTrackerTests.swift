@@ -144,3 +144,30 @@ struct GestureTrackerTests {
         #expect(out.effects.contains { if case .runGesture(id: "Right", _) = $0 { return true }; return false })
     }
 }
+
+struct CaptureModeTests {
+    func run(_ points: [StrokePoint], capture: Bool) -> GestureTracker.Output {
+        var tracker = GestureTracker(recognizer: Recognizer())
+        let settings = TrackerSettings(boundGestures: ["Left"], captureStrokes: capture)
+        _ = tracker.rightMouseDown(at: points[0], settings: settings, active: true)
+        for p in points.dropFirst().dropLast() { _ = tracker.rightMouseDragged(to: p) }
+        return tracker.rightMouseUp(at: points[points.count - 1])
+    }
+
+    @Test func capturesStrokesInsteadOfRunningThem() {
+        let left = (0...20).map { StrokePoint(Double(-$0 * 10), 0) }
+        let output = run(left, capture: true)
+        #expect(output.decision == .swallow)
+        #expect(output.effects.contains { if case .capturedStroke = $0 { return true } else { return false } })
+        #expect(!output.effects.contains { if case .runGesture = $0 { return true } else { return false } })
+        // Without capture the same stroke runs its action.
+        #expect(run(left, capture: false).effects.contains { if case .runGesture(let id, _) = $0 { return id == "Left" } else { return false } })
+    }
+
+    @Test func shortPressesStayClicksWhileCapturing() {
+        let tap = [StrokePoint(0, 0), StrokePoint(3, 1), StrokePoint(4, 1)]
+        let output = run(tap, capture: true)
+        #expect(output.decision == .replayDownThenPass)
+        #expect(!output.effects.contains { if case .capturedStroke = $0 { return true } else { return false } })
+    }
+}

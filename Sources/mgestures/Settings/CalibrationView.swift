@@ -4,9 +4,10 @@ import SwiftUI
 
 @MainActor
 final class CalibrationModel: ObservableObject {
-    let drawing = DrawingModel()
     @Published private(set) var accepted: [(id: String, stroke: [StrokePoint])] = []
     @Published private(set) var message: String?
+    @Published private(set) var lastStroke: [StrokePoint] = []
+    @Published private(set) var lastAccepted = false
     @Published private(set) var result: Calibration.Result?
 
     let steps = Calibration.steps
@@ -20,11 +21,14 @@ final class CalibrationModel: ObservableObject {
         return accepted.filter { $0.id == id }.count + 1
     }
 
+    /// Strokes come from the trigger button (see `CalibrationCapture`), in screen points.
     func submit(_ stroke: [StrokePoint], templates: [GestureTemplate], config: AppConfig) {
         guard let expected = currentID else { return }
+        lastStroke = stroke
         switch Calibration.check(stroke, expected: expected, templates: templates) {
         case .accepted:
             message = nil
+            lastAccepted = true
             withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                 accepted.append((expected, stroke))
             }
@@ -34,33 +38,41 @@ final class CalibrationModel: ObservableObject {
                 }
             }
         case .tooShort:
+            lastAccepted = false
             message = L("Draw a longer stroke.")
         case .looksLike(let other):
+            lastAccepted = false
             message = LF("That looked like “%@”. Try again.", config.localizedName(for: other))
         }
-        // Clear the pad shortly after, so the next stroke starts on a clean surface.
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { [weak self] in self?.drawing.clear() }
     }
 
     func restart() {
         accepted = []
         result = nil
         message = nil
-        drawing.clear()
+        lastStroke = []
     }
 }
 
-/// Sheet that fits the recognition to the user's hand: draw each basic shape twice.
+/// Sheet that fits recognition to the user's hand. The shapes are drawn with the real
+/// trigger button anywhere on screen, so length and shape match everyday use; while it is
+/// open, strokes are measured and nothing runs.
 struct CalibrationView: View {
     @ObservedObject var store: ConfigStore
+    @ObservedObject var state: AppState
     @Binding var isPresented: Bool
     @StateObject private var model = CalibrationModel()
 
+    private var buttonName: String { L(store.config.triggerButton.title).lowercased(with: Locale.current) }
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: 18) {
             header
             if let result = model.result {
                 summary(result)
+            } else if !state.monitorRunning {
+                Label("Accessibility access is required to capture mouse gestures.", systemImage: "exclamationmark.triangle.fill")
+                    .foregroundStyle(.orange)
             } else {
                 drawingStep
             }
@@ -68,6 +80,12 @@ struct CalibrationView: View {
         }
         .padding(24)
         .frame(width: 500)
+        .onAppear {
+            CalibrationCapture.shared.begin { [weak model, store] stroke in
+                model?.submit(stroke, templates: store.config.shapeTemplates, config: store.config)
+            }
+        }
+        .onDisappear { CalibrationCapture.shared.end() }
     }
 
     private var header: some View {
@@ -89,23 +107,25 @@ struct CalibrationView: View {
         progress
 
         if let id = model.currentID, let template = GestureTemplate.builtIn.first(where: { $0.id == id }) {
-            HStack(spacing: 14) {
-                ShapeTile(points: template.points, size: 52)
+            HStack(spacing: 16) {
+                ShapeTile(points: template.points, size: 72)
                     .id(model.stepIndex)
                     .transition(.scale.combined(with: .opacity))
-                VStack(alignment: .leading, spacing: 3) {
+                VStack(alignment: .leading, spacing: 4) {
                     Text(LF("Draw “%@”", L(id)))
-                        .font(.system(size: 17, weight: .semibold))
+                        .font(.system(size: 20, weight: .semibold))
                     Text(LF("%d of %d", model.repetition, Calibration.samplesPerGesture))
                         .font(.callout.monospacedDigit())
                         .foregroundStyle(.secondary)
                 }
                 Spacer()
+                if !model.lastStroke.isEmpty {
+                    ShapeTile(points: model.lastStroke, size: 44, tint: model.lastAccepted ? .green : .orange)
+                        .help("Your last stroke")
+                }
             }
-        }
-
-        DrawingPad(model: model.drawing, height: 230) { stroke in
-            model.submit(stroke, templates: store.config.shapeTemplates, config: store.config)
+            .padding(16)
+            .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(Color.primary.opacity(0.05)))
         }
 
         Group {
@@ -113,14 +133,15 @@ struct CalibrationView: View {
                 Label(message, systemImage: "arrow.uturn.backward.circle")
                     .foregroundStyle(.orange)
             } else {
-                Label("Draw with the left mouse button, from the dot in the direction of the arrow.", systemImage: "info.circle")
+                Label(LF("Hold the %@ and draw the shape anywhere on the screen, as you normally would. Nothing runs while calibrating.", buttonName), systemImage: "cursorarrow.motionlines")
                     .foregroundStyle(.secondary)
             }
         }
         .font(.callout)
+        .fixedSize(horizontal: false, vertical: true)
     }
 
-    /// One dot per stroke; filled when accepted.
+    /// One dash per stroke; filled when accepted.
     private var progress: some View {
         HStack(spacing: 6) {
             ForEach(Array(model.steps.enumerated()), id: \.offset) { index, _ in
@@ -183,9 +204,11 @@ struct CalibrationView: View {
     }
 }
 
-/// Calibration status with a button that opens the sheet; used in Recognition and onboarding.
+/// Calibration status with a button that opens the sheet; used in the Calibration pane
+/// and in the welcome guide.
 struct CalibrationStatus: View {
     @ObservedObject var store: ConfigStore
+    @ObservedObject var state: AppState
     var compact = false
     @StateObject private var sheet = SheetState()
 
@@ -193,9 +216,9 @@ struct CalibrationStatus: View {
         HStack(spacing: 12) {
             if !compact {
                 Image(systemName: store.config.isCalibrated ? "checkmark.seal.fill" : "dial.medium")
-                    .font(.system(size: 22))
+                    .font(.system(size: 24))
                     .foregroundStyle(store.config.isCalibrated ? Color.green : Color.secondary)
-                    .frame(width: 28)
+                    .frame(width: 30)
                 VStack(alignment: .leading, spacing: 2) {
                     Text(store.config.isCalibrated ? L("Fitted to your strokes") : L("Using the standard settings"))
                     Text(store.config.isCalibrated
@@ -207,9 +230,10 @@ struct CalibrationStatus: View {
             }
             Button(store.config.isCalibrated ? L("Calibrate Again…") : L("Calibrate…")) { sheet.isPresented = true }
                 .glassButtonStyle(prominent: !store.config.isCalibrated)
+                .disabled(!state.monitorRunning)
         }
         .sheet(isPresented: $sheet.isPresented) {
-            CalibrationView(store: store, isPresented: $sheet.isPresented)
+            CalibrationView(store: store, state: state, isPresented: $sheet.isPresented)
         }
     }
 }

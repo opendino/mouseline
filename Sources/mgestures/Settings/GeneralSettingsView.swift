@@ -68,6 +68,7 @@ struct GeneralSettingsView: View {
 
             triggerSection
             contextMenuSection
+            dataSection
         }
         .formStyle(.grouped)
     }
@@ -121,6 +122,40 @@ struct GeneralSettingsView: View {
         }
     }
 
+    private var dataSection: some View {
+        Section {
+            LabeledContent("Settings file") {
+                HStack(spacing: 6) {
+                    Text(verbatim: (store.fileURL.path as NSString).abbreviatingWithTildeInPath)
+                        .font(.caption.monospaced())
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+                        .textSelection(.enabled)
+                    Button {
+                        NSWorkspace.shared.activateFileViewerSelecting([store.fileURL])
+                    } label: {
+                        Image(systemName: "arrow.right.circle.fill")
+                    }
+                    .buttonStyle(.borderless)
+                    .foregroundStyle(.secondary)
+                    .help("Show in Finder")
+                }
+            }
+            HStack {
+                Button("Export…", action: exportSettings)
+                    .glassButtonStyle()
+                Button("Import…", action: importSettings)
+                    .glassButtonStyle()
+                Spacer()
+                Button("Reset All Settings…", role: .destructive, action: resetSettings)
+                    .glassButtonStyle()
+            }
+        } header: {
+            Text("Settings")
+        }
+    }
+
     // MARK: Bindings
 
     private var holdDelayMilliseconds: Binding<Double> {
@@ -145,4 +180,43 @@ struct GeneralSettingsView: View {
         )
     }
 
+    // MARK: Export / import / reset
+
+    private func exportSettings() {
+        let panel = NSSavePanel()
+        panel.allowedContentTypes = [.json]
+        panel.nameFieldStringValue = "mgestures-settings.json"
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        do {
+            try store.config.encoded().write(to: url, options: .atomic)
+        } catch {
+            Alerts.error(L("Could not export the settings."), info: error.localizedDescription)
+        }
+    }
+
+    private func importSettings() {
+        let panel = NSOpenPanel()
+        panel.allowedContentTypes = [.json]
+        panel.allowsMultipleSelection = false
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        do {
+            var imported = try AppConfig.decode(Data(contentsOf: url))
+            imported.onboardingCompleted = true
+            store.config = imported
+        } catch {
+            Alerts.error(L("Could not import the settings."), info: error.localizedDescription)
+        }
+    }
+
+    private func resetSettings() {
+        let confirmed = Alerts.confirm(
+            L("Reset all settings?"),
+            info: L("All gestures, custom shapes, app settings and exclusions are replaced with the defaults. Export first if you want to keep them."),
+            confirmTitle: L("Reset")
+        )
+        guard confirmed else { return }
+        var fresh = AppConfig()
+        fresh.onboardingCompleted = true
+        store.config = fresh
+    }
 }

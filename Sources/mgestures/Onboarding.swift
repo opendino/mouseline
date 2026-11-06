@@ -209,7 +209,7 @@ struct OnboardingView: View {
                 Text("Optional, about 30 seconds: draw four shapes twice and mgestures tunes recognition to your strokes.")
                     .captionStyle()
                 Spacer(minLength: 0)
-                CalibrationStatus(store: store, compact: true)
+                CalibrationStatus(store: store, state: state, compact: true)
             }
         }
     }

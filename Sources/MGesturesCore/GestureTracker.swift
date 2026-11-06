@@ -12,11 +12,16 @@ public struct TrackerSettings: Equatable, Sendable {
     public var holdMoveTolerance: Double
     /// Upper bound on stored points; longer strokes are thinned out (recognition resamples anyway).
     public var maxPoints: Int
+    /// Calibration: strokes at least `captureMinLength` long are handed over as
+    /// `.capturedStroke` instead of being recognized; nothing runs. Shorter ones stay clicks.
+    public var captureStrokes: Bool
+    public var captureMinLength: Double
 
     public init(
         recognizer: RecognizerSettings = .init(), boundGestures: Set<String> = [],
         holdToOpenMenu: Bool = true, holdDelay: TimeInterval = 0.5,
-        holdMoveTolerance: Double = 6, maxPoints: Int = 4000
+        holdMoveTolerance: Double = 6, maxPoints: Int = 4000,
+        captureStrokes: Bool = false, captureMinLength: Double = 15
     ) {
         self.recognizer = recognizer
         self.boundGestures = boundGestures
@@ -24,6 +29,8 @@ public struct TrackerSettings: Equatable, Sendable {
         self.holdDelay = holdDelay
         self.holdMoveTolerance = holdMoveTolerance
         self.maxPoints = maxPoints
+        self.captureStrokes = captureStrokes
+        self.captureMinLength = captureMinLength
     }
 }
 
@@ -57,6 +64,8 @@ public struct GestureTracker {
         case endTrail(animated: Bool)
         case setKeyboardMonitoring(Bool)
         case runGesture(id: String, distance: Double)
+        /// Calibration mode: the finished stroke, to be measured instead of run.
+        case capturedStroke([StrokePoint])
         case cancelled
         /// Post the swallowed button-down right now (no current event to piggyback on).
         case replayDownNow
@@ -136,6 +145,9 @@ public struct GestureTracker {
             let stroke = points
             phase = .idle
             points = []
+            if settings.captureStrokes, StrokeGeometry.pathLength(stroke) >= settings.captureMinLength {
+                return Output(.swallow, [.endTrail(animated: true), .setKeyboardMonitoring(false), .capturedStroke(stroke)])
+            }
             if case .gesture(let id, let distance) = recognizer.recognize(stroke, settings: settings.recognizer),
                settings.boundGestures.contains(id) {
                 return Output(.swallow, [.endTrail(animated: true), .setKeyboardMonitoring(false), .runGesture(id: id, distance: distance)])

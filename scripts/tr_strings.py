@@ -273,7 +273,6 @@ TR = {
     "Remove App…": "Uygulamayı Kaldır…",
     "Settings file": "Ayar dosyası",
     "Shapes set to Default use the All Apps setting. Choose “No action” to turn a shape off in %@.": "Varsayılan olarak bırakılan şekiller Tüm Uygulamalar ayarını kullanır. Bir şekli %@ içinde kapatmak için “Eylem yok”u seçin.",
-    "Shorter strokes act as a normal click. A lower tolerance means fewer accidental matches, but shapes must be drawn more precisely. Strokes that match no shape, or a shape without an action, also act as a normal click.": "Daha kısa çizgiler normal tıklama gibi davranır. Düşük tolerans yanlışlıkla eşleşmeyi azaltır ama şekillerin daha özenli çizilmesi gerekir. Hiçbir şekle uymayan ya da eylemi olmayan bir şekle uyan çizgiler de normal tıklama gibi davranır.",
     "Show": "Göster",
     "Sound and haptics": "Ses ve dokunsal geri bildirim",
     "Test area": "Deneme alanı",
@@ -293,12 +292,9 @@ TR = {
     "Calibrate again if gestures are missed or happen by accident.": "Jestler kaçırılıyor ya da istemeden tetikleniyorsa yeniden kalibre edin.",
     "Calibrate…": "Kalibre Et…",
     "Calibration": "Kalibrasyon",
-    "Calibration fits recognition to the way you draw. Manual settings are in Advanced.": "Kalibrasyon, tanımayı sizin çizim şeklinize uydurur. Elle yapılan ayarlar Gelişmiş bölümündedir.",
     "Draw each shape twice, the way you normally would. mgestures adjusts itself to your hand.": "Her şekli normalde nasıl çiziyorsanız öyle, ikişer kez çizin. mgestures kendini elinize göre ayarlar.",
-    "Draw with the left mouse button, from the dot in the direction of the arrow.": "Sol fare tuşuyla, noktadan başlayıp ok yönünde çizin.",
     "Draw “%@”": "“%@” çizin",
     "Fit it to your hand": "Elinize uydurun",
-    "Manual settings for troubleshooting. Calibration in Recognition sets these for you.": "Sorun giderme için elle ayarlar. Tanıma bölümündeki kalibrasyon bunları sizin için ayarlar.",
     "Optional, about 30 seconds: draw four shapes twice and mgestures tunes recognition to your strokes.": "İsteğe bağlı, yaklaşık 30 saniye: dört şekli ikişer kez çizin, mgestures tanımayı çizgilerinize göre ayarlasın.",
     "Personal examples": "Kişisel örnekler",
     "Recognition is now fitted to your strokes. Your drawings are also kept as examples, so shapes are recognized the way you draw them.": "Tanıma artık çizgilerinize göre ayarlandı. Çizimleriniz örnek olarak da saklanır; şekiller sizin çizdiğiniz gibi tanınır.",
@@ -309,6 +305,12 @@ TR = {
     "Fitted to your strokes": "Çizgilerinize göre ayarlandı",
     "Using the standard settings": "Standart ayarlar kullanılıyor",
     "%d strokes": "%d çizgi",
+
+    # Real-button calibration
+    "Draw a few shapes with your trigger button and mgestures learns how you draw them: how precisely, and how long your strokes are.": "Tetik tuşunuzla birkaç şekil çizin; mgestures onları nasıl çizdiğinizi öğrensin: ne kadar özenli ve ne uzunlukta.",
+    "Hold the %@ and draw the shape anywhere on the screen, as you normally would. Nothing runs while calibrating.": "%@ basılıyken şekli ekranın herhangi bir yerinde, her zamanki gibi çizin. Kalibrasyon sırasında hiçbir eylem çalışmaz.",
+    "Shorter strokes act as a normal click. A lower tolerance means fewer accidental matches, but shapes must be drawn more precisely.": "Daha kısa çizgiler normal tıklama gibi davranır. Düşük tolerans yanlışlıkla eşleşmeyi azaltır ama şekillerin daha özenli çizilmesi gerekir.",
+    "Your last stroke": "Son çizginiz",
 }
 
 

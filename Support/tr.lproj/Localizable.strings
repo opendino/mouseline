@@ -36,7 +36,6 @@
 "Calibrate Gestures" = "Jestleri Kalibre Et";
 "Calibrate…" = "Kalibre Et…";
 "Calibration" = "Kalibrasyon";
-"Calibration fits recognition to the way you draw. Manual settings are in Advanced." = "Kalibrasyon, tanımayı sizin çizim şeklinize uydurur. Elle yapılan ayarlar Gelişmiş bölümündedir.";
 "Cancel" = "Vazgeç";
 "Cancelled" = "İptal edildi";
 "Center window" = "Pencereyi ortala";
@@ -73,13 +72,13 @@
 "Down" = "Aşağı";
 "Down-Left" = "Aşağı-Sol";
 "Down-Left Rev" = "Aşağı-Sol (Ters)";
+"Draw a few shapes with your trigger button and mgestures learns how you draw them: how precisely, and how long your strokes are." = "Tetik tuşunuzla birkaç şekil çizin; mgestures onları nasıl çizdiğinizi öğrensin: ne kadar özenli ve ne uzunlukta.";
 "Draw a longer stroke." = "Daha uzun bir çizgi çizin.";
 "Draw a shape to see how it is recognized. Here you draw with the left mouse button and nothing is run." = "Nasıl tanındığını görmek için bir şekil çizin. Burada sol fare tuşuyla çizersiniz ve hiçbir eylem çalışmaz.";
 "Draw each shape twice, the way you normally would. mgestures adjusts itself to your hand." = "Her şekli normalde nasıl çiziyorsanız öyle, ikişer kez çizin. mgestures kendini elinize göre ayarlar.";
 "Draw here with the left mouse button" = "Buraya sol fare tuşuyla çizin";
 "Draw shapes with the mouse to control windows, apps and more." = "Fareyle şekiller çizerek pencereleri, uygulamaları ve daha fazlasını yönetin.";
 "Draw the shape once, in the direction you will draw it with the trigger button." = "Şekli bir kez, tetik tuşuyla çizeceğiniz yönde çizin.";
-"Draw with the left mouse button, from the dot in the direction of the arrow." = "Sol fare tuşuyla, noktadan başlayıp ok yönünde çizin.";
 "Draw your own shape and give it an action." = "Kendi şeklinizi çizin ve ona bir eylem atayın.";
 "Draw “%@”" = "“%@” çizin";
 "Evaluate for" = "Değerlendirilecek yer";
@@ -105,6 +104,7 @@
 "Hide app" = "Uygulamayı gizle";
 "Hold a mouse button, draw a shape, release." = "Bir fare tuşunu basılı tutun, bir şekil çizin, bırakın.";
 "Hold still to open the context menu" = "Hareketsiz basılı tutunca bağlam menüsünü aç";
+"Hold the %@ and draw the shape anywhere on the screen, as you normally would. Nothing runs while calibrating." = "%@ basılıyken şekli ekranın herhangi bir yerinde, her zamanki gibi çizin. Kalibrasyon sırasında hiçbir eylem çalışmaz.";
 "Hold the middle mouse button and draw a line to the left or right: the focused window snaps to that half of the screen. Up maximizes, down minimizes." = "Orta fare tuşunu basılı tutup sola ya da sağa bir çizgi çizin: etkin pencere ekranın o yarısına yerleşir. Yukarı büyütür, aşağı küçültür.";
 "Hold the middle mouse button and draw a shape. The dot marks where the stroke starts." = "Orta fare tuşunu basılı tutup bir şekil çizin. Nokta, çizginin başladığı yeri gösterir.";
 "Hold the right mouse button and draw a line to the left or right: the focused window snaps to that half of the screen. Up maximizes, down minimizes." = "Sağ fare tuşunu basılı tutup sola ya da sağa bir çizgi çizin: etkin pencere ekranın o yarısına yerleşir. Yukarı büyütür, aşağı küçültür.";
@@ -124,7 +124,6 @@
 "Licensed under the Apache License 2.0." = "Apache Lisansı 2.0 ile lisanslanmıştır.";
 "Lock screen" = "Ekranı kilitle";
 "macOS asks once for each app the script controls (Privacy & Security → Automation)." = "macOS, scriptin denetlediği her uygulama için bir kez izin ister (Gizlilik ve Güvenlik → Otomasyon).";
-"Manual settings for troubleshooting. Calibration in Recognition sets these for you." = "Sorun giderme için elle ayarlar. Tanıma bölümündeki kalibrasyon bunları sizin için ayarlar.";
 "Maximize window" = "Pencereyi büyüt";
 "Media" = "Medya";
 "mgestures" = "mgestures";
@@ -189,7 +188,7 @@
 "Shapes" = "Şekiller";
 "Shapes set to Default use the All Apps setting. Choose “No action” to turn a shape off in %@." = "Varsayılan olarak bırakılan şekiller Tüm Uygulamalar ayarını kullanır. Bir şekli %@ içinde kapatmak için “Eylem yok”u seçin.";
 "Shortcuts, apps, URLs, commands and scripts can be set up in the list after saving." = "Kısayol, uygulama, URL, komut ve script ayrıntıları kaydettikten sonra listeden ayarlanabilir.";
-"Shorter strokes act as a normal click. A lower tolerance means fewer accidental matches, but shapes must be drawn more precisely. Strokes that match no shape, or a shape without an action, also act as a normal click." = "Daha kısa çizgiler normal tıklama gibi davranır. Düşük tolerans yanlışlıkla eşleşmeyi azaltır ama şekillerin daha özenli çizilmesi gerekir. Hiçbir şekle uymayan ya da eylemi olmayan bir şekle uyan çizgiler de normal tıklama gibi davranır.";
+"Shorter strokes act as a normal click. A lower tolerance means fewer accidental matches, but shapes must be drawn more precisely." = "Daha kısa çizgiler normal tıklama gibi davranır. Düşük tolerans yanlışlıkla eşleşmeyi azaltır ama şekillerin daha özenli çizilmesi gerekir.";
 "Show" = "Göster";
 "Show desktop" = "Masaüstünü göster";
 "Show gesture name after drawing" = "Çizdikten sonra jestin adını göster";
@@ -247,6 +246,7 @@
 "Window" = "Pencere";
 "Window, media and system actions, scripts" = "Pencere, medya ve sistem eylemleri, betikler";
 "With a required modifier key, gestures start only while it is held; otherwise the button works normally. The on/off shortcut works everywhere." = "Gerekli bir değiştirici tuş seçilirse jestler yalnızca o tuş basılıyken başlar; aksi hâlde fare tuşu normal çalışır. Aç/kapat kısayolu her yerde çalışır.";
+"Your last stroke" = "Son çizginiz";
 "“%@” has no action — normal right click" = "“%@” için eylem yok — normal sağ tık";
 "“%@” → %@" = "“%@” → %@";
 "⇧ Shift" = "⇧ Shift";

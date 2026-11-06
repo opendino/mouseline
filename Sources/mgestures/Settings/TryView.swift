@@ -50,15 +50,6 @@ struct TryView: View {
                 }
             }
 
-            Section {
-                CalibrationStatus(store: store)
-                    .padding(.vertical, 4)
-            } header: {
-                Text("Calibration")
-            } footer: {
-                Text("Calibration fits recognition to the way you draw. Manual settings are in Advanced.")
-                    .footerStyle()
-            }
         }
         .formStyle(.grouped)
     }

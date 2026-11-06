@@ -255,13 +255,18 @@ final class GestureMonitor {
         if config.enabled && modifierHeld && config.needsTargetApp {
             bundleID = AppLocator.application(at: event.location)?.bundleIdentifier
         }
-        let active = config.enabled && modifierHeld && !config.isExcluded(bundleID: bundleID)
+        var active = config.enabled && modifierHeld && !config.isExcluded(bundleID: bundleID)
+        var settings = config.trackerSettings(in: bundleID)
+        // While calibrating, every stroke of the trigger button is measured, wherever it is
+        // drawn and even if gestures are off; nothing runs.
+        if CalibrationCapture.shared.isActive {
+            active = true
+            settings.captureStrokes = true
+        }
 
         pressButton = button
         pressBundleID = bundleID
-        let output = tracker.rightMouseDown(
-            at: point(event), settings: config.trackerSettings(in: bundleID), active: active
-        )
+        let output = tracker.rightMouseDown(at: point(event), settings: settings, active: active)
         if output.decision == .swallow {
             downEvent = event.copy()
             scheduleHoldTimer(delay: config.holdDelay, enabled: config.holdToOpenMenu)
@@ -302,6 +307,9 @@ final class GestureMonitor {
                 // Run the action after returning, so the tap callback stays fast.
                 let bundleID = pressBundleID
                 DispatchQueue.main.async { [onGesture] in onGesture(id, distance, bundleID) }
+            case .capturedStroke(let stroke):
+                downEvent = nil
+                DispatchQueue.main.async { CalibrationCapture.shared.deliver(stroke) }
             case .cancelled:
                 downEvent = nil
                 DispatchQueue.main.async { [onCancel] in onCancel() }
@@ -384,4 +392,21 @@ extension RGBAColor {
         let c = color.usingColorSpace(.sRGB) ?? .orange
         self.init(red: c.redComponent, green: c.greenComponent, blue: c.blueComponent, alpha: c.alphaComponent)
     }
+}
+
+/// Routes trigger-button strokes to the calibration screen while it is open.
+@MainActor
+final class CalibrationCapture {
+    static let shared = CalibrationCapture()
+
+    private var handler: (([StrokePoint]) -> Void)?
+
+    var isActive: Bool { handler != nil }
+
+    /// Starts sending strokes to `handler` instead of recognizing them.
+    func begin(_ handler: @escaping ([StrokePoint]) -> Void) { self.handler = handler }
+
+    func end() { handler = nil }
+
+    func deliver(_ stroke: [StrokePoint]) { handler?(stroke) }
 }

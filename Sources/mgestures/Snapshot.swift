@@ -43,7 +43,7 @@ enum Snapshot {
             ("settings-appearance", .appearance),
             ("settings-recognition", .recognition),
             ("settings-excluded", .excludedApps),
-            ("settings-advanced", .advanced),
+            ("settings-calibration", .calibration),
             ("settings-app", .app("com.apple.finder")),
         ]
         for (name, pane) in panes {
@@ -62,7 +62,7 @@ enum Snapshot {
         render(OnboardingView(store: store, state: onboardingState, openSettings: {}, close: {}), size: nil, name: "onboarding-done", in: folder, transparent: true)
 
         render(RecordGestureView(store: store, isPresented: .constant(true)), size: nil, name: "record", in: folder)
-        render(CalibrationView(store: store, isPresented: .constant(true)), size: nil, name: "calibration", in: folder)
+        render(CalibrationView(store: store, state: state, isPresented: .constant(true)), size: nil, name: "calibration", in: folder)
         render(
             HUDView(title: L("Left"), detail: L(ActionKind.tileLeft.title), symbol: ActionKind.tileLeft.symbol)
                 .padding(30)
