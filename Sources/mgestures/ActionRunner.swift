@@ -27,11 +27,8 @@ enum ActionRunner {
         case .quitApp: SystemActions.quitFrontmostApp()
         case .openApplication: openApplication(action)
         // Navigation
-        case .navigateBack:
-            // Mouse button 4 ("back"): works in browsers and Finder regardless of their keyboard shortcuts.
-            postMouseButton(3)
-        case .navigateForward:
-            postMouseButton(4)
+        case .navigateBack: navigate(back: true)
+        case .navigateForward: navigate(back: false)
         case .openURL:
             guard let url = URL(string: action.url.trimmingCharacters(in: .whitespaces)), url.scheme != nil else {
                 log.error("Invalid URL: \(action.url, privacy: .public)")
@@ -57,6 +54,25 @@ enum ActionRunner {
             runShell(action.command)
         case .appleScript:
             runAppleScript(action.script)
+        }
+    }
+
+    /// Apple's own apps ignore the extra mouse buttons but all use ⌘[ / ⌘] for back and
+    /// forward. Everywhere else mouse buttons 4/5 are sent: browsers and most other apps
+    /// understand them, and they do not collide with editor shortcuts (⌘[ is "outdent" there).
+    private static let keyboardNavigationApps: Set<String> = [
+        "com.apple.Safari", "com.apple.SafariTechnologyPreview", "com.apple.finder",
+        "com.apple.systempreferences", "com.apple.AppStore", "com.apple.Music",
+        "com.apple.podcasts", "com.apple.TV", "com.apple.helpviewer",
+    ]
+
+    private static func navigate(back: Bool) {
+        if let id = NSWorkspace.shared.frontmostApplication?.bundleIdentifier, keyboardNavigationApps.contains(id) {
+            // kVK_ANSI_LeftBracket / kVK_ANSI_RightBracket
+            postShortcut(KeyCombo(keyCode: back ? 0x21 : 0x1E, modifiers: KeyCombo.commandMask, display: back ? "⌘[" : "⌘]"))
+        } else {
+            // Mouse buttons 4/5 are numbered 3/4 in CGEvent.
+            postMouseButton(back ? 3 : 4)
         }
     }
 

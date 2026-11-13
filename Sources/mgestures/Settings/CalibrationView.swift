@@ -81,6 +81,7 @@ struct CalibrationView: View {
         .padding(24)
         .frame(width: 500)
         .onAppear {
+            let model = model
             CalibrationCapture.shared.begin { [weak model, store] stroke in
                 model?.submit(stroke, templates: store.config.shapeTemplates, config: store.config)
             }

@@ -62,7 +62,7 @@ final class GestureMonitor {
         observeCustomGestures()
     }
 
-    /// Keeps the recognizer's templates in sync with the custom gestures.
+    /// Keeps the recognizer's templates in sync with the custom gestures and calibration samples.
     ///
     /// `@Published` emits before the property is stored, so the new value is taken from the
     /// publisher, not from `store.config`. While a press is being tracked the change is
@@ -72,7 +72,8 @@ final class GestureMonitor {
     /// consistent from start to end.)
     private func observeCustomGestures() {
         store.$config
-            .removeDuplicates { $0.customGestures == $1.customGestures }
+            // Templates = built-in shapes + custom gestures + personal calibration samples.
+            .removeDuplicates { $0.customGestures == $1.customGestures && $0.personalSamples == $1.personalSamples }
             .map(\.allTemplates)
             .sink { [weak self] templates in
                 MainActor.assumeIsolated {

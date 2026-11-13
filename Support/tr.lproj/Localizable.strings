@@ -24,7 +24,7 @@
 "Appearance" = "Görünüm";
 "Application path" = "Uygulama yolu";
 "Arguments (optional)" = "Argümanlar (isteğe bağlı)";
-"Back (mouse button 4)" = "Geri (fare tuşu 4)";
+"Back" = "Geri";
 "Basic" = "Temel";
 "C" = "C";
 "C Mirror" = "C (Ayna)";
@@ -87,7 +87,7 @@
 "Fit it to your hand" = "Elinize uydurun";
 "Fitted to your strokes" = "Çizgilerinize göre ayarlandı";
 "Force Touch trackpads only" = "Yalnızca Force Touch izleme dörtgenlerinde";
-"Forward (mouse button 5)" = "İleri (fare tuşu 5)";
+"Forward" = "İleri";
 "Gamma" = "Gama";
 "Gamma Rev" = "Gama (Ters)";
 "General" = "Genel";
