@@ -308,9 +308,36 @@ TR = {
 
     # Real-button calibration
     "Draw a few shapes with your trigger button and mgestures learns how you draw them: how precisely, and how long your strokes are.": "Tetik tuşunuzla birkaç şekil çizin; mgestures onları nasıl çizdiğinizi öğrensin: ne kadar özenli ve ne uzunlukta.",
-    "Hold the %@ and draw the shape anywhere on the screen, as you normally would. Nothing runs while calibrating.": "%@ basılıyken şekli ekranın herhangi bir yerinde, her zamanki gibi çizin. Kalibrasyon sırasında hiçbir eylem çalışmaz.",
     "Shorter strokes act as a normal click. A lower tolerance means fewer accidental matches, but shapes must be drawn more precisely.": "Daha kısa çizgiler normal tıklama gibi davranır. Düşük tolerans yanlışlıkla eşleşmeyi azaltır ama şekillerin daha özenli çizilmesi gerekir.",
     "Your last stroke": "Son çizginiz",
+
+    # Audit fixes
+    "Hold the right mouse button and draw the shape anywhere on the screen, as you normally would. Nothing runs while calibrating.": "Sağ fare tuşu basılıyken şekli ekranın herhangi bir yerinde, her zamanki gibi çizin. Kalibrasyon sırasında hiçbir eylem çalışmaz.",
+    "Hold the middle mouse button and draw the shape anywhere on the screen, as you normally would. Nothing runs while calibrating.": "Orta fare tuşu basılıyken şekli ekranın herhangi bir yerinde, her zamanki gibi çizin. Kalibrasyon sırasında hiçbir eylem çalışmaz.",
+    "Help": "Yardım",
+    "Custom Gesture": "Özel Jest",
+    "Too short — acts as a normal middle click": "Çok kısa — normal orta tık gibi davranır",
+    "No shape within tolerance — normal middle click": "Tolerans içinde şekil yok — normal orta tık",
+    "“%@” has no action — normal middle click": "“%@” için eylem yok — normal orta tık",
+    "Reset recognition?": "Tanıma sıfırlansın mı?",
+    "Your personal examples are removed and the minimum gesture length and recognition tolerance go back to their defaults. You can calibrate again at any time.": "Kişisel örnekleriniz silinir; en kısa jest uzunluğu ve tanıma toleransı varsayılan değerlerine döner. İstediğiniz zaman yeniden kalibre edebilirsiniz.",
+    "This file is not an mgestures settings file.": "Bu dosya bir mgestures ayar dosyası değil.",
+    "Replace all settings?": "Tüm ayarlar değiştirilsin mi?",
+    "Your current gestures, custom shapes, app settings and exclusions are replaced by the ones in this file. Export first if you want to keep them.": "Mevcut jestleriniz, özel şekilleriniz, uygulama ayarlarınız ve hariç tutulanlar bu dosyadakilerle değiştirilir. Saklamak istiyorsanız önce dışa aktarın.",
+    "Import": "İçe Aktar",
+    "Allow mgestures in System Settings → General → Login Items.": "mgestures'a Sistem Ayarları → Genel → Giriş Öğeleri bölümünden izin verin.",
+    "Open Login Items Settings…": "Giriş Öğeleri Ayarlarını Aç…",
+    "Close Window": "Pencereyi Kapat",
+    "Edit": "Düzen",
+    "Undo": "Geri Al",
+    "Redo": "Yinele",
+    "Cut": "Kes",
+    "Copy": "Kopyala",
+    "Paste": "Yapıştır",
+    "Select All": "Tümünü Seç",
+    "Settings cannot be saved": "Ayarlar kaydedilemiyor",
+    "mgestures cannot write to %@. Changes you make are lost when the app quits.": "mgestures, %@ klasörüne yazamıyor. Yaptığınız değişiklikler uygulamadan çıkıldığında kaybolur.",
+    "Could not open the copy in Applications: %@": "Uygulamalar klasöründeki kopya açılamadı: %@",
 }
 
 

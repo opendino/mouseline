@@ -18,7 +18,9 @@ enum AppMover {
     /// True for a real .app bundle (not `swift run`).
     static var isAppBundle: Bool { Bundle.main.bundleURL.pathExtension == "app" }
 
-    static func moveToApplicationsAndRelaunch() throws {
+    /// Copies the app, launches the copy and quits. `onRelaunchError` reports a launch that
+    /// failed after the copy succeeded (e.g. blocked by Gatekeeper); this copy keeps running.
+    static func moveToApplicationsAndRelaunch(onRelaunchError: @escaping @MainActor @Sendable (Error) -> Void) throws {
         let source = Bundle.main.bundleURL
         let destination = URL(fileURLWithPath: "/Applications").appendingPathComponent(source.lastPathComponent)
         let fm = FileManager.default
@@ -26,7 +28,9 @@ enum AppMover {
             try fm.trashItem(at: destination, resultingItemURL: nil)
         }
         try fm.copyItem(at: source, to: destination)
+        removeQuarantine(from: destination)
         log.info("Copied app to \(destination.path, privacy: .public)")
+        let removeOriginal = canTrashOriginal(source)
 
         let configuration = NSWorkspace.OpenConfiguration()
         configuration.createsNewApplicationInstance = true
@@ -35,11 +39,46 @@ enum AppMover {
             DispatchQueue.main.async {
                 if let error {
                     log.error("Relaunch failed: \(error.localizedDescription, privacy: .public)")
+                    onRelaunchError(error)
                     return
+                }
+                // Otherwise Spotlight or Launchpad can later start the stale copy, whose own
+                // "Move" would replace the installed app with it. A running app's bundle can
+                // go to the Trash safely.
+                if removeOriginal {
+                    do {
+                        try FileManager.default.trashItem(at: source, resultingItemURL: nil)
+                    } catch {
+                        log.error("Could not trash the original copy: \(error.localizedDescription, privacy: .public)")
+                    }
                 }
                 NSApp.terminate(nil)
             }
         }
+    }
+
+    /// `copyItem` keeps extended attributes, so a downloaded copy would still be quarantined
+    /// in /Applications and run translocated again (from a random read-only path), making
+    /// the welcome guide offer the move over and over. Finder drops the attribute on a
+    /// move; do the same. Errors (mostly "no such attribute") are irrelevant here.
+    private static func removeQuarantine(from bundle: URL) {
+        var paths = [bundle.path]
+        if let items = FileManager.default.enumerator(at: bundle, includingPropertiesForKeys: nil) {
+            for case let item as URL in items { paths.append(item.path) }
+        }
+        for path in paths {
+            _ = removexattr(path, "com.apple.quarantine", XATTR_NOFOLLOW)
+        }
+    }
+
+    /// Only a copy the user put somewhere writable is removed: not a translocated copy
+    /// (a read-only mirror of the download), not one on a disk image or other read-only
+    /// volume, and never one already in an Applications folder.
+    private static func canTrashOriginal(_ source: URL) -> Bool {
+        let path = source.resolvingSymlinksInPath().path
+        if path.contains("/AppTranslocation/") || isInApplicationsFolder { return false }
+        if (try? source.resourceValues(forKeys: [.volumeIsReadOnlyKey]))?.volumeIsReadOnly == true { return false }
+        return FileManager.default.isWritableFile(atPath: source.deletingLastPathComponent().path)
     }
 }
 
@@ -55,16 +94,29 @@ enum SingleInstance {
         func others() -> [NSRunningApplication] {
             NSRunningApplication.runningApplications(withBundleIdentifier: id).filter { $0.processIdentifier != me && !$0.isTerminated }
         }
+        // Exactly one copy must survive when two start at the same moment (say, a login item
+        // and a restored window): the one launched first wins, ties go to the lower pid.
+        let myLaunch = NSRunningApplication.current.launchDate ?? .distantFuture
+        func winner() -> NSRunningApplication? {
+            others().first { other in
+                let launch = other.launchDate ?? .distantFuture
+                return launch < myLaunch || (launch == myLaunch && other.processIdentifier < me)
+            }
+        }
         // After "Move to Applications" the old copy quits right after launching us; give it a moment.
         let deadline = Date().addingTimeInterval(CommandLine.arguments.contains(relaunchArgument) ? 5 : 1)
-        while !others().isEmpty && Date() < deadline {
+        while winner() != nil && Date() < deadline {
             RunLoop.current.run(until: Date().addingTimeInterval(0.1))
         }
-        if let other = others().first {
+        guard let other = winner() else { return true }
+        // A menu bar app usually has no window, so activate() would show nothing. Opening its
+        // bundle sends it a reopen event instead, and it answers by showing Settings.
+        if let url = other.bundleURL {
+            NSWorkspace.shared.openApplication(at: url, configuration: NSWorkspace.OpenConfiguration(), completionHandler: nil)
+        } else {
             other.activate()
-            return false
         }
-        return true
+        return false
     }
 }
 
@@ -332,8 +384,11 @@ final class OnboardingModel: ObservableObject {
     }
 
     func move() {
+        moveError = nil
         do {
-            try AppMover.moveToApplicationsAndRelaunch()
+            try AppMover.moveToApplicationsAndRelaunch { [weak self] error in
+                self?.moveError = LF("Could not open the copy in Applications: %@", error.localizedDescription)
+            }
         } catch {
             moveError = LF("Could not move the app: %@", error.localizedDescription)
         }

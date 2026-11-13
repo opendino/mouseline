@@ -32,8 +32,12 @@ enum SystemActions {
     /// Posts ⌃⌘Q, the system "Lock Screen" shortcut (also in the Apple menu).
     /// Unlike the private `SACLockScreenImmediate` API this needs nothing beyond the
     /// Accessibility permission the app already has for posting events.
+    ///
+    /// The shortcut is matched on the character typed, so the key that types "q" on the
+    /// current layout is used: on Turkish F the US Q key types "f" (⌃⌘F is full screen), and
+    /// on AZERTY "q" is where US layouts have A.
     static func lockScreen() {
-        let keyQ: CGKeyCode = 0x0C // kVK_ANSI_Q
+        let keyQ = KeyboardLayout.keyCode(for: "q") ?? 0x0C // kVK_ANSI_Q
         let source = CGEventSource(stateID: .hidSystemState)
         let flags = CGEventFlags(rawValue: KeyCombo.controlMask | KeyCombo.commandMask)
         for keyDown in [true, false] {
@@ -77,17 +81,38 @@ enum SystemActions {
     // MARK: - Helpers
 
     /// Starts a helper executable without waiting for it; output is discarded.
-    static func launch(_ path: String, arguments: [String]) {
+    ///
+    /// With `logFailures`, a non-zero exit is logged together with the end of what the
+    /// helper wrote to standard error (osascript reports script errors there).
+    static func launch(_ path: String, arguments: [String], logFailures: Bool = false) {
         let process = Process()
         process.executableURL = URL(fileURLWithPath: path)
         process.arguments = arguments
         process.standardInput = FileHandle.nullDevice
         process.standardOutput = FileHandle.nullDevice
-        process.standardError = FileHandle.nullDevice
+        let errorPipe: Pipe? = logFailures ? Pipe() : nil
+        if let errorPipe {
+            process.standardError = errorPipe
+        } else {
+            process.standardError = FileHandle.nullDevice
+        }
         do {
             try process.run()
         } catch {
             log.error("Could not start \(path, privacy: .public): \(error.localizedDescription, privacy: .public)")
+            return
+        }
+        guard let errorPipe else { return }
+        let name = URL(fileURLWithPath: path).lastPathComponent
+        // Read on a background thread until the helper exits: draining the pipe as it goes
+        // means a chatty helper can never block on a full pipe buffer.
+        DispatchQueue.global(qos: .utility).async {
+            let data = errorPipe.fileHandleForReading.readDataToEndOfFile()
+            process.waitUntilExit()
+            guard process.terminationStatus != 0 else { return }
+            let output = String(decoding: data.suffix(2000), as: UTF8.self)
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+            log.error("\(name, privacy: .public) exited with status \(process.terminationStatus): \(output, privacy: .public)")
         }
     }
 }

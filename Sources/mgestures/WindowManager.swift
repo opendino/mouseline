@@ -129,18 +129,27 @@ enum WindowManager {
 
     // MARK: - Accessibility helpers
 
+    /// Every call here runs on the main thread, which also services the event taps, so a hung
+    /// app gets half a second per call instead of the default six.
+    private static let messagingTimeout: Float = 0.5
+
     private static func focusedWindow() -> AXUIElement? {
         guard let app = NSWorkspace.shared.frontmostApplication else { return nil }
-        return element(kAXFocusedWindowAttribute, of: AXUIElementCreateApplication(app.processIdentifier))
+        let appElement = AXUIElementCreateApplication(app.processIdentifier)
+        AXUIElementSetMessagingTimeout(appElement, messagingTimeout)
+        return element(kAXFocusedWindowAttribute, of: appElement)
     }
 
-    /// Reads an attribute whose value is itself an AX element (window, button, …).
+    /// Reads an attribute whose value is itself an AX element (window, button, …). The result
+    /// gets the same short messaging timeout as the app element.
     private static func element(_ attribute: String, of parent: AXUIElement) -> AXUIElement? {
         var value: CFTypeRef?
         guard AXUIElementCopyAttributeValue(parent, attribute as CFString, &value) == .success,
               let value, CFGetTypeID(value) == AXUIElementGetTypeID()
         else { return nil }
-        return (value as! AXUIElement)
+        let element = value as! AXUIElement
+        AXUIElementSetMessagingTimeout(element, messagingTimeout)
+        return element
     }
 
     /// Reads an AXValue-typed attribute (position, size); nil if missing or of another type.

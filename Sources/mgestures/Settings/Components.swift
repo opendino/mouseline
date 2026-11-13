@@ -62,10 +62,7 @@ struct ActionDetailView: View {
                 HStack {
                     TextField("Application path", text: $action.appPath)
                     Button("Choose…") {
-                        if let app = AppInfo.chooseApps(multiple: false).first,
-                           let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: app.bundleID) {
-                            action.appPath = url.path
-                        }
+                        if let url = AppInfo.chooseAppURL() { action.appPath = url.path }
                     }
                 }
                 TextField("Arguments (optional)", text: $action.appArguments)
@@ -306,12 +303,21 @@ struct AppScopePicker: View {
     @Binding var scope: String?
 
     var body: some View {
-        Picker(title, selection: $scope) {
+        Picker(title, selection: validScope) {
             Text("All Apps").tag(String?.none)
             ForEach(AppScopePicker.apps(in: store.config), id: \.bundleID) { app in
                 Text(verbatim: app.name).tag(Optional(app.bundleID))
             }
         }
+    }
+
+    /// Reads an app that no longer has its own gestures (removed while selected here) as
+    /// All Apps, which is what the results then use, instead of an empty selection.
+    private var validScope: Binding<String?> {
+        Binding(
+            get: { scope.flatMap { store.config.appBindings[$0] != nil ? $0 : nil } },
+            set: { scope = $0 }
+        )
     }
 
     static func apps(in config: AppConfig) -> [ExcludedApp] {
@@ -322,8 +328,11 @@ struct AppScopePicker: View {
 }
 
 extension AppConfig {
-    /// Name shown to the user for a gesture, localized for built-in shapes.
+    /// Name shown to the user for a gesture, localized for built-in shapes. A custom gesture
+    /// whose name was cleared in the list gets a placeholder, so titles and prompts are not blank.
     func localizedName(for gestureID: String) -> String {
-        CustomGesture.isCustomID(gestureID) ? displayName(for: gestureID) : L(gestureID)
+        guard CustomGesture.isCustomID(gestureID) else { return L(gestureID) }
+        let name = displayName(for: gestureID).trimmingCharacters(in: .whitespacesAndNewlines)
+        return name.isEmpty ? L("Custom Gesture") : name
     }
 }

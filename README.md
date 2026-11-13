@@ -22,14 +22,20 @@ music pauses. A short click still works normally.
   but Tile Left everywhere else), or turn it off there.
 - **Custom gestures**: draw your own shape in Settings and give it a name and an action.
   mgestures warns you when it is too similar to an existing one.
-- **Try tab**: draw a stroke and see the closest shapes, their distances, and what would
-  happen — without running anything.
+- **Calibration**: draw Left, Right, Up and Down twice each with your real trigger
+  button, anywhere on screen. mgestures fits the recognition tolerance and the minimum
+  gesture length to your hand and keeps your strokes as personal examples, so shapes are
+  recognized the way you draw them. Nothing runs while the calibration sheet is open.
+- **Recognition test area**: draw a stroke with the left mouse button and see the closest
+  shapes, their distances, and what would happen — without running anything.
 - **Trigger options**: right or middle button, an optional required modifier key
   (⌥ ⌃ ⌘ ⇧), and a global shortcut that turns gestures on and off.
 - **Feedback**: optional sound and haptic feedback (Force Touch trackpads) on a recognized
   gesture.
 - **English and Turkish** interface, following the system language.
-- Settings can be exported, imported and reset.
+- **Liquid Glass** on macOS 26 (settings sidebar, buttons, HUD, the lens at the tip of
+  the trail); blur materials and bordered buttons on macOS 13–15.
+- Settings can be exported, imported and reset (Settings → General).
 
 ## Privacy
 
@@ -45,14 +51,64 @@ combination.
 |---|---|
 | Window | Tile left / right / top / bottom, maximize, center, move to next display, toggle full screen, minimize, close |
 | App | Hide, quit (Finder is hidden instead of quit), open an application — optionally a new instance with command-line arguments |
-| Navigation | Back / Forward (mouse buttons 4 / 5, which browsers and Finder understand regardless of their keyboard shortcuts), open a URL |
+| Navigation | Back / Forward, open a URL |
 | System | Mission Control, show desktop, lock screen, sleep display |
 | Media | Play / pause, next / previous track, volume up / down, mute |
 | Custom | Any keyboard shortcut, a shell command (login `zsh`), an AppleScript |
 
 Window actions act on the focused window of the frontmost app.
 
+**Back / Forward** send ⌘[ / ⌘] to Apple apps that ignore the extra mouse buttons
+(Safari, Safari Technology Preview, Finder, System Settings, App Store, Music, Podcasts, TV,
+Help Viewer) and mouse buttons 4 / 5 everywhere else: browsers and most other apps
+understand them, and they do not collide with editor shortcuts (⌘[ is "outdent" there).
+The frontmost app decides.
+
 Default bindings: **Left** / **Right** tile the window, **Up** maximizes, **Down** minimizes.
+
+## Installation
+
+Requirements: macOS 13 or later, on Apple Silicon or Intel.
+
+1. Download `mgestures-<version>.dmg` from the releases page.
+2. Open it and drag **mgestures** onto the **Applications** folder next to it.
+3. Eject the disk image and open mgestures from `/Applications`. It appears in the menu
+   bar, not in the Dock.
+4. The welcome guide walks you through the rest: grant **Accessibility** access when macOS
+   asks (or in *System Settings → Privacy & Security → Accessibility*, then switch
+   mgestures on), choose the button you draw with, try a gesture and, optionally,
+   calibrate. Gestures start working a couple of seconds after access is granted.
+
+### If macOS blocks the app
+
+A build that is not notarized by Apple (for example an ad hoc signed test build) is
+stopped by Gatekeeper on first launch with a message that Apple cannot check it for
+malicious software. If you trust the download:
+
+- **macOS 13 and 14**: right-click (or Control-click) mgestures in Applications, choose
+  **Open**, then **Open** again in the dialog.
+- **macOS 15 and later** (right-click → Open no longer skips the check): try to open the
+  app once, then go to *System Settings → Privacy & Security*, scroll to *Security* and
+  click **Open Anyway** next to the mgestures message. Confirm with your password.
+
+You only have to do this once per installed version. Notarized releases open normally.
+
+Builds that are not signed with a Developer ID get a new signature with every release, and
+macOS ties the Accessibility permission to the signature: after updating such a build,
+remove mgestures from the Accessibility list (−) and add it again.
+
+### Uninstalling
+
+1. Quit mgestures (menu bar icon → Quit mgestures). If you turned on *Launch at login*, turn it off
+   first in Settings → General.
+2. Delete `/Applications/mgestures.app`.
+3. Delete the settings folder: `~/Library/Application Support/mgestures`.
+4. Remove mgestures from *System Settings → Privacy & Security → Accessibility* (select it,
+   click −). Optionally, reset its permission from Terminal as well:
+
+   ```bash
+   tccutil reset Accessibility dev.mgestures.app
+   ```
 
 ## Install from source
 
@@ -79,12 +135,14 @@ controls another app; that is a separate, per-app prompt from the Accessibility 
 
 On first launch a welcome guide offers to move the app to `/Applications` (needed for
 "Launch at login"), walks you through the permission and lets you try a gesture.
-Only one copy of mgestures runs at a time: quit the running copy before launching a new build.
+Only one copy of mgestures runs at a time: opening another copy while one runs shows the
+running copy's Settings instead, so quit the running copy before launching a new build.
 
 ### Accessibility permission
 
 mgestures needs **Accessibility** access to see mouse events and to move windows.
-On first launch macOS asks for it; you can also grant it in
+On first launch the welcome guide (or the menu's **Grant Accessibility Access…**) opens
+the system prompt; you can also grant it in
 *System Settings → Privacy & Security → Accessibility*. Gestures start working
 within a couple of seconds after access is granted — no restart needed.
 
@@ -100,7 +158,9 @@ scripts/make-dev-cert.sh
 It creates a self-signed certificate in its own keychain
 (`~/Library/Keychains/mgestures-dev.keychain-db`, added to your keychain search list) and
 leaves your login keychain and trust settings alone. After the first build signed with it,
-grant Accessibility once more; later builds keep the permission. To use another identity,
+grant Accessibility once more; later builds keep the permission. If that keychain drops off
+the search list (for example after a keychain reset), the build signs ad hoc and says so;
+run `scripts/make-dev-cert.sh` again to add it back. To use another identity,
 for example an Apple Development certificate:
 
 ```bash
@@ -117,12 +177,25 @@ fall back to defaults, and an unreadable file is moved aside to `config.broken.j
 Per-app gestures are stored under `appBindings` (bundle id → overrides) and custom shapes
 under `customGestures` (normalized points); deleting a custom shape removes its bindings.
 
-Recognition has two knobs (Settings → General):
+Recognition is easiest to tune with **Settings → Calibration**: click *Calibrate…*, then
+hold your trigger button and draw Left, Right, Up and Down twice each, anywhere on the
+screen, the way you normally would. Strokes that are too short or look like another shape
+are rejected with a hint. *Save* stores the fitted values and your strokes as personal
+examples (`personalSamples` in the config). The welcome guide offers the same step.
+
+The fitted values can also be set by hand under *Advanced* in the Calibration pane
+(collapsed by default):
 
 - **Minimum gesture length** — strokes shorter than this are treated as a normal click.
 - **Recognition tolerance** — how far a stroke may deviate from the closest shape. Lower
-  values mean fewer accidental matches but require more precise drawing. The Try tab shows
-  the distances for your own strokes.
+  values mean fewer accidental matches but require more precise drawing.
+
+*Advanced* also shows how many personal examples are stored, and *Reset Recognition*
+goes back to the defaults and removes them. The Recognition pane is a test area that
+shows the distances for your own strokes.
+
+Settings → General shows where the settings file is and has *Export…*, *Import…* and
+*Reset All Settings…*.
 
 ## How recognition works
 
@@ -132,6 +205,9 @@ mgestures uses a rotation-sensitive variant of the
 centered and scaled uniformly (so straight lines stay straight), and compared point by
 point with each template. Rotation is *not* normalized: direction matters, so "Left" and
 "Right" are different gestures.
+
+Personal examples from calibration are added as extra templates for their shape, so a
+stroke is also compared with the way you drew that shape.
 
 The recognizer lives in the `MGesturesCore` library, which has no AppKit dependency and
 is covered by unit tests.
@@ -154,7 +230,7 @@ swift scripts/make-icon.swift Support/AppIcon.icns # regenerate the app icon
 |---|---|---|
 | `CONFIG` | `release` | `release` or `debug` |
 | `ARCHS` | `arm64 x86_64` | Architectures to build, space-separated. With more than one, the script builds them in one `swift build` when the toolchain supports it, otherwise one by one and merges them with `lipo` |
-| `SIGN_IDENTITY` | local dev certificate if present, else `-` (ad hoc) | Code signing identity (name or SHA-1) |
+| `SIGN_IDENTITY` | local dev certificate if present, else `-` (ad hoc) | Code signing identity (name or SHA-1). A name containing "Developer ID" also gets a secure timestamp, which notarization needs |
 
 To check the interface without clicking through it, render every window to PNG
 (light or dark; nothing is captured and your settings are not touched):
@@ -177,7 +253,7 @@ Sources/MGesturesCore/   recognizer, templates, gesture state machine, configura
 Sources/mgestures/       menu bar app: event tap, trail overlay, actions, settings UI
 Tests/                   unit tests (Swift Testing)
 Support/                 Info.plist, entitlements, app icon, en/tr string tables
-scripts/                 build, test and icon helpers
+scripts/                 build, release, test, string and icon helpers
 ```
 
 ### Coming from the Hammerspoon script?
@@ -195,10 +271,45 @@ Turkish translations live in `scripts/tr_strings.py`, which writes
 placeholder mismatches. To add a language, add a `<lang>.lproj/Localizable.strings` and the
 language code to `CFBundleLocalizations` in `Support/Info.plist`.
 
+## Releasing
+
+`scripts/make-release.sh` builds a universal release app and packs it into
+`dist/mgestures-<version>.dmg` (the app plus a link to `/Applications`). The version is
+`CFBundleShortVersionString` from `Support/Info.plist`; bump it (and `CFBundleVersion`)
+first. The script prints the DMG path and its SHA-256.
+
+For a release users can open without a Gatekeeper warning you need an Apple Developer
+Program membership:
+
+1. Create a **Developer ID Application** certificate (developer.apple.com → Certificates)
+   and install it in your login keychain. `security find-identity -v -p codesigning` shows
+   its full name.
+2. Store notarization credentials in the keychain once, with an app-specific password
+   from appleid.apple.com:
+
+   ```bash
+   xcrun notarytool store-credentials mgestures \
+     --apple-id you@example.com --team-id TEAMID
+   ```
+
+3. Build, sign, notarize and staple:
+
+   ```bash
+   SIGN_IDENTITY="Developer ID Application: Your Name (TEAMID)" \
+   NOTARY_PROFILE=mgestures scripts/make-release.sh
+   ```
+
+Pass the identity by name: Developer ID is recognized from the name, and only then are
+the app and the DMG signed with a secure timestamp. Without `NOTARY_PROFILE` the DMG is
+signed but not notarized, and the script prints the commands to notarize it later.
+Without `SIGN_IDENTITY` the release is signed **ad hoc** (never with the local development
+certificate) and the script warns that it is not notarized: users will have to open it as
+described under [If macOS blocks the app](#if-macos-blocks-the-app).
+
 ## Roadmap
 
-See [docs/FEATURES.md](docs/FEATURES.md). Still open: Developer ID signing and
-notarization, DMG releases with CI, automatic updates, and a Homebrew cask.
+See [docs/FEATURES.md](docs/FEATURES.md). Still open: a first notarized release (needs a
+Developer ID), GitHub Releases with CI, automatic updates, and a Homebrew cask.
 
 ## License
 

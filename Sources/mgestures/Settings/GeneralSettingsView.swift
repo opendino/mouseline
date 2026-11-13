@@ -1,4 +1,5 @@
 import AppKit
+import Combine
 import MGesturesCore
 import ServiceManagement
 import SwiftUI
@@ -6,8 +7,13 @@ import UniformTypeIdentifiers
 
 @MainActor
 final class LoginItemModel: ObservableObject {
-    @Published private(set) var enabled = SMAppService.mainApp.status == .enabled
+    @Published private(set) var enabled = false
+    /// Registered, but turned off in System Settings → Login Items. register() succeeds and the
+    /// toggle would just flip back off, so the pane explains where to allow it.
+    @Published private(set) var needsApproval = false
     @Published private(set) var error: String?
+
+    init() { refresh() }
 
     func set(_ enable: Bool) {
         do {
@@ -16,7 +22,14 @@ final class LoginItemModel: ObservableObject {
         } catch {
             self.error = LF("Could not change the login item: %@", error.localizedDescription)
         }
-        enabled = SMAppService.mainApp.status == .enabled
+        refresh()
+    }
+
+    /// Re-reads the status, which the user can change in System Settings at any time.
+    func refresh() {
+        let status = SMAppService.mainApp.status
+        enabled = status == .enabled
+        needsApproval = status == .requiresApproval
     }
 }
 
@@ -64,6 +77,14 @@ struct GeneralSettingsView: View {
                 if let error = loginItem.error {
                     Text(verbatim: error).font(.caption).foregroundStyle(.red)
                 }
+                if loginItem.needsApproval {
+                    HStack {
+                        Text("Allow mgestures in System Settings → General → Login Items.")
+                            .captionStyle()
+                        Spacer(minLength: 12)
+                        Button("Open Login Items Settings…") { SMAppService.openSystemSettingsLoginItems() }
+                    }
+                }
             }
 
             triggerSection
@@ -71,6 +92,11 @@ struct GeneralSettingsView: View {
             dataSection
         }
         .formStyle(.grouped)
+        // The login item can be allowed or turned off in System Settings while we are open.
+        .onAppear { loginItem.refresh() }
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+            loginItem.refresh()
+        }
     }
 
     private var statusText: String {
@@ -200,8 +226,22 @@ struct GeneralSettingsView: View {
         panel.allowsMultipleSelection = false
         guard panel.runModal() == .OK, let url = panel.url else { return }
         do {
-            var imported = try AppConfig.decode(Data(contentsOf: url))
+            let data = try Data(contentsOf: url)
+            // The decoder fills every missing key with its default, so any other JSON object
+            // would "import" as a full reset. Every export carries a version; require it.
+            guard let object = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                  object["version"] != nil else {
+                Alerts.error(L("Could not import the settings."), info: L("This file is not an mgestures settings file."))
+                return
+            }
+            var imported = try AppConfig.decode(data)
             imported.onboardingCompleted = true
+            let confirmed = Alerts.confirm(
+                L("Replace all settings?"),
+                info: L("Your current gestures, custom shapes, app settings and exclusions are replaced by the ones in this file. Export first if you want to keep them."),
+                confirmTitle: L("Import")
+            )
+            guard confirmed else { return }
             store.config = imported
         } catch {
             Alerts.error(L("Could not import the settings."), info: error.localizedDescription)

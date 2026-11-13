@@ -42,7 +42,7 @@ struct CalibrationSettingsView: View {
                         Text("Shorter strokes act as a normal click. A lower tolerance means fewer accidental matches, but shapes must be drawn more precisely.")
                             .captionStyle()
                         Spacer(minLength: 12)
-                        Button("Reset Recognition") { store.config.resetRecognition() }
+                        Button("Reset Recognition", action: resetRecognition)
                             .glassButtonStyle()
                     }
                 } label: {
@@ -51,5 +51,20 @@ struct CalibrationSettingsView: View {
             }
         }
         .formStyle(.grouped)
+    }
+
+    /// Asks first: the personal examples cannot be brought back except by calibrating again.
+    /// Nothing to ask when the values are already the defaults.
+    private func resetRecognition() {
+        var reset = store.config
+        reset.resetRecognition()
+        guard reset != store.config else { return }
+        let confirmed = Alerts.confirm(
+            L("Reset recognition?"),
+            info: L("Your personal examples are removed and the minimum gesture length and recognition tolerance go back to their defaults. You can calibrate again at any time."),
+            confirmTitle: L("Reset")
+        )
+        guard confirmed else { return }
+        store.config.resetRecognition()
     }
 }

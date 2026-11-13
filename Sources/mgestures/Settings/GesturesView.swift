@@ -252,7 +252,7 @@ struct GestureRow: View {
 
     private func deleteGesture() {
         let confirmed = Alerts.confirm(
-            LF("Delete “%@”?", store.config.displayName(for: id)),
+            LF("Delete “%@”?", store.config.localizedName(for: id)),
             info: L("Its actions are removed too, in all apps."),
             confirmTitle: L("Delete")
         )

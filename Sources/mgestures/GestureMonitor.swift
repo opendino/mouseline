@@ -195,13 +195,7 @@ final class GestureMonitor {
         let output: GestureTracker.Output
         switch type {
         case .tapDisabledByTimeout, .tapDisabledByUserInput:
-            // macOS disables taps that respond too slowly; turn the mouse tap back on.
-            log.notice("Event tap was disabled by the system; re-enabling")
-            if let mouseTap { CGEvent.tapEnable(tap: mouseTap, enable: true) }
-            holdTimer?.invalidate()
-            apply(tracker.reset())
-            downEvent = nil
-            pressButton = nil
+            recoverFromDisabledTap()
             return pass
 
         case .rightMouseDown, .otherMouseDown:
@@ -239,6 +233,57 @@ final class GestureMonitor {
             if let down = takeDownEvent() { down.tapPostEvent(proxy) }
             return pass
         }
+    }
+
+    /// macOS disables taps that respond too slowly. Both taps share one callback, so first
+    /// find out which one it was: a keyboard-tap timeout must not abort a healthy stroke.
+    ///
+    /// When the mouse tap was off, the rest of the press bypassed us, so the press is handed
+    /// back to the app. Its down was swallowed, so it is replayed (with a matching up if the
+    /// button is already released): the app gets a whole click instead of drags and an up
+    /// with no down. After Esc the press stays ours, so its coming up is still swallowed.
+    private func recoverFromDisabledTap() {
+        if let mouseTap, CGEvent.tapIsEnabled(tap: mouseTap) {
+            log.notice("Keyboard event tap was disabled by the system")
+            if tracker.phase == .tracking, let keyTap { CGEvent.tapEnable(tap: keyTap, enable: true) }
+            return
+        }
+
+        log.notice("Mouse event tap was disabled by the system; re-enabling")
+        if let mouseTap { CGEvent.tapEnable(tap: mouseTap, enable: true) }
+        holdTimer?.invalidate()
+        let held = pressButton.map { isHeld($0) } ?? false
+
+        if tracker.phase == .cancelled && held {
+            // Keep `pressButton` and the phase: the up of this press is swallowed as usual.
+            downEvent = nil
+            return
+        }
+        if tracker.phase == .tracking, let button = pressButton, let down = takeDownEvent() {
+            down.post(tap: .cghidEventTap)
+            if !held { postUp(matching: down, button: button) }
+        }
+        apply(tracker.reset())
+        downEvent = nil
+        pressButton = nil
+    }
+
+    /// Whether the given CGMouseButton is physically down right now.
+    private func isHeld(_ button: Int64) -> Bool {
+        guard let mouseButton = CGMouseButton(rawValue: UInt32(clamping: button)) else { return false }
+        return CGEventSource.buttonState(.hidSystemState, button: mouseButton)
+    }
+
+    /// Posts a tagged button-up that closes a replayed `down` whose real up has already gone
+    /// to the app ahead of it; without it the app would see the button stuck down.
+    private func postUp(matching down: CGEvent, button: Int64) {
+        let isRight = button == 1
+        guard let up = CGEvent(mouseEventSource: nil, mouseType: isRight ? .rightMouseUp : .otherMouseUp,
+                               mouseCursorPosition: down.location, mouseButton: isRight ? .right : .center)
+        else { return }
+        if !isRight { up.setIntegerValueField(.mouseEventButtonNumber, value: button) }
+        up.setIntegerValueField(.eventSourceUserData, value: Self.replayTag)
+        up.post(tap: .cghidEventTap)
     }
 
     /// Starts a press of the trigger button: decides whether gestures are active for it and
@@ -315,7 +360,14 @@ final class GestureMonitor {
                 downEvent = nil
                 DispatchQueue.main.async { [onCancel] in onCancel() }
             case .replayDownNow:
-                takeDownEvent()?.post(tap: .cghidEventTap)
+                // The real up may already be queued ahead of this replay (released right at
+                // the hold delay, or during a short stall); it then reaches the app first, so
+                // close the replayed down with an up of our own.
+                let released = pressButton.map { !isHeld($0) } ?? false
+                if let down = takeDownEvent() {
+                    down.post(tap: .cghidEventTap)
+                    if released, let button = pressButton { postUp(matching: down, button: button) }
+                }
             }
         }
     }
@@ -396,18 +448,29 @@ extension RGBAColor {
 }
 
 /// Routes trigger-button strokes to the calibration screen while it is open.
+///
+/// Two calibration sheets can be open at once (Settings and the welcome guide are separate
+/// windows), so each session is identified by a token: the newest one gets the strokes, and
+/// closing one sheet hands them back to the other instead of switching capture off.
 @MainActor
 final class CalibrationCapture {
     static let shared = CalibrationCapture()
 
-    private var handler: (([StrokePoint]) -> Void)?
+    private var sessions: [(id: UUID, handler: ([StrokePoint]) -> Void)] = []
 
-    var isActive: Bool { handler != nil }
+    var isActive: Bool { !sessions.isEmpty }
 
-    /// Starts sending strokes to `handler` instead of recognizing them.
-    func begin(_ handler: @escaping ([StrokePoint]) -> Void) { self.handler = handler }
+    /// Starts sending strokes to `handler` instead of recognizing them. Pass the returned
+    /// token to `end(_:)`.
+    @discardableResult
+    func begin(_ handler: @escaping ([StrokePoint]) -> Void) -> UUID {
+        let id = UUID()
+        sessions.append((id, handler))
+        return id
+    }
 
-    func end() { handler = nil }
+    /// Ends the session `id` started; other sessions keep capturing.
+    func end(_ id: UUID) { sessions.removeAll { $0.id == id } }
 
-    func deliver(_ stroke: [StrokePoint]) { handler?(stroke) }
+    func deliver(_ stroke: [StrokePoint]) { sessions.last?.handler(stroke) }
 }

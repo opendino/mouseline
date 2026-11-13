@@ -30,7 +30,9 @@ public enum Calibration {
     public static let minimumStrokeLength = 40.0
 
     /// Bounds for the fitted values, so one odd stroke cannot make mgestures unusable.
-    public static let toleranceRange = 22.0...45.0
+    /// The tolerance never drops below the default: calibration only samples straight lines,
+    /// so tightening it would reject curved and custom shapes whose variation was never measured.
+    public static let toleranceRange = AppConfig().matchMaxDistance...45.0
     public static let clickMaxPathRange = 35.0...110.0
 
     /// The drawing order: every shape `samplesPerGesture` times.
@@ -65,7 +67,8 @@ public enum Calibration {
     ///
     /// - Tolerance: well above the largest distance between a stroke and its own shape
     ///   (the user's natural variation), but below the distance to the nearest other shape
-    ///   where possible, then clamped to `toleranceRange`.
+    ///   where possible, then clamped to `toleranceRange` (which starts at the default, so
+    ///   the line samples can only loosen the tolerance, never tighten it).
     /// - Minimum gesture length: a fraction of the user's shortest stroke, so short, quick
     ///   strokes count as gestures while small slips during a click do not.
     public static func compute(samples: [(id: String, stroke: [StrokePoint])], templates: [GestureTemplate]) -> Result {

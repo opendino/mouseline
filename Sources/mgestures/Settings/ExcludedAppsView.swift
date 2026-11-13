@@ -5,6 +5,7 @@ import SwiftUI
 /// The Excluded Apps pane: apps in which the trigger button behaves normally.
 struct ExcludedAppsView: View {
     @ObservedObject var store: ConfigStore
+    @ObservedObject private var running = RunningApps.shared
 
     var body: some View {
         Form {
@@ -52,7 +53,7 @@ struct ExcludedAppsView: View {
                 HStack {
                     Spacer()
                     Menu("Add Running App") {
-                        ForEach(AppInfo.runningApps(excluding: Set(store.config.excludedApps.map(\.bundleID))), id: \.bundleID) { app in
+                        ForEach(running.list(excluding: Set(store.config.excludedApps.map(\.bundleID))), id: \.bundleID) { app in
                             Button(app.name) { add(app) }
                         }
                     }

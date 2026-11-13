@@ -20,6 +20,15 @@ public struct RGBAColor: Codable, Equatable, Sendable {
     }
 
     public static let orange = RGBAColor(red: 1, green: 0.55, blue: 0.1, alpha: 0.95)
+
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        let d = RGBAColor.orange
+        red = try c.decodeIfPresent(Double.self, forKey: .red) ?? d.red
+        green = try c.decodeIfPresent(Double.self, forKey: .green) ?? d.green
+        blue = try c.decodeIfPresent(Double.self, forKey: .blue) ?? d.blue
+        alpha = try c.decodeIfPresent(Double.self, forKey: .alpha) ?? 1
+    }
 }
 
 // MARK: - Actions
@@ -158,6 +167,15 @@ public struct KeyCombo: Codable, Equatable, Hashable, Sendable {
         self.display = display
     }
 
+    /// The key and modifiers are what the shortcut *is*, so they stay required; the label is
+    /// only cosmetic.
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        keyCode = try c.decode(UInt16.self, forKey: .keyCode)
+        modifiers = try c.decode(UInt64.self, forKey: .modifiers)
+        display = try c.decodeIfPresent(String.self, forKey: .display) ?? ""
+    }
+
     // Modifier bits (identical in CGEventFlags and NSEvent.ModifierFlags).
     public static let shiftMask: UInt64 = 0x2_0000
     public static let controlMask: UInt64 = 0x4_0000
@@ -197,7 +215,8 @@ public struct ActionConfig: Codable, Equatable, Sendable {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         let d = ActionConfig()
         kind = try c.decodeIfPresent(ActionKind.self, forKey: .kind) ?? d.kind
-        shortcut = try c.decodeIfPresent(KeyCombo.self, forKey: .shortcut)
+        // A broken shortcut drops only the shortcut, not the binding (or the whole file).
+        shortcut = try? c.decodeIfPresent(KeyCombo.self, forKey: .shortcut)
         appPath = try c.decodeIfPresent(String.self, forKey: .appPath) ?? d.appPath
         appArguments = try c.decodeIfPresent(String.self, forKey: .appArguments) ?? d.appArguments
         newInstance = try c.decodeIfPresent(Bool.self, forKey: .newInstance) ?? d.newInstance
@@ -291,6 +310,12 @@ public struct ExcludedApp: Codable, Equatable, Hashable, Identifiable, Sendable 
         self.bundleID = bundleID
         self.name = name
     }
+
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        bundleID = try c.decode(String.self, forKey: .bundleID)
+        name = try c.decodeIfPresent(String.self, forKey: .name) ?? bundleID
+    }
 }
 
 /// Bindings that apply only in one app, overriding the global ones.
@@ -330,6 +355,13 @@ public struct CustomGesture: Codable, Equatable, Identifiable, Sendable {
     /// Creates a gesture from a raw drawn stroke (any coordinate space, y down).
     public init(name: String, stroke: [StrokePoint]) {
         self.init(name: name, points: Recognizer.prepare(stroke))
+    }
+
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        id = try c.decode(String.self, forKey: .id)
+        name = try c.decodeIfPresent(String.self, forKey: .name) ?? ""
+        points = try c.decode([StrokePoint].self, forKey: .points)
     }
 
     public var template: GestureTemplate {
@@ -415,6 +447,15 @@ public struct AppConfig: Codable, Equatable, Sendable {
         self.bindings = bindings
         self.appBindings = appBindings
     }
+
+    // Valid ranges of the numeric settings, shared by the settings sliders and the decoder
+    // (so a hand-edited or imported file cannot set, say, a zero click threshold that turns
+    // every slightly moved right click into a gesture, or a negative hold delay).
+    public static let clickMaxPathRange = 20.0...250.0
+    public static let matchMaxDistanceRange = 10.0...60.0
+    /// Seconds.
+    public static let holdDelayRange = 0.2...1.5
+    public static let trailWidthRange = 2.0...14.0
 
     public static let defaultBindings: [String: ActionConfig] = [
         "Left": ActionConfig(kind: .tileLeft),
@@ -535,22 +576,61 @@ public struct AppConfig: Codable, Equatable, Sendable {
         onboardingCompleted = try c.decodeIfPresent(Bool.self, forKey: .onboardingCompleted) ?? d.onboardingCompleted
         triggerButton = try c.decodeIfPresent(TriggerButton.self, forKey: .triggerButton) ?? d.triggerButton
         requiredModifier = try c.decodeIfPresent(RequiredModifier.self, forKey: .requiredModifier) ?? d.requiredModifier
-        toggleShortcut = try c.decodeIfPresent(KeyCombo.self, forKey: .toggleShortcut)
+        toggleShortcut = try? c.decodeIfPresent(KeyCombo.self, forKey: .toggleShortcut)
         holdToOpenMenu = try c.decodeIfPresent(Bool.self, forKey: .holdToOpenMenu) ?? d.holdToOpenMenu
         holdDelay = try c.decodeIfPresent(Double.self, forKey: .holdDelay) ?? d.holdDelay
-        excludedApps = try c.decodeIfPresent([ExcludedApp].self, forKey: .excludedApps) ?? d.excludedApps
+        excludedApps = c.decodeLossyArray(ExcludedApp.self, forKey: .excludedApps) ?? d.excludedApps
         showTrail = try c.decodeIfPresent(Bool.self, forKey: .showTrail) ?? d.showTrail
-        trailColor = try c.decodeIfPresent(RGBAColor.self, forKey: .trailColor) ?? d.trailColor
+        trailColor = (try? c.decodeIfPresent(RGBAColor.self, forKey: .trailColor)) ?? d.trailColor
         trailWidth = try c.decodeIfPresent(Double.self, forKey: .trailWidth) ?? d.trailWidth
         showGestureName = try c.decodeIfPresent(Bool.self, forKey: .showGestureName) ?? d.showGestureName
         feedbackSound = try c.decodeIfPresent(String.self, forKey: .feedbackSound) ?? d.feedbackSound
         hapticFeedback = try c.decodeIfPresent(Bool.self, forKey: .hapticFeedback) ?? d.hapticFeedback
         clickMaxPath = try c.decodeIfPresent(Double.self, forKey: .clickMaxPath) ?? d.clickMaxPath
         matchMaxDistance = try c.decodeIfPresent(Double.self, forKey: .matchMaxDistance) ?? d.matchMaxDistance
-        customGestures = try c.decodeIfPresent([CustomGesture].self, forKey: .customGestures) ?? d.customGestures
-        personalSamples = try c.decodeIfPresent([PersonalSample].self, forKey: .personalSamples) ?? d.personalSamples
+        customGestures = c.decodeLossyArray(CustomGesture.self, forKey: .customGestures) ?? d.customGestures
+        personalSamples = c.decodeLossyArray(PersonalSample.self, forKey: .personalSamples) ?? d.personalSamples
         bindings = try c.decodeIfPresent([String: ActionConfig].self, forKey: .bindings) ?? d.bindings
         appBindings = try c.decodeIfPresent([String: AppBindings].self, forKey: .appBindings) ?? d.appBindings
+
+        clickMaxPath = Self.clamp(clickMaxPath, to: Self.clickMaxPathRange)
+        matchMaxDistance = Self.clamp(matchMaxDistance, to: Self.matchMaxDistanceRange)
+        holdDelay = Self.clamp(holdDelay, to: Self.holdDelayRange)
+        trailWidth = Self.clamp(trailWidth, to: Self.trailWidthRange)
+        repairCustomGestureIDs()
+    }
+
+    private static func clamp(_ value: Double, to range: ClosedRange<Double>) -> Double {
+        min(max(value, range.lowerBound), range.upperBound)
+    }
+
+    /// Gives every custom gesture a unique `custom.` id. The app always creates such ids, but a
+    /// hand-edited or imported file may not: an id without the prefix is never counted as bound
+    /// (see `gestureExists`), and a shared id makes two gestures share, and lose, one binding.
+    /// A gesture without the prefix takes its bindings and samples along to the new id, unless
+    /// the old key names a built-in shape, which keeps it. For a duplicate, the first gesture
+    /// keeps the id and its bindings; the later one starts unbound.
+    private mutating func repairCustomGestureIDs() {
+        var seen = Set<String>()
+        for index in customGestures.indices {
+            let oldID = customGestures[index].id
+            if CustomGesture.isCustomID(oldID), seen.insert(oldID).inserted { continue }
+
+            let newID = CustomGesture.idPrefix + UUID().uuidString
+            customGestures[index].id = newID
+            seen.insert(newID)
+            guard !CustomGesture.isCustomID(oldID), GestureTemplate.builtIn(id: oldID) == nil else { continue }
+
+            if let action = bindings.removeValue(forKey: oldID) { bindings[newID] = action }
+            for key in appBindings.keys {
+                if let action = appBindings[key]?.bindings.removeValue(forKey: oldID) {
+                    appBindings[key]?.bindings[newID] = action
+                }
+            }
+            for i in personalSamples.indices where personalSamples[i].gestureID == oldID {
+                personalSamples[i].gestureID = newID
+            }
+        }
     }
 
     public static func decode(_ data: Data) throws -> AppConfig {
@@ -561,6 +641,24 @@ public struct AppConfig: Codable, Equatable, Sendable {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
         return try encoder.encode(self)
+    }
+}
+
+/// Decodes one array element, or nothing if that element is invalid.
+private struct LossyElement<T: Decodable>: Decodable {
+    let value: T?
+
+    init(from decoder: Decoder) throws {
+        value = try? T(from: decoder)
+    }
+}
+
+extension KeyedDecodingContainer {
+    /// Decodes an array, dropping the elements that fail to decode, so one bad entry does not
+    /// reset the whole list (or the whole file). Nil if the key is missing or not an array.
+    fileprivate func decodeLossyArray<T: Decodable>(_ type: T.Type, forKey key: Key) -> [T]? {
+        guard let elements = try? decodeIfPresent([LossyElement<T>].self, forKey: key) else { return nil }
+        return elements.compactMap(\.value)
     }
 }
 

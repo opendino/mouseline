@@ -24,10 +24,24 @@ if [[ -z "${SIGN_IDENTITY:-}" ]]; then
   if [[ -f "$DEV_KEYCHAIN" ]]; then
     dev_sha1="$(security find-certificate -c "$DEV_CERT" -Z "$DEV_KEYCHAIN" 2>/dev/null | sed -n 's/^SHA-1 hash: //p' | head -1)"
   fi
+  # codesign only finds identities in keychains on the user's search list (its --keychain
+  # option does not change that), so check the list too: the keychain can fall off it,
+  # e.g. after a keychain reset. Then signing ad hoc beats failing at codesign.
+  dev_on_search_list=false
   if [[ -n "$dev_sha1" ]]; then
     security unlock-keychain -p "" "$DEV_KEYCHAIN"
+    identities="$(security find-identity -p codesigning 2>/dev/null || true)"
+    if [[ "$identities" == *"$dev_sha1"* ]]; then
+      dev_on_search_list=true
+    fi
+  fi
+  if [[ "$dev_on_search_list" == true ]]; then
     SIGN_IDENTITY="$dev_sha1"
     SIGN_LABEL="$DEV_CERT"
+  elif [[ -n "$dev_sha1" ]]; then
+    SIGN_IDENTITY="-"   # ad-hoc signature
+    SIGN_LABEL="ad hoc"
+    echo "note: signing ad hoc; $DEV_KEYCHAIN is not on your keychain search list, so codesign cannot use \"$DEV_CERT\". Run scripts/make-dev-cert.sh to add it back" >&2
   else
     SIGN_IDENTITY="-"   # ad-hoc signature
     SIGN_LABEL="ad hoc"
@@ -120,8 +134,14 @@ shopt -u nullglob
 #
 # The hardened runtime (--options runtime) is needed for notarization; under it the
 # Apple Events entitlement is what lets the "Run AppleScript" action talk to other apps.
+# Notarization also requires a secure timestamp, so Developer ID builds ask Apple's
+# timestamp server for one (needs a network connection); other builds skip it.
 
-codesign --force --options runtime --timestamp=none \
+timestamp_flag="--timestamp=none"
+if [[ "$SIGN_IDENTITY" == *"Developer ID"* ]]; then
+  timestamp_flag="--timestamp"
+fi
+codesign --force --options runtime "$timestamp_flag" \
   --entitlements "$ENTITLEMENTS" --sign "$SIGN_IDENTITY" "$APP"
 codesign --verify --strict --verbose=1 "$APP"
 echo "Signed with: $SIGN_LABEL"

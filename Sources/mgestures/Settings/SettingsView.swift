@@ -71,6 +71,7 @@ struct SettingsSidebar: View {
     @ObservedObject var store: ConfigStore
     @ObservedObject var state: AppState
     @ObservedObject var model: SettingsModel
+    @ObservedObject private var running = RunningApps.shared
 
     private var actions: SettingsActions { SettingsActions(store: store, model: model) }
 
@@ -123,7 +124,7 @@ struct SettingsSidebar: View {
                 .font(.system(size: 16))
                 .frame(width: 20)
             Menu("Add App…") {
-                ForEach(AppInfo.runningApps(excluding: Set(store.config.appBindings.keys)), id: \.bundleID) { app in
+                ForEach(running.list(excluding: Set(store.config.appBindings.keys)), id: \.bundleID) { app in
                     Button(app.name) { actions.addApp(app) }
                 }
                 Divider()
@@ -305,13 +306,26 @@ enum AppInfo {
 
     /// Lets the user pick one or more apps in /Applications.
     static func chooseApps(multiple: Bool) -> [ExcludedApp] {
+        let panel = appPanel(multiple: multiple)
+        guard panel.runModal() == .OK else { return [] }
+        return panel.urls.compactMap(excludedApp(at:))
+    }
+
+    /// Lets the user pick one app and returns exactly the bundle picked. Looking the app up
+    /// again by bundle id could return another copy (Xcode and Xcode-beta share one), and
+    /// would fail for bundles that have no bundle id at all.
+    static func chooseAppURL() -> URL? {
+        let panel = appPanel(multiple: false)
+        return panel.runModal() == .OK ? panel.url : nil
+    }
+
+    private static func appPanel(multiple: Bool) -> NSOpenPanel {
         let panel = NSOpenPanel()
         panel.allowedContentTypes = [.application]
         panel.directoryURL = URL(fileURLWithPath: "/Applications")
         panel.canChooseDirectories = false
         panel.allowsMultipleSelection = multiple
-        guard panel.runModal() == .OK else { return [] }
-        return panel.urls.compactMap(excludedApp(at:))
+        return panel
     }
 
     static func icon(bundleID: String) -> NSImage {
@@ -319,6 +333,36 @@ enum AppInfo {
             return NSWorkspace.shared.icon(forFile: url.path)
         }
         return NSWorkspace.shared.icon(for: .application)
+    }
+}
+
+/// The regular apps running now, kept current as apps launch and quit. Menu content is
+/// built together with the view, not when the menu opens, so asking NSWorkspace inside
+/// the menu would list the apps of the last re-render: missing new ones, keeping quit ones.
+@MainActor
+final class RunningApps: ObservableObject {
+    static let shared = RunningApps()
+
+    @Published private(set) var apps: [ExcludedApp] = []
+
+    private init() {
+        refresh()
+        let center = NSWorkspace.shared.notificationCenter
+        for name in [NSWorkspace.didLaunchApplicationNotification, NSWorkspace.didTerminateApplicationNotification] {
+            center.addObserver(forName: name, object: nil, queue: .main) { [weak self] _ in
+                MainActor.assumeIsolated { self?.refresh() }
+            }
+        }
+    }
+
+    /// The running apps, except the given bundle ids.
+    func list(excluding: Set<String>) -> [ExcludedApp] {
+        apps.filter { !excluding.contains($0.bundleID) }
+    }
+
+    private func refresh() {
+        let current = AppInfo.runningApps(excluding: [])
+        if current != apps { apps = current }
     }
 }
 

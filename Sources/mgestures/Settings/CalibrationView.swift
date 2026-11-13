@@ -9,6 +9,8 @@ final class CalibrationModel: ObservableObject {
     @Published private(set) var lastStroke: [StrokePoint] = []
     @Published private(set) var lastAccepted = false
     @Published private(set) var result: Calibration.Result?
+    /// Token of this sheet's `CalibrationCapture` session, so closing it ends only its own.
+    var captureID: UUID?
 
     let steps = Calibration.steps
     var stepIndex: Int { accepted.count }
@@ -63,7 +65,16 @@ struct CalibrationView: View {
     @Binding var isPresented: Bool
     @StateObject private var model = CalibrationModel()
 
-    private var buttonName: String { L(store.config.triggerButton.title).lowercased(with: Locale.current) }
+    /// One full sentence per button: splicing the button title into a sentence leaves it in
+    /// the wrong case in languages where it starts the sentence (Turkish).
+    private var drawHint: String {
+        switch store.config.triggerButton {
+        case .right:
+            return L("Hold the right mouse button and draw the shape anywhere on the screen, as you normally would. Nothing runs while calibrating.")
+        case .middle:
+            return L("Hold the middle mouse button and draw the shape anywhere on the screen, as you normally would. Nothing runs while calibrating.")
+        }
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
@@ -82,11 +93,15 @@ struct CalibrationView: View {
         .frame(width: 500)
         .onAppear {
             let model = model
-            CalibrationCapture.shared.begin { [weak model, store] stroke in
+            if let old = model.captureID { CalibrationCapture.shared.end(old) }
+            model.captureID = CalibrationCapture.shared.begin { [weak model, store] stroke in
                 model?.submit(stroke, templates: store.config.shapeTemplates, config: store.config)
             }
         }
-        .onDisappear { CalibrationCapture.shared.end() }
+        .onDisappear {
+            if let id = model.captureID { CalibrationCapture.shared.end(id) }
+            model.captureID = nil
+        }
     }
 
     private var header: some View {
@@ -134,7 +149,7 @@ struct CalibrationView: View {
                 Label(message, systemImage: "arrow.uturn.backward.circle")
                     .foregroundStyle(.orange)
             } else {
-                Label(LF("Hold the %@ and draw the shape anywhere on the screen, as you normally would. Nothing runs while calibrating.", buttonName), systemImage: "cursorarrow.motionlines")
+                Label(drawHint, systemImage: "cursorarrow.motionlines")
                     .foregroundStyle(.secondary)
             }
         }

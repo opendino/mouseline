@@ -43,6 +43,19 @@ struct CalibrationTests {
         #expect(result.samples.count == Calibration.steps.count)
     }
 
+    @Test func neatLinesNeverTightenTheTolerance() {
+        // Only lines are sampled, so the tolerance must not drop below the default, or curved
+        // and custom shapes that matched before would stop being recognized.
+        let templates = AppConfig().shapeTemplates
+        let samples = Calibration.steps.map { id -> (id: String, stroke: [StrokePoint]) in
+            let (dx, dy) = vector(for: id)
+            return (id, stroke(dx: dx, dy: dy, wobble: 1))
+        }
+        let result = Calibration.compute(samples: samples, templates: templates)
+        #expect(result.matchMaxDistance >= AppConfig().matchMaxDistance)
+        #expect(Calibration.toleranceRange.lowerBound == AppConfig().matchMaxDistance)
+    }
+
     @Test func shortStrokesLowerTheMinimumLength() {
         let templates = AppConfig().shapeTemplates
         func samples(length: Double) -> [(id: String, stroke: [StrokePoint])] {

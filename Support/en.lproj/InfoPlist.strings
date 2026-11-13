@@ -1,0 +1,4 @@
+/* Localized Info.plist values. Keep in sync with Support/Info.plist. */
+
+/* Shown by macOS when a "Run AppleScript" action first controls another app. */
+"NSAppleEventsUsageDescription" = "mgestures sends Apple Events only when you draw a gesture bound to a “Run AppleScript” action, so that your script can control other apps.";

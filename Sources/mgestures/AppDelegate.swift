@@ -12,7 +12,9 @@ final class AppState: ObservableObject {
 
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
-    let store = ConfigStore()
+    /// Lazy so the real config file is first read (and possibly created, or moved aside
+    /// when broken) after the --snapshot and single-instance checks, never by those runs.
+    private(set) lazy var store = ConfigStore()
     let state = AppState()
     private let overlay = TrailOverlay()
     private let hud = HUD.shared
@@ -34,6 +36,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             NSApp.terminate(nil)
             return
         }
+        installMainMenu()
 
         monitor = GestureMonitor(
             store: store, overlay: overlay,
@@ -98,6 +101,36 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             let on = self.store.config.enabled
             self.hud.show(on ? L("Gestures on") : L("Gestures off"), symbol: on ? "hand.draw" : "hand.raised.slash")
         }
+    }
+
+    /// A main menu that is never shown (menu bar apps have no menu bar of their own) but
+    /// still carries the key equivalents: without it ⌘C, ⌘V, ⌘A, ⌘Z and ⌘W do nothing in
+    /// the Settings text fields. The Edit items have no target, so they go down the
+    /// responder chain to whichever field is being edited.
+    private func installMainMenu() {
+        let appMenu = NSMenu()
+        appMenu.addItem(NSMenuItem(title: L("Close Window"), action: #selector(NSWindow.performClose(_:)), keyEquivalent: "w"))
+        appMenu.addItem(NSMenuItem(title: L("Quit mgestures"), action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
+
+        let editMenu = NSMenu(title: L("Edit"))
+        editMenu.addItem(NSMenuItem(title: L("Undo"), action: Selector(("undo:")), keyEquivalent: "z"))
+        let redo = NSMenuItem(title: L("Redo"), action: Selector(("redo:")), keyEquivalent: "z")
+        redo.keyEquivalentModifierMask = [.command, .shift]
+        editMenu.addItem(redo)
+        editMenu.addItem(.separator())
+        editMenu.addItem(NSMenuItem(title: L("Cut"), action: #selector(NSText.cut(_:)), keyEquivalent: "x"))
+        editMenu.addItem(NSMenuItem(title: L("Copy"), action: #selector(NSText.copy(_:)), keyEquivalent: "c"))
+        editMenu.addItem(NSMenuItem(title: L("Paste"), action: #selector(NSText.paste(_:)), keyEquivalent: "v"))
+        editMenu.addItem(NSMenuItem(title: L("Select All"), action: #selector(NSText.selectAll(_:)), keyEquivalent: "a"))
+
+        let mainMenu = NSMenu()
+        let appItem = NSMenuItem()
+        appItem.submenu = appMenu
+        mainMenu.addItem(appItem)
+        let editItem = NSMenuItem()
+        editItem.submenu = editMenu
+        mainMenu.addItem(editItem)
+        NSApp.mainMenu = mainMenu
     }
 
     // MARK: - Menu bar

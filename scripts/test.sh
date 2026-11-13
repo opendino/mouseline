@@ -11,4 +11,5 @@ if [[ -d "$plugin_dir" ]]; then
   args+=(-Xswiftc -plugin-path -Xswiftc "$plugin_dir")
 fi
 
-swift test "${args[@]}" "$@"
+# ${args[@]+…} keeps an empty array safe under `set -u` in macOS's bash 3.2.
+swift test ${args[@]+"${args[@]}"} "$@"

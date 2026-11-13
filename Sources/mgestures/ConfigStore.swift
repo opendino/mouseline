@@ -1,4 +1,4 @@
-import Foundation
+import AppKit
 import MGesturesCore
 import os
 
@@ -11,7 +11,13 @@ final class ConfigStore: ObservableObject {
         didSet { if config != oldValue { save() } }
     }
 
+    /// Why the last save failed, or nil once a save works again. Every change retries the
+    /// save (didSet), so this clears itself when the folder becomes writable.
+    @Published private(set) var saveError: String?
+
     let fileURL: URL
+    /// The save-failure alert is shown once per run; later failures are only logged.
+    private var didAlertSaveFailure = false
 
     init(fileURL: URL = ConfigStore.defaultURL) {
         self.fileURL = fileURL
@@ -42,8 +48,30 @@ final class ConfigStore: ObservableObject {
         do {
             try FileManager.default.createDirectory(at: fileURL.deletingLastPathComponent(), withIntermediateDirectories: true)
             try config.encoded().write(to: fileURL, options: .atomic)
+            // @Published fires on every assignment; skip the no-op one on each normal save.
+            if saveError != nil { saveError = nil }
         } catch {
             log.error("Could not save config: \(error.localizedDescription, privacy: .public)")
+            saveError = error.localizedDescription
+            alertSaveFailure(error)
+        }
+    }
+
+    /// The UI already shows the change as applied, so without this the user would only
+    /// find out after a restart that it was lost. Deferred: save() runs inside didSet,
+    /// often in the middle of a SwiftUI update, where a modal alert must not start.
+    private func alertSaveFailure(_ error: Error) {
+        guard !didAlertSaveFailure else { return }
+        didAlertSaveFailure = true
+        let folder = (fileURL.deletingLastPathComponent().path as NSString).abbreviatingWithTildeInPath
+        DispatchQueue.main.async {
+            let alert = NSAlert()
+            alert.alertStyle = .warning
+            alert.messageText = L("Settings cannot be saved")
+            alert.informativeText = LF("mgestures cannot write to %@. Changes you make are lost when the app quits.", folder)
+                + "\n\n" + error.localizedDescription
+            NSApp.activate(ignoringOtherApps: true)
+            alert.runModal()
         }
     }
 

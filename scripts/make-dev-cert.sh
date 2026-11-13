@@ -26,7 +26,24 @@ set -euo pipefail
 NAME="mgestures Local Development"
 KEYCHAIN="$HOME/Library/Keychains/mgestures-dev.keychain-db"
 
+# codesign only finds identities in keychains on the search list; adds ours, keeping the rest.
+# ${arr[@]+…} keeps an empty array safe under `set -u` in macOS's bash 3.2.
+add_to_search_list() {
+  local existing=() line
+  while IFS= read -r line; do
+    line="${line#"${line%%[![:space:]]*}"}"; line="${line%\"}"; line="${line#\"}"
+    [[ -n "$line" ]] && existing+=("$line")
+  done < <(security list-keychains -d user)
+  if [[ " ${existing[*]+"${existing[*]}"} " != *" $KEYCHAIN "* ]]; then
+    security list-keychains -d user -s ${existing[@]+"${existing[@]}"} "$KEYCHAIN"
+    echo "Added $KEYCHAIN to your keychain search list"
+  fi
+}
+
+# Already set up: still repair the search list, which a keychain reset can drop it from
+# (scripts/build-app.sh then falls back to an ad-hoc signature).
 if [[ -f "$KEYCHAIN" ]] && security find-certificate -c "$NAME" "$KEYCHAIN" >/dev/null 2>&1; then
+  add_to_search_list
   echo "Certificate \"$NAME\" already exists in $KEYCHAIN"
   exit 0
 fi
@@ -66,15 +83,8 @@ security import "$work/cert.p12" -k "$KEYCHAIN" -P mgestures -T /usr/bin/codesig
 # Lets codesign use the key without a confirmation dialog.
 security set-key-partition-list -S apple-tool:,apple: -s -k "" "$KEYCHAIN" >/dev/null
 
-# codesign only finds identities in keychains on the search list; add ours, keeping the rest.
-existing=()
-while IFS= read -r line; do
-  line="${line#"${line%%[![:space:]]*}"}"; line="${line%\"}"; line="${line#\"}"
-  [[ -n "$line" ]] && existing+=("$line")
-done < <(security list-keychains -d user)
-if [[ " ${existing[*]} " != *" $KEYCHAIN "* ]]; then
-  security list-keychains -d user -s "${existing[@]}" "$KEYCHAIN"
-fi
+# codesign only finds identities in keychains on the search list.
+add_to_search_list
 
 echo "Created \"$NAME\" in $KEYCHAIN"
 echo "Rebuild with scripts/build-app.sh, then grant Accessibility once more; later rebuilds keep it."

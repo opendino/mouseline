@@ -94,17 +94,24 @@ struct TryView: View {
         }
     }
 
+    /// A stroke that falls through replays the trigger button's own click, so name that button.
     @ViewBuilder
     private func verdictLabel(_ verdict: StrokeVerdict, config: AppConfig) -> some View {
+        let middle = config.triggerButton == .middle
         switch verdict {
         case .tooShort:
-            Label(L("Too short — acts as a normal right click"), systemImage: "cursorarrow.click")
+            Label(middle ? L("Too short — acts as a normal middle click") : L("Too short — acts as a normal right click"),
+                  systemImage: "cursorarrow.click")
                 .foregroundStyle(.secondary)
         case .noMatch:
-            Label(L("No shape within tolerance — normal right click"), systemImage: "questionmark.circle")
+            Label(middle ? L("No shape within tolerance — normal middle click") : L("No shape within tolerance — normal right click"),
+                  systemImage: "questionmark.circle")
                 .foregroundStyle(.secondary)
         case .unbound(let id, _):
-            Label(LF("“%@” has no action — normal right click", config.localizedName(for: id)), systemImage: "circle.slash")
+            Label(middle
+                  ? LF("“%@” has no action — normal middle click", config.localizedName(for: id))
+                  : LF("“%@” has no action — normal right click", config.localizedName(for: id)),
+                  systemImage: "circle.slash")
                 .foregroundStyle(.orange)
         case .runs(let id, _, let action):
             Label(LF("“%@” → %@", config.localizedName(for: id), L(action.kind.title)), systemImage: "checkmark.circle.fill")

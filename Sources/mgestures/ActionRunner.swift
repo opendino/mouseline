@@ -1,4 +1,5 @@
 import AppKit
+import ApplicationServices
 import MGesturesCore
 import os
 
@@ -29,12 +30,7 @@ enum ActionRunner {
         // Navigation
         case .navigateBack: navigate(back: true)
         case .navigateForward: navigate(back: false)
-        case .openURL:
-            guard let url = URL(string: action.url.trimmingCharacters(in: .whitespaces)), url.scheme != nil else {
-                log.error("Invalid URL: \(action.url, privacy: .public)")
-                return
-            }
-            NSWorkspace.shared.open(url)
+        case .openURL: openURL(action.url)
         // System
         case .missionControl: SystemActions.missionControl()
         case .showDesktop: SystemActions.showDesktop()
@@ -66,14 +62,29 @@ enum ActionRunner {
         "com.apple.podcasts", "com.apple.TV", "com.apple.helpviewer",
     ]
 
+    /// Back/forward go to the app under the cursor, not the frontmost one: the stroke is drawn
+    /// over a window, the mouse-button path reaches that window anyway, and the swallowed
+    /// trigger click never activates it.
+    ///
+    /// Apple's apps get their own Back/Forward menu item pressed through the Accessibility API.
+    /// That works on every keyboard layout and needs no focus change. If no such item is found,
+    /// ⌘[ / ⌘] is typed with the key that produces the character on the current layout; when
+    /// no key does without modifiers (German, Turkish), mouse buttons are sent rather than a
+    /// keystroke that would mean something else there (on Turkish F the US "[" key types "q").
     private static func navigate(back: Bool) {
-        if let id = NSWorkspace.shared.frontmostApplication?.bundleIdentifier, keyboardNavigationApps.contains(id) {
-            // kVK_ANSI_LeftBracket / kVK_ANSI_RightBracket
-            postShortcut(KeyCombo(keyCode: back ? 0x21 : 0x1E, modifiers: KeyCombo.commandMask, display: back ? "⌘[" : "⌘]"))
-        } else {
-            // Mouse buttons 4/5 are numbered 3/4 in CGEvent.
-            postMouseButton(back ? 3 : 4)
+        let character: Character = back ? "[" : "]"
+        let location = CGEvent(source: nil)?.location ?? .zero
+        if let target = AppLocator.application(at: location),
+           let id = target.bundleIdentifier, keyboardNavigationApps.contains(id) {
+            if MenuShortcut.press(commandCharacter: character, in: target) { return }
+            if let keyCode = KeyboardLayout.keyCode(for: character) {
+                let combo = KeyCombo(keyCode: keyCode, modifiers: KeyCombo.commandMask, display: "⌘" + String(character))
+                postShortcut(combo, to: target)
+                return
+            }
         }
+        // Mouse buttons 4/5 are numbered 3/4 in CGEvent.
+        postMouseButton(back ? 3 : 4)
     }
 
     private static func postMouseButton(_ number: Int64) {
@@ -86,14 +97,84 @@ enum ActionRunner {
         }
     }
 
-    private static func postShortcut(_ combo: KeyCombo) {
+    /// Arrow, navigation and function keys carry the Fn flag when typed on a real keyboard
+    /// (the arrows also NumericPad). The recorder keeps only ⌘⌥⌃⇧, and system hot keys such as
+    /// ⌃→ ("Move right a space") are registered with the Fn bit, so without it they never fire.
+    private static let functionKeyCodes: Set<UInt16> = [
+        123, 124, 125, 126, // arrows
+        115, 119, 116, 121, 117, 114, // Home, End, Page Up, Page Down, Forward Delete, Help
+        122, 120, 99, 118, 96, 97, 98, 100, 101, 109, 103, 111, // F1–F12
+        105, 107, 113, 106, 64, 79, 80, 90, // F13–F20
+    ]
+    private static let arrowKeyCodes: ClosedRange<UInt16> = 123...126
+
+    /// Posts `combo` at the HID level, so it goes to the frontmost app (and system hot keys
+    /// see it). With a `target` that is not frontmost, it is posted to that process instead:
+    /// a navigation keystroke must not reach the frontmost app, where ⌘[ may mean "outdent".
+    private static func postShortcut(_ combo: KeyCombo, to target: NSRunningApplication? = nil) {
         let source = CGEventSource(stateID: .hidSystemState)
-        let flags = CGEventFlags(rawValue: combo.modifiers)
+        var flags = CGEventFlags(rawValue: combo.modifiers)
+        if functionKeyCodes.contains(combo.keyCode) { flags.insert(.maskSecondaryFn) }
+        if arrowKeyCodes.contains(combo.keyCode) { flags.insert(.maskNumericPad) }
+        let targetPID: pid_t? = target.flatMap { app in
+            app.processIdentifier == NSWorkspace.shared.frontmostApplication?.processIdentifier ? nil : app.processIdentifier
+        }
         for keyDown in [true, false] {
             let event = CGEvent(keyboardEventSource: source, virtualKey: CGKeyCode(combo.keyCode), keyDown: keyDown)
             event?.flags = flags
-            event?.post(tap: .cghidEventTap)
+            if let targetPID {
+                event?.postToPid(targetPID)
+            } else {
+                event?.post(tap: .cghidEventTap)
+            }
         }
+    }
+
+    /// Opens the Open URL action's text. Plain host names ("github.com") get https://; other
+    /// schemes (mailto:, tel:, app URL schemes) are kept. A URL that cannot be opened beeps,
+    /// since the HUD has already shown the action's name and would otherwise look like success.
+    private static func openURL(_ text: String) {
+        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return }
+        guard let url = normalizedURL(trimmed) else {
+            log.error("Invalid URL: \(text, privacy: .public)")
+            NSSound.beep()
+            return
+        }
+        if !NSWorkspace.shared.open(url) {
+            log.error("Could not open URL: \(url.absoluteString, privacy: .public)")
+            NSSound.beep()
+        }
+    }
+
+    private static func normalizedURL(_ text: String) -> URL? {
+        let withScheme = hasScheme(text) ? text : "https://" + text
+        if let url = URL(string: withScheme), url.scheme != nil { return url }
+        // Before macOS 14, URL(string:) rejects spaces and non-ASCII characters (…/wiki/İstanbul)
+        // instead of encoding them. "%" and "#" stay as they are, so existing escapes and
+        // fragments survive.
+        var allowed = CharacterSet.urlFragmentAllowed
+        allowed.insert(charactersIn: "%#[]")
+        guard let encoded = withScheme.addingPercentEncoding(withAllowedCharacters: allowed),
+              let url = URL(string: encoded), url.scheme != nil
+        else { return nil }
+        return url
+    }
+
+    /// Whether `text` starts with a URL scheme. "example.com:8080" and "localhost:3000" are a
+    /// host and port, not a scheme.
+    private static func hasScheme(_ text: String) -> Bool {
+        if text.contains("://") { return true }
+        guard let colon = text.firstIndex(of: ":") else { return false }
+        let scheme = text[..<colon]
+        guard let first = scheme.first, first.isASCII, first.isLetter,
+              scheme.allSatisfy({ $0.isASCII && ($0.isLetter || $0.isNumber || "+-".contains($0)) }),
+              scheme.lowercased() != "localhost"
+        else { return false }
+        let rest = text[text.index(after: colon)...]
+        let port = rest.prefix(while: { $0.isASCII && $0.isNumber })
+        let isPort = !port.isEmpty && (port.endIndex == rest.endIndex || rest[port.endIndex] == "/")
+        return !isPort
     }
 
     private static func openApplication(_ action: ActionConfig) {
@@ -114,31 +195,100 @@ enum ActionRunner {
         SystemActions.launch("/bin/zsh", arguments: ["-lc", command])
     }
 
-    /// Runs AppleScript source with NSAppleScript.
+    /// Runs AppleScript source with /usr/bin/osascript, without waiting for it.
     ///
-    /// NSAppleScript is not thread-safe, so it runs on the main thread — but on a later turn
-    /// of the run loop, so the gesture handling (HUD, event tap callback) finishes first and a
-    /// slow script never delays it. A long-running script does block the UI while it runs.
+    /// It runs out of process because the event taps are serviced by the main run loop: an
+    /// in-process NSAppleScript (main-thread only) running `delay 3`, or waiting up to two
+    /// minutes on a busy app, would stall right and middle clicks system-wide until macOS
+    /// disabled the tap. Failures are logged with osascript's error message.
     ///
-    /// Sending Apple Events from a hardened-runtime app requires the
-    /// `com.apple.security.automation.apple-events` entitlement, configured in
-    /// Support/mgestures.entitlements. On top of that, macOS asks the user for Automation
-    /// consent once per target app (System Settings → Privacy & Security → Automation);
-    /// until it is granted, scripts that control that app fail with error -1743.
+    /// macOS asks for Automation consent once per target app (System Settings → Privacy &
+    /// Security → Automation); until it is granted, scripts that control that app fail with
+    /// error -1743. osascript is mgestures' child process, so mgestures is the responsible
+    /// process: the prompt and the Settings entry name mgestures, which keeps the
+    /// `com.apple.security.automation.apple-events` entitlement (Support/mgestures.entitlements)
+    /// for that reason.
     private static func runAppleScript(_ source: String) {
         guard !source.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
-        DispatchQueue.main.async {
-            guard let script = NSAppleScript(source: source) else {
-                log.error("Could not create AppleScript")
-                return
+        SystemActions.launch("/usr/bin/osascript", arguments: ["-e", source], logFailures: true)
+    }
+}
+
+/// Presses an app's own menu item by its ⌘ shortcut through the Accessibility API.
+///
+/// The menu item is found by its key equivalent character, not by posting the key, so the
+/// keyboard layout does not matter, and the item is pressed in the app even when it is not
+/// frontmost.
+@MainActor
+private enum MenuShortcut {
+    private struct CacheKey: Hashable {
+        let pid: pid_t
+        let character: Character
+    }
+
+    /// Found items per app, so the menu bar is walked once per app rather than per gesture.
+    /// A stale entry (the app rebuilt its menu) fails to press and is looked up again.
+    private static var cache: [CacheKey: AXUIElement] = [:]
+
+    /// Short, so a hung app costs half a second instead of the default six (the event taps
+    /// wait on the main thread meanwhile).
+    private static let messagingTimeout: Float = 0.5
+
+    /// Menu bar item → menu → item → submenu → item.
+    private static let maxDepth = 5
+    /// Upper bound on elements visited, for apps with huge menus (bookmarks, history).
+    private static let maxElements = 1500
+
+    /// Presses the item whose shortcut is ⌘ + `commandCharacter` (no other modifiers).
+    /// Returns false when there is no such item or it could not be pressed.
+    static func press(commandCharacter: Character, in app: NSRunningApplication) -> Bool {
+        let key = CacheKey(pid: app.processIdentifier, character: commandCharacter)
+        if let item = cache[key] {
+            if AXUIElementPerformAction(item, kAXPressAction as CFString) == .success { return true }
+            cache[key] = nil
+        }
+        guard let item = findItem(commandCharacter: String(commandCharacter), in: app.processIdentifier),
+              AXUIElementPerformAction(item, kAXPressAction as CFString) == .success
+        else { return false }
+        if cache.count > 32 { cache.removeAll() }
+        cache[key] = item
+        return true
+    }
+
+    /// Breadth-first, so items in the top-level menus (where Back/Forward live) are found
+    /// before any submenu is opened up.
+    private static func findItem(commandCharacter: String, in pid: pid_t) -> AXUIElement? {
+        let app = AXUIElementCreateApplication(pid)
+        AXUIElementSetMessagingTimeout(app, messagingTimeout)
+        var menuBarValue: CFTypeRef?
+        guard AXUIElementCopyAttributeValue(app, kAXMenuBarAttribute as CFString, &menuBarValue) == .success,
+              let menuBarValue, CFGetTypeID(menuBarValue) == AXUIElementGetTypeID()
+        else { return nil }
+        let menuBar = menuBarValue as! AXUIElement
+        AXUIElementSetMessagingTimeout(menuBar, messagingTimeout)
+
+        let attributes = [kAXMenuItemCmdCharAttribute, kAXMenuItemCmdModifiersAttribute, kAXChildrenAttribute] as CFArray
+        var queue: [(element: AXUIElement, depth: Int)] = [(menuBar, 0)]
+        var index = 0
+        while index < queue.count, index < maxElements {
+            let (element, depth) = queue[index]
+            index += 1
+            var raw: CFArray?
+            let result = AXUIElementCopyMultipleAttributeValues(element, attributes, [], &raw)
+            // A timeout means the app is not answering; every further call would wait too.
+            if result == .cannotComplete { return nil }
+            guard result == .success, let values = raw as? [AnyObject], values.count == 3 else { continue }
+            // Attributes an element lacks come back as AXValue errors, which fail these casts.
+            if depth > 0, let character = values[0] as? String, character == commandCharacter,
+               let modifiers = values[1] as? Int, modifiers == 0 { // kAXMenuItemModifierNone: ⌘ only
+                return element
             }
-            var errorInfo: NSDictionary?
-            script.executeAndReturnError(&errorInfo)
-            if let errorInfo {
-                let message = errorInfo[NSAppleScript.errorMessage] as? String ?? "unknown error"
-                let number = errorInfo[NSAppleScript.errorNumber] as? Int ?? 0
-                log.error("AppleScript failed (\(number)): \(message, privacy: .public)")
+            guard depth < maxDepth, let children = values[2] as? [AXUIElement] else { continue }
+            for child in children {
+                AXUIElementSetMessagingTimeout(child, messagingTimeout)
+                queue.append((child, depth + 1))
             }
         }
+        return nil
     }
 }
