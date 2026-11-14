@@ -10,7 +10,9 @@ the middle one), draw a shape, release — and a window snaps to half the screen
 back, music pauses, your shortcut fires. A short click still works normally.
 
 ```bash
-brew install --cask opendino/tap/mouseline
+brew tap opendino/tap
+brew trust --cask opendino/tap/mouseline   # Homebrew 7+ asks you to trust third-party casks
+brew install --cask mouseline
 ```
 
 or download the DMG from the [latest release](https://github.com/opendino/mouseline/releases/latest).
@@ -83,8 +85,8 @@ Default bindings: **Left** / **Right** tile the window, **Up** maximizes, **Down
 
 Requirements: macOS 13 or later, on Apple Silicon or Intel.
 
-1. Install with Homebrew — `brew install --cask opendino/tap/mouseline` — and skip to
-   step 3, or download `MouseLine-<version>.dmg` from the
+1. Install with Homebrew (`brew tap opendino/tap`, `brew trust --cask
+   opendino/tap/mouseline`, `brew install --cask mouseline`) and skip to step 3, or download `MouseLine-<version>.dmg` from the
    [releases page](https://github.com/opendino/mouseline/releases).
 2. Open it and drag **MouseLine** onto the **Applications** folder next to it.
 3. Eject the disk image and open MouseLine from `/Applications`. It appears in the menu
