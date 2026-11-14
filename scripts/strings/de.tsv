@@ -1,0 +1,290 @@
+# German
+1: %d von %d
+2: %d Striche
+3: Ein kurzer Klick funktioniert immer normal. Mit dieser Option auch Drücken und Halten ohne Bewegung – so kannst du drücken, zu einem Menüeintrag ziehen und loslassen.
+4: Ein kurzer Klick mit dieser Taste funktioniert weiterhin normal. In den Einstellungen kannst du zusätzlich eine Sondertaste verlangen.
+5: Über MouseLine
+6: Für Mausgesten ist Zugriff auf die Bedienungshilfen nötig.
+7: Aktion
+8: Aktiv · %@
+9: App hinzufügen …
+10: Laufende App hinzufügen
+11: Erweitert
+12: Alle Apps
+13: Keiner eigenen Geste ist eine Aktion zugewiesen.
+14: Alle Gesten, eigenen Formen, App-Einstellungen und Ausnahmen werden durch die Standardwerte ersetzt. Exportiere sie vorher, wenn du sie behalten möchtest.
+15: Fertig
+16: Alle Formen
+17: Alle Formen verwenden in dieser App wieder die Einstellungen für alle Apps.
+18: Zugriff auf Bedienungshilfen erlauben
+19: Erlaube MouseLine in den Systemeinstellungen → Allgemein → Anmeldeobjekte.
+20: Immer eine neue Instanz öffnen (Argumente gelten nur für neue Instanzen)
+21: App
+22: App-spezifische Gesten
+23: Darstellung
+24: Pfad der App
+25: Gilt für die Einstellungen, die Einführung und den Gestennamen von MouseLine. Die Menüleiste folgt macOS.
+26: Argumente (optional)
+27: Zurück
+28: Einfach
+29: C
+30: C (gespiegelt)
+31: C (gespiegelt, umgekehrt)
+32: C-Form
+33: C-Form (umgekehrt)
+34: Kalibriere erneut, wenn Gesten nicht erkannt oder versehentlich ausgelöst werden.
+35: Erneut kalibrieren …
+36: Gesten kalibrieren
+37: Kalibrieren …
+38: Kalibrierung
+39: Abbrechen
+40: Abgebrochen
+41: Fenster zentrieren
+42: Winkel
+43: Winkel links
+44: Winkel links (umgekehrt)
+45: Winkel rechts
+46: Winkel rechts (umgekehrt)
+47: Wähle die Taste, mit der du zeichnest
+48: Auswählen …
+49: Löschen
+50: Fenster schließen
+51: Fenster schließen
+52: Ähnlichste Formen
+53: Befehl (läuft in zsh)
+54: Kontextmenü
+55: Kopieren
+56: Ecken
+57: Das Anmeldeobjekt konnte nicht geändert werden: %@
+58: Die Einstellungen konnten nicht exportiert werden.
+59: Die Einstellungen konnten nicht importiert werden.
+60: Die App konnte nicht bewegt werden: %@
+61: Die Kopie in „Programme“ konnte nicht geöffnet werden: %@
+62: Eigene
+63: Eigene Geste
+64: Ausschneiden
+65: Dunkel
+66: Standard (%@)
+67: Löschen
+68: Geste löschen
+69: „%@“ löschen?
+70: Diagonalen
+71: Diagonal ↖
+72: Diagonal ↗
+73: Diagonal ↘
+74: Diagonal ↙
+75: Unterschiedliche Gesten für jede App
+76: Richtungen
+77: In %@ deaktivieren
+78: Runter
+79: Runter-links
+80: Runter-links (umgekehrt)
+81: Zeichne ein paar Formen mit deiner Auslösetaste, und MouseLine lernt, wie du sie zeichnest: wie genau und wie lang deine Striche sind.
+82: Zeichne einen längeren Strich.
+83: Zeichne eine Form, um zu sehen, wie sie erkannt wird. Hier zeichnest du mit der linken Maustaste, und es wird nichts ausgeführt.
+84: Zeichne jede Form zweimal, so wie du es normalerweise tust. MouseLine passt sich deiner Hand an.
+85: Hier mit der linken Maustaste zeichnen
+86: Zeichne Formen mit der Maus, um Fenster, Apps und mehr zu steuern.
+87: Zeichne die Form einmal, in der Richtung, in der du sie mit der Auslösetaste zeichnen wirst.
+88: Zeichne eine eigene Form und gib ihr eine Aktion.
+89: „%@“ zeichnen
+90: Bearbeiten
+91: Auswerten für
+92: Ausgeschlossene Apps
+93: Exportieren …
+94: An deine Hand anpassen
+95: An deine Striche angepasst
+96: Nur Force-Touch-Trackpads
+97: Vorwärts
+98: Gamma
+99: Gamma (umgekehrt)
+100: Allgemein
+101: Gestenname
+102: Gesten
+103: Gesten sind aus
+104: Gesten aktiviert
+105: Gesten aktiviert
+106: Gesten aus
+107: Gesten an
+108: Los geht’s
+109: Zugriff auf Bedienungshilfen erlauben …
+110: Haptisches Feedback
+111: Hilfe
+112: App ausblenden
+113: Maustaste halten, Form zeichnen, loslassen.
+114: Stillhalten öffnet das Kontextmenü
+115: Halte die mittlere Maustaste und zeichne eine Linie nach links oder rechts: Das aktive Fenster rastet in diese Bildschirmhälfte ein. Hoch maximiert, runter minimiert.
+116: Halte die mittlere Maustaste und zeichne eine Form. Der Punkt markiert den Anfang des Strichs.
+117: Halte die mittlere Maustaste und zeichne die Form irgendwo auf dem Bildschirm, wie du es gewohnt bist. Beim Kalibrieren wird nichts ausgeführt.
+118: Halte die rechte Maustaste und zeichne eine Linie nach links oder rechts: Das aktive Fenster rastet in diese Bildschirmhälfte ein. Hoch maximiert, runter minimiert.
+119: Halte die rechte Maustaste und zeichne eine Form. Der Punkt markiert den Anfang des Strichs.
+120: Halte die rechte Maustaste und zeichne die Form irgendwo auf dem Bildschirm, wie du es gewohnt bist. Beim Kalibrieren wird nichts ausgeführt.
+121: Haltedauer
+122: Wie MouseLine beim Zeichnen aussieht und klingt.
+123: Importieren
+124: Importieren …
+125: In diesen Apps funktioniert die Maustaste normal und Gesten sind aus – nützlich für 3D-Programme, Spiele, Fernwartung und virtuelle Maschinen. Entscheidend ist die App unter dem Zeiger, nicht die aktive.
+126: Ihre Aktionen werden ebenfalls entfernt, in allen Apps.
+127: Tastaturkurzbefehl
+128: L-Form
+129: L-Form (umgekehrt)
+130: Später
+131: Bei der Anmeldung starten
+132: Links
+133: Länge %.0f pt (mindestens %.0f) · Toleranz %.0f
+134: Lizenziert unter der Apache-Lizenz 2.0.
+135: Hell
+136: Bildschirm sperren
+137: macOS fragt einmal für jede App, die das Skript steuert (Datenschutz & Sicherheit → Automation).
+138: Wie System
+139: Fenster maximieren
+140: Medien
+141: Mittlere Taste
+142: Fenster minimieren
+143: Minimale Gestenlänge
+144: Mission Control
+145: MouseLine
+146: MouseLine (inaktiv)
+147: MouseLine kann nicht in %@ schreiben. Deine Änderungen gehen beim Beenden der App verloren.
+148: MouseLine läuft aus %@. Start bei der Anmeldung und Berechtigungen funktionieren nur aus „Programme“ zuverlässig.
+149: MouseLine braucht dies, um die Maustasten zu sehen und Fenster zu bewegen. Es wird nichts aufgezeichnet oder gesendet; die Tastatur wird nur während des Zeichnens beobachtet, um Esc zu erkennen.
+150: MouseLine-Einstellungen
+151: In „Programme“ bewegen
+152: In den Ordner „Programme“ bewegen
+153: Fenster auf nächsten Bildschirm
+154: Stummschalten
+155: Name
+156: Navigation
+157: Nächster Titel
+158: Keine Aktion
+159: Noch keine eigenen Gesten
+160: Keine ausgeschlossenen Apps. Gesten funktionieren überall.
+161: Keine Form innerhalb der Toleranz – normaler Mittelklick
+162: Keine Form innerhalb der Toleranz – normaler Rechtsklick
+163: Keine
+164: Nicht jetzt
+165: Ein/Aus-Kurzbefehl, Ton und Haptik
+166: Einstellungen für Bedienungshilfen öffnen …
+167: App öffnen
+168: Anmeldeobjekte öffnen …
+169: Einstellungen öffnen …
+170: URL öffnen
+171: Optional, etwa 30 Sekunden: Zeichne vier Formen je zweimal, und MouseLine stimmt die Erkennung auf deine Striche ab.
+172: Einsetzen
+173: Persönliche Beispiele
+174: Wiedergabe / Pause
+175: Kurzbefehl drücken … (Esc zum Abbrechen)
+176: Vorschau
+177: Vorheriger Titel
+178: App beenden
+179: MouseLine beenden
+180: Erkennung
+181: Die Erkennung ist jetzt an deine Striche angepasst. Deine Zeichnungen werden auch als Beispiele gespeichert, damit Formen so erkannt werden, wie du sie zeichnest.
+182: Erkennungstoleranz
+183: „%@“ erkannt. Alles bereit.
+184: Geste aufnehmen
+185: Geste aufnehmen …
+186: Kurzbefehl aufnehmen
+187: Eigene Formen aufnehmen
+188: Wiederholen
+189: Entfernen
+190: App entfernen …
+191: Gesten für %@ entfernen?
+192: Alle Einstellungen ersetzen?
+193: Erforderliche Sondertaste
+194: Zurücksetzen
+195: Alle Einstellungen zurücksetzen?
+196: Alle Einstellungen zurücksetzen …
+197: Erkennung zurücksetzen
+198: Erkennung zurücksetzen?
+199: Rechts
+200: Rechte Taste
+201: AppleScript ausführen
+202: Shell-Befehl ausführen
+203: Sichern
+204: Alles auswählen
+205: Einstellungen
+206: Einstellungen können nicht gesichert werden
+207: Einstellungsdatei
+208: Einstellungen …
+209: Formen
+210: Formen auf „Standard“ verwenden die Einstellung für alle Apps. Wähle „Keine Aktion“, um eine Form in %@ auszuschalten.
+211: Kurzbefehle, Apps, URLs, Befehle und Skripte kannst du nach dem Sichern in der Liste einrichten.
+212: Kürzere Striche gelten als normaler Klick. Eine niedrigere Toleranz bedeutet weniger versehentliche Treffer, aber die Formen müssen genauer gezeichnet werden.
+213: Zeigen
+214: Schreibtisch anzeigen
+215: Gestennamen nach dem Zeichnen anzeigen
+216: Im Finder zeigen
+217: Spur beim Zeichnen anzeigen
+218: Nicht zugewiesene zeigen
+219: Bildschirm ausschalten
+220: Ton
+221: Ton und Haptik
+222: Neu beginnen
+223: System
+224: Dauert etwa 30 Sekunden: Zeichne vier Formen je zweimal.
+225: Testbereich
+226: Striche vor der Verwendung testen
+227: Das sah aus wie „%@“. Versuche es noch einmal.
+228: Das Ergebnis erscheint hier.
+229: Die Formerkennung ist eine Anpassung des „$1 Unistroke Recognizer“ von J. O. Wobbrock, A. D. Wilson und Y. Li (UIST 2007).
+230: Thema
+231: Es gibt noch mehr
+233: Fenster unten anordnen
+234: Fenster links anordnen
+235: Fenster rechts anordnen
+236: Fenster oben anordnen
+237: Vollbild ein/aus
+238: Zu kurz – wirkt als normaler Mittelklick
+239: Zu kurz – wirkt als normaler Rechtsklick
+240: Spur
+241: Farbe der Spur
+242: Breite der Spur
+243: Auslöser
+244: Auslösetaste
+245: Probiere eine Geste
+246: Gesten in Apps ausschalten, die die Taste brauchen
+247: Gesten ein/aus
+248: Aktiviere MouseLine in der Liste. Dieses Fenster aktualisiert sich von selbst.
+249: U / Bogen
+250: U / Bogen (rund)
+251: Rundes U
+252: Rundes U (gespiegelt)
+253: Rundes U (gespiegelt, umgekehrt)
+254: Rundes U (umgekehrt)
+255: U-Form
+256: U-Form (gespiegelt)
+257: U-Form (gespiegelt, umgekehrt)
+258: U-Form (umgekehrt)
+259: Widerrufen
+260: Hoch
+261: Hoch-rechts
+262: Hoch-rechts (umgekehrt)
+263: Verwende mindestens eine der Tasten ⌘, ⌃ oder ⌥ im Kurzbefehl.
+264: Standardeinstellungen werden verwendet
+265: Sehr ähnlich wie „%@“ – sie könnten verwechselt werden.
+266: Leiser
+267: Lauter
+268: Warte auf Zugriff auf Bedienungshilfen
+269: Einführung …
+270: Willkommen bei MouseLine
+271: Fenster
+272: Fenster-, Medien- und Systemaktionen, Skripte
+273: Fenster
+274: Mit einer erforderlichen Sondertaste starten Gesten nur, solange sie gedrückt ist; sonst funktioniert die Maustaste normal. Der Ein/Aus-Kurzbefehl funktioniert überall.
+275: Deine aktuellen Gesten, eigenen Formen, App-Einstellungen und Ausnahmen werden durch die aus dieser Datei ersetzt. Exportiere sie vorher, wenn du sie behalten möchtest.
+276: Dein letzter Strich
+277: Deine persönlichen Beispiele werden entfernt, und die minimale Gestenlänge und die Erkennungstoleranz kehren zu ihren Standardwerten zurück. Du kannst jederzeit neu kalibrieren.
+278: „%@“ hat keine Aktion – normaler Mittelklick
+279: „%@“ hat keine Aktion – normaler Rechtsklick
+280: „%@“ → %@
+281: ⇧ Umschalt
+282: ⌃ Control
+283: ⌘ Befehl
+284: ⌥ Wahl
+285: MouseLine konnte nicht neu gestartet werden.
+286: Sprache
+287: Starte MouseLine neu, um die neue Sprache zu verwenden.
+288: Jetzt neu starten
+289: Diese Datei ist keine MouseLine-Einstellungsdatei.
+plist.NSAppleEventsUsageDescription: MouseLine sendet Apple Events nur, wenn du eine Geste zeichnest, die mit der Aktion „AppleScript ausführen“ verknüpft ist, damit dein Skript andere Apps steuern kann.

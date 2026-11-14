@@ -1,0 +1,290 @@
+# Spanish
+1: %d de %d
+2: %d trazos
+3: Un clic rápido siempre funciona con normalidad. Con esta opción, mantener pulsado sin moverse también, así puedes pulsar, arrastrar hasta un elemento del menú y soltar.
+4: Un clic rápido con este botón sigue funcionando con normalidad. En Ajustes también puedes exigir una tecla modificadora.
+5: Acerca de MouseLine
+6: Se necesita acceso de Accesibilidad para capturar los gestos del ratón.
+7: Acción
+8: Activo · %@
+9: Añadir app…
+10: Añadir app abierta
+11: Avanzado
+12: Todas las apps
+13: Ningún gesto personalizado tiene acción asignada.
+14: Todos los gestos, formas personalizadas, ajustes de apps y exclusiones se sustituyen por los valores predeterminados. Expórtalos antes si quieres conservarlos.
+15: Listo
+16: Todas las formas
+17: Todas las formas volverán a usar los ajustes de Todas las apps en esta app.
+18: Permitir el acceso de Accesibilidad
+19: Permite MouseLine en Ajustes del Sistema → General → Ítems de inicio.
+20: Abrir siempre una instancia nueva (los argumentos solo se aplican a instancias nuevas)
+21: App
+22: Gestos por app
+23: Apariencia
+24: Ruta de la app
+25: Se aplica a los ajustes, la guía de bienvenida y el nombre del gesto de MouseLine. La barra de menús sigue a macOS.
+26: Argumentos (opcional)
+27: Atrás
+28: Básicas
+29: C
+30: C (espejo)
+31: C (espejo, inversa)
+32: Forma de C
+33: Forma de C (inversa)
+34: Vuelve a calibrar si los gestos no se reconocen o se activan sin querer.
+35: Calibrar de nuevo…
+36: Calibrar gestos
+37: Calibrar…
+38: Calibración
+39: Cancelar
+40: Cancelado
+41: Centrar ventana
+42: Chevrón
+43: Chevrón izquierdo
+44: Chevrón izquierdo (inverso)
+45: Chevrón derecho
+46: Chevrón derecho (inverso)
+47: Elige el botón con el que dibujas
+48: Elegir…
+49: Borrar
+50: Cerrar ventana
+51: Cerrar ventana
+52: Formas más parecidas
+53: Comando (se ejecuta en zsh)
+54: Menú contextual
+55: Copiar
+56: Esquinas
+57: No se pudo cambiar el ítem de inicio: %@
+58: No se pudieron exportar los ajustes.
+59: No se pudieron importar los ajustes.
+60: No se pudo mover la app: %@
+61: No se pudo abrir la copia en Aplicaciones: %@
+62: Personalizado
+63: Gesto personalizado
+64: Cortar
+65: Oscuro
+66: Predeterminado (%@)
+67: Eliminar
+68: Eliminar gesto
+69: ¿Eliminar «%@»?
+70: Diagonales
+71: Diagonal ↖
+72: Diagonal ↗
+73: Diagonal ↘
+74: Diagonal ↙
+75: Gestos distintos para cada app
+76: Direcciones
+77: Desactivar en %@
+78: Abajo
+79: Abajo-izquierda
+80: Abajo-izquierda (inversa)
+81: Dibuja unas cuantas formas con tu botón de activación y MouseLine aprende cómo las dibujas: con qué precisión y lo largos que son tus trazos.
+82: Dibuja un trazo más largo.
+83: Dibuja una forma para ver cómo se reconoce. Aquí dibujas con el botón izquierdo y no se ejecuta nada.
+84: Dibuja cada forma dos veces, como lo harías normalmente. MouseLine se adapta a tu mano.
+85: Dibuja aquí con el botón izquierdo del ratón
+86: Dibuja formas con el ratón para controlar ventanas, apps y mucho más.
+87: Dibuja la forma una vez, en la dirección en la que la dibujarás con el botón de activación.
+88: Dibuja tu propia forma y asígnale una acción.
+89: Dibuja «%@»
+90: Edición
+91: Evaluar para
+92: Apps excluidas
+93: Exportar…
+94: Ajústalo a tu mano
+95: Ajustado a tus trazos
+96: Solo trackpads Force Touch
+97: Adelante
+98: Gamma
+99: Gamma (inversa)
+100: General
+101: Nombre del gesto
+102: Gestos
+103: Los gestos están desactivados
+104: Gestos activados
+105: Gestos activados
+106: Gestos desactivados
+107: Gestos activados
+108: Empezar
+109: Permitir el acceso de Accesibilidad…
+110: Respuesta háptica
+111: Ayuda
+112: Ocultar app
+113: Mantén pulsado un botón del ratón, dibuja una forma y suelta.
+114: Mantener quieto para abrir el menú contextual
+115: Mantén pulsado el botón central y dibuja una línea hacia la izquierda o la derecha: la ventana activa se ajusta a esa mitad de la pantalla. Arriba maximiza, abajo minimiza.
+116: Mantén pulsado el botón central y dibuja una forma. El punto marca dónde empieza el trazo.
+117: Mantén pulsado el botón central y dibuja la forma en cualquier parte de la pantalla, como siempre. Durante la calibración no se ejecuta nada.
+118: Mantén pulsado el botón derecho y dibuja una línea hacia la izquierda o la derecha: la ventana activa se ajusta a esa mitad de la pantalla. Arriba maximiza, abajo minimiza.
+119: Mantén pulsado el botón derecho y dibuja una forma. El punto marca dónde empieza el trazo.
+120: Mantén pulsado el botón derecho y dibuja la forma en cualquier parte de la pantalla, como siempre. Durante la calibración no se ejecuta nada.
+121: Tiempo de pulsación
+122: Cómo se ve y suena MouseLine mientras dibujas.
+123: Importar
+124: Importar…
+125: En estas apps el botón del ratón funciona con normalidad y los gestos están desactivados: útil para herramientas 3D, juegos, escritorios remotos y máquinas virtuales. Decide la app que está bajo el cursor, no la activa.
+126: Sus acciones también se eliminan, en todas las apps.
+127: Atajo de teclado
+128: Forma de L
+129: Forma de L (inversa)
+130: Más tarde
+131: Abrir al iniciar sesión
+132: Izquierda
+133: Longitud %.0f pt (mínimo %.0f) · tolerancia %.0f
+134: Con licencia Apache 2.0.
+135: Claro
+136: Bloquear pantalla
+137: macOS pregunta una vez por cada app que controla el script (Privacidad y seguridad → Automatización).
+138: Como el sistema
+139: Maximizar ventana
+140: Multimedia
+141: Botón central
+142: Minimizar ventana
+143: Longitud mínima del gesto
+144: Mission Control
+145: MouseLine
+146: MouseLine (inactivo)
+147: MouseLine no puede escribir en %@. Los cambios que hagas se perderán al salir de la app.
+148: MouseLine se está ejecutando desde %@. El inicio automático y los permisos solo funcionan de forma fiable desde Aplicaciones.
+149: MouseLine lo necesita para ver los botones del ratón y mover ventanas. No graba ni envía nada; el teclado solo se observa mientras dibujas, para detectar Esc.
+150: Ajustes de MouseLine
+151: Mover a Aplicaciones
+152: Mover a la carpeta Aplicaciones
+153: Mover ventana a la siguiente pantalla
+154: Silenciar
+155: Nombre
+156: Navegación
+157: Siguiente pista
+158: Sin acción
+159: Aún no hay gestos personalizados
+160: No hay apps excluidas. Los gestos funcionan en todas partes.
+161: Ninguna forma dentro de la tolerancia: clic central normal
+162: Ninguna forma dentro de la tolerancia: clic derecho normal
+163: Ninguno
+164: Ahora no
+165: Atajo de activación, sonido y háptica
+166: Abrir ajustes de Accesibilidad…
+167: Abrir aplicación
+168: Abrir ajustes de ítems de inicio…
+169: Abrir Ajustes…
+170: Abrir URL
+171: Opcional, unos 30 segundos: dibuja cuatro formas dos veces y MouseLine ajusta el reconocimiento a tus trazos.
+172: Pegar
+173: Ejemplos personales
+174: Reproducir / pausar
+175: Pulsa un atajo… (Esc para cancelar)
+176: Vista previa
+177: Pista anterior
+178: Salir de la app
+179: Salir de MouseLine
+180: Reconocimiento
+181: El reconocimiento ya está ajustado a tus trazos. Tus dibujos también se guardan como ejemplos, para que las formas se reconozcan tal como las dibujas.
+182: Tolerancia de reconocimiento
+183: Reconocido «%@». Todo listo.
+184: Grabar un gesto
+185: Grabar gesto…
+186: Grabar atajo
+187: Graba tus propias formas
+188: Rehacer
+189: Quitar
+190: Quitar app…
+191: ¿Quitar los gestos de %@?
+192: ¿Sustituir todos los ajustes?
+193: Tecla modificadora obligatoria
+194: Restablecer
+195: ¿Restablecer todos los ajustes?
+196: Restablecer todos los ajustes…
+197: Restablecer reconocimiento
+198: ¿Restablecer el reconocimiento?
+199: Derecha
+200: Botón derecho
+201: Ejecutar AppleScript
+202: Ejecutar comando de shell
+203: Guardar
+204: Seleccionar todo
+205: Ajustes
+206: No se pueden guardar los ajustes
+207: Archivo de ajustes
+208: Ajustes…
+209: Formas
+210: Las formas en Predeterminado usan el ajuste de Todas las apps. Elige «Sin acción» para desactivar una forma en %@.
+211: Los atajos, apps, URL, comandos y scripts se pueden configurar en la lista después de guardar.
+212: Los trazos más cortos actúan como un clic normal. Una tolerancia menor significa menos coincidencias accidentales, pero las formas deben dibujarse con más precisión.
+213: Mostrar
+214: Mostrar escritorio
+215: Mostrar el nombre del gesto después de dibujar
+216: Mostrar en el Finder
+217: Mostrar el rastro al dibujar
+218: Mostrar sin asignar
+219: Apagar pantalla
+220: Sonido
+221: Sonido y háptica
+222: Empezar de nuevo
+223: Sistema
+224: Tarda unos 30 segundos: dibuja cuatro formas dos veces.
+225: Zona de prueba
+226: Prueba los trazos antes de usarlos
+227: Eso parecía «%@». Inténtalo de nuevo.
+228: El resultado aparece aquí.
+229: El reconocedor de formas es una adaptación del «$1 Unistroke Recognizer» de J. O. Wobbrock, A. D. Wilson e Y. Li (UIST 2007).
+230: Tema
+231: Hay más
+233: Ajustar ventana abajo
+234: Ajustar ventana a la izquierda
+235: Ajustar ventana a la derecha
+236: Ajustar ventana arriba
+237: Activar o desactivar pantalla completa
+238: Demasiado corto: actúa como un clic central normal
+239: Demasiado corto: actúa como un clic derecho normal
+240: Rastro
+241: Color del rastro
+242: Grosor del rastro
+243: Activación
+244: Botón de activación
+245: Prueba un gesto
+246: Desactiva los gestos en apps que necesitan el botón
+247: Activar o desactivar gestos
+248: Activa MouseLine en la lista. Esta ventana se actualiza sola.
+249: U / Arco
+250: U / Arco (redondo)
+251: U redonda
+252: U redonda (espejo)
+253: U redonda (espejo, inversa)
+254: U redonda (inversa)
+255: Forma de U
+256: Forma de U (espejo)
+257: Forma de U (espejo, inversa)
+258: Forma de U (inversa)
+259: Deshacer
+260: Arriba
+261: Arriba-derecha
+262: Arriba-derecha (inversa)
+263: Usa al menos una de ⌘, ⌃ u ⌥ en el atajo.
+264: Usando los ajustes estándar
+265: Muy parecido a «%@»: podrían confundirse.
+266: Bajar volumen
+267: Subir volumen
+268: Esperando el acceso de Accesibilidad
+269: Guía de bienvenida…
+270: Te damos la bienvenida a MouseLine
+271: Ventana
+272: Acciones de ventana, multimedia y sistema, scripts
+273: Ventanas
+274: Con una tecla modificadora obligatoria, los gestos solo empiezan mientras la mantienes pulsada; si no, el botón funciona con normalidad. El atajo de activación funciona en todas partes.
+275: Tus gestos actuales, formas personalizadas, ajustes de apps y exclusiones se sustituyen por los de este archivo. Expórtalos antes si quieres conservarlos.
+276: Tu último trazo
+277: Tus ejemplos personales se eliminan y la longitud mínima del gesto y la tolerancia de reconocimiento vuelven a sus valores predeterminados. Puedes volver a calibrar cuando quieras.
+278: «%@» no tiene acción: clic central normal
+279: «%@» no tiene acción: clic derecho normal
+280: «%@» → %@
+281: ⇧ Mayúsculas
+282: ⌃ Control
+283: ⌘ Comando
+284: ⌥ Opción
+285: No se pudo reiniciar MouseLine.
+286: Idioma
+287: Reinicia MouseLine para usar el nuevo idioma.
+288: Reiniciar ahora
+289: Este archivo no es un archivo de ajustes de MouseLine.
+plist.NSAppleEventsUsageDescription: MouseLine solo envía Apple Events cuando dibujas un gesto asociado a la acción «Ejecutar AppleScript», para que tu script pueda controlar otras apps.

@@ -87,6 +87,7 @@ struct GeneralSettingsView: View {
                 }
             }
 
+            LanguageSection()
             triggerSection
             contextMenuSection
             dataSection
@@ -231,7 +232,7 @@ struct GeneralSettingsView: View {
             // would "import" as a full reset. Every export carries a version; require it.
             guard let object = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
                   object["version"] != nil else {
-                Alerts.error(L("Could not import the settings."), info: L("This file is not an MouseLine settings file."))
+                Alerts.error(L("Could not import the settings."), info: L("This file is not a MouseLine settings file."))
                 return
             }
             var imported = try AppConfig.decode(data)

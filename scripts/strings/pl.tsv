@@ -1,0 +1,290 @@
+# Polish
+1: %d z %d
+2: Pociągnięcia: %d
+3: Szybkie kliknięcie zawsze działa normalnie. Dzięki tej opcji przytrzymanie bez ruchu też, więc możesz nacisnąć, przeciągnąć do pozycji menu i puścić.
+4: Szybkie kliknięcie tym przyciskiem nadal działa normalnie. W ustawieniach możesz też wymagać klawisza modyfikującego.
+5: MouseLine – informacje
+6: Do przechwytywania gestów myszy potrzebny jest dostęp do funkcji dostępności.
+7: Czynność
+8: Aktywne · %@
+9: Dodaj aplikację…
+10: Dodaj otwartą aplikację
+11: Zaawansowane
+12: Wszystkie aplikacje
+13: Żaden własny gest nie ma przypisanej czynności.
+14: Wszystkie gesty, własne kształty, ustawienia aplikacji i wykluczenia zostaną zastąpione domyślnymi. Najpierw je wyeksportuj, jeśli chcesz je zachować.
+15: Gotowe
+16: Wszystkie kształty
+17: Wszystkie kształty znowu będą używać w tej aplikacji ustawień dla wszystkich aplikacji.
+18: Zezwól na dostęp do funkcji dostępności
+19: Zezwól na MouseLine w Ustawieniach systemowych → Ogólne → Rzeczy otwierane podczas logowania.
+20: Zawsze otwieraj nową instancję (argumenty działają tylko dla nowych instancji)
+21: Aplikacja
+22: Gesty dla aplikacji
+23: Wygląd
+24: Ścieżka aplikacji
+25: Dotyczy ustawień, przewodnika powitalnego i nazwy gestu MouseLine. Pasek menu podąża za macOS.
+26: Argumenty (opcjonalnie)
+27: Wstecz
+28: Podstawowe
+29: C
+30: C (lustrzane)
+31: C (lustrzane, odwrotne)
+32: Kształt C
+33: Kształt C (odwrotny)
+34: Skalibruj ponownie, jeśli gesty nie są rozpoznawane albo uruchamiają się przypadkiem.
+35: Skalibruj ponownie…
+36: Kalibruj gesty
+37: Kalibruj…
+38: Kalibracja
+39: Anuluj
+40: Anulowano
+41: Wyśrodkuj okno
+42: Szewron
+43: Szewron w lewo
+44: Szewron w lewo (odwrotny)
+45: Szewron w prawo
+46: Szewron w prawo (odwrotny)
+47: Wybierz przycisk, którym rysujesz
+48: Wybierz…
+49: Wyczyść
+50: Zamknij okno
+51: Zamknij okno
+52: Najbliższe kształty
+53: Polecenie (uruchamiane w zsh)
+54: Menu kontekstowe
+55: Kopiuj
+56: Narożniki
+57: Nie można zmienić rzeczy otwieranej podczas logowania: %@
+58: Nie można wyeksportować ustawień.
+59: Nie można zaimportować ustawień.
+60: Nie można przenieść aplikacji: %@
+61: Nie można otworzyć kopii w Aplikacjach: %@
+62: Własne
+63: Własny gest
+64: Wytnij
+65: Ciemny
+66: Domyślne (%@)
+67: Usuń
+68: Usuń gest
+69: Usunąć „%@”?
+70: Przekątne
+71: Ukośnie ↖
+72: Ukośnie ↗
+73: Ukośnie ↘
+74: Ukośnie ↙
+75: Inne gesty dla każdej aplikacji
+76: Kierunki
+77: Wyłącz w %@
+78: W dół
+79: W dół i w lewo
+80: W dół i w lewo (odwrotnie)
+81: Narysuj kilka kształtów przyciskiem wyzwalającym, a MouseLine nauczy się, jak je rysujesz: jak dokładnie i jak długie są Twoje pociągnięcia.
+82: Narysuj dłuższe pociągnięcie.
+83: Narysuj kształt, aby zobaczyć, jak zostanie rozpoznany. Tutaj rysujesz lewym przyciskiem i nic nie jest uruchamiane.
+84: Narysuj każdy kształt dwa razy, tak jak zwykle. MouseLine dopasuje się do Twojej ręki.
+85: Rysuj tutaj lewym przyciskiem myszy
+86: Rysuj kształty myszą, aby sterować oknami, aplikacjami i nie tylko.
+87: Narysuj kształt raz, w kierunku, w którym będziesz go rysować przyciskiem wyzwalającym.
+88: Narysuj własny kształt i przypisz mu czynność.
+89: Narysuj „%@”
+90: Edycja
+91: Oceń dla
+92: Wykluczone aplikacje
+93: Eksportuj…
+94: Dopasuj do swojej ręki
+95: Dopasowano do Twoich pociągnięć
+96: Tylko gładziki Force Touch
+97: Dalej
+98: Gamma
+99: Gamma (odwrotna)
+100: Ogólne
+101: Nazwa gestu
+102: Gesty
+103: Gesty są wyłączone
+104: Gesty włączone
+105: Gesty włączone
+106: Gesty wyłączone
+107: Gesty włączone
+108: Zaczynamy
+109: Zezwól na dostęp do funkcji dostępności…
+110: Reakcja haptyczna
+111: Pomoc
+112: Ukryj aplikację
+113: Przytrzymaj przycisk myszy, narysuj kształt, puść.
+114: Przytrzymanie bez ruchu otwiera menu kontekstowe
+115: Przytrzymaj środkowy przycisk i narysuj linię w lewo lub w prawo: aktywne okno dopasuje się do tej połowy ekranu. W górę maksymalizuje, w dół minimalizuje.
+116: Przytrzymaj środkowy przycisk i narysuj kształt. Kropka oznacza początek pociągnięcia.
+117: Przytrzymaj środkowy przycisk i narysuj kształt w dowolnym miejscu ekranu, tak jak zwykle. Podczas kalibracji nic nie jest uruchamiane.
+118: Przytrzymaj prawy przycisk i narysuj linię w lewo lub w prawo: aktywne okno dopasuje się do tej połowy ekranu. W górę maksymalizuje, w dół minimalizuje.
+119: Przytrzymaj prawy przycisk i narysuj kształt. Kropka oznacza początek pociągnięcia.
+120: Przytrzymaj prawy przycisk i narysuj kształt w dowolnym miejscu ekranu, tak jak zwykle. Podczas kalibracji nic nie jest uruchamiane.
+121: Czas przytrzymania
+122: Jak MouseLine wygląda i brzmi podczas rysowania.
+123: Importuj
+124: Importuj…
+125: W tych aplikacjach przycisk myszy działa normalnie, a gesty są wyłączone – przydatne w programach 3D, grach, pulpitach zdalnych i maszynach wirtualnych. Decyduje aplikacja pod kursorem, a nie aktywna.
+126: Jego czynności również zostaną usunięte, we wszystkich aplikacjach.
+127: Skrót klawiszowy
+128: Kształt L
+129: Kształt L (odwrotny)
+130: Później
+131: Otwieraj przy logowaniu
+132: W lewo
+133: Długość %.0f pt (minimum %.0f) · tolerancja %.0f
+134: Na licencji Apache 2.0.
+135: Jasny
+136: Zablokuj ekran
+137: macOS zapyta raz o każdą aplikację, którą steruje skrypt (Prywatność i ochrona → Automatyzacja).
+138: Jak w systemie
+139: Maksymalizuj okno
+140: Multimedia
+141: Środkowy przycisk
+142: Minimalizuj okno
+143: Minimalna długość gestu
+144: Mission Control
+145: MouseLine
+146: MouseLine (nieaktywne)
+147: MouseLine nie może zapisywać w %@. Zmiany zostaną utracone po zamknięciu aplikacji.
+148: MouseLine działa z lokalizacji %@. Otwieranie przy logowaniu i uprawnienia działają niezawodnie tylko z folderu Aplikacje.
+149: MouseLine potrzebuje tego, aby widzieć przyciski myszy i przesuwać okna. Nic nie jest nagrywane ani wysyłane; klawiatura jest obserwowana tylko podczas rysowania, aby wychwycić Esc.
+150: Ustawienia MouseLine
+151: Przenieś do Aplikacji
+152: Przenieś do folderu Aplikacje
+153: Przenieś okno na następny ekran
+154: Wycisz
+155: Nazwa
+156: Nawigacja
+157: Następny utwór
+158: Brak czynności
+159: Brak własnych gestów
+160: Brak wykluczonych aplikacji. Gesty działają wszędzie.
+161: Brak kształtu w granicach tolerancji – zwykłe kliknięcie środkowe
+162: Brak kształtu w granicach tolerancji – zwykłe kliknięcie prawe
+163: Brak
+164: Nie teraz
+165: Skrót włącz/wyłącz, dźwięk i haptyka
+166: Otwórz ustawienia dostępności…
+167: Otwórz aplikację
+168: Otwórz ustawienia rzeczy otwieranych podczas logowania…
+169: Otwórz ustawienia…
+170: Otwórz URL
+171: Opcjonalnie, około 30 sekund: narysuj cztery kształty po dwa razy, a MouseLine dostroi rozpoznawanie do Twoich pociągnięć.
+172: Wklej
+173: Osobiste przykłady
+174: Odtwórz / wstrzymaj
+175: Naciśnij skrót… (Esc, aby anulować)
+176: Podgląd
+177: Poprzedni utwór
+178: Zakończ aplikację
+179: Zakończ MouseLine
+180: Rozpoznawanie
+181: Rozpoznawanie jest teraz dopasowane do Twoich pociągnięć. Twoje rysunki są też zachowywane jako przykłady, dzięki czemu kształty są rozpoznawane tak, jak je rysujesz.
+182: Tolerancja rozpoznawania
+183: Rozpoznano „%@”. Wszystko gotowe.
+184: Nagraj gest
+185: Nagraj gest…
+186: Nagraj skrót
+187: Nagrywaj własne kształty
+188: Przywróć
+189: Usuń
+190: Usuń aplikację…
+191: Usunąć gesty dla %@?
+192: Zastąpić wszystkie ustawienia?
+193: Wymagany klawisz modyfikujący
+194: Resetuj
+195: Zresetować wszystkie ustawienia?
+196: Resetuj wszystkie ustawienia…
+197: Resetuj rozpoznawanie
+198: Zresetować rozpoznawanie?
+199: W prawo
+200: Prawy przycisk
+201: Uruchom AppleScript
+202: Uruchom polecenie powłoki
+203: Zachowaj
+204: Zaznacz wszystko
+205: Ustawienia
+206: Nie można zachować ustawień
+207: Plik ustawień
+208: Ustawienia…
+209: Kształty
+210: Kształty ustawione na Domyślne używają ustawienia dla wszystkich aplikacji. Wybierz „Brak czynności”, aby wyłączyć kształt w %@.
+211: Skróty, aplikacje, adresy URL, polecenia i skrypty można skonfigurować na liście po zachowaniu.
+212: Krótsze pociągnięcia działają jak zwykłe kliknięcie. Niższa tolerancja oznacza mniej przypadkowych dopasowań, ale kształty trzeba rysować dokładniej.
+213: Pokaż
+214: Pokaż biurko
+215: Pokazuj nazwę gestu po narysowaniu
+216: Pokaż w Finderze
+217: Pokazuj ślad podczas rysowania
+218: Pokaż nieprzypisane
+219: Uśpij ekran
+220: Dźwięk
+221: Dźwięk i haptyka
+222: Zacznij od nowa
+223: System
+224: Zajmuje około 30 sekund: narysuj cztery kształty po dwa razy.
+225: Obszar testowy
+226: Testuj pociągnięcia przed użyciem
+227: To wyglądało jak „%@”. Spróbuj ponownie.
+228: Wynik pojawi się tutaj.
+229: Rozpoznawanie kształtów jest adaptacją „$1 Unistroke Recognizer” autorstwa J. O. Wobbrocka, A. D. Wilsona i Y. Li (UIST 2007).
+230: Motyw
+231: To nie wszystko
+233: Ustaw okno na dole
+234: Ustaw okno po lewej
+235: Ustaw okno po prawej
+236: Ustaw okno na górze
+237: Włącz/wyłącz pełny ekran
+238: Za krótkie – działa jak zwykłe kliknięcie środkowe
+239: Za krótkie – działa jak zwykłe kliknięcie prawe
+240: Ślad
+241: Kolor śladu
+242: Grubość śladu
+243: Wyzwalanie
+244: Przycisk wyzwalający
+245: Wypróbuj gest
+246: Wyłącz gesty w aplikacjach, które potrzebują przycisku
+247: Włącz/wyłącz gesty
+248: Włącz MouseLine na liście. To okno zaktualizuje się samo.
+249: U / Łuk
+250: U / Łuk (okrągły)
+251: Okrągłe U
+252: Okrągłe U (lustrzane)
+253: Okrągłe U (lustrzane, odwrotne)
+254: Okrągłe U (odwrotne)
+255: Kształt U
+256: Kształt U (lustrzany)
+257: Kształt U (lustrzany, odwrotny)
+258: Kształt U (odwrotny)
+259: Cofnij
+260: W górę
+261: W górę i w prawo
+262: W górę i w prawo (odwrotnie)
+263: Użyj w skrócie co najmniej jednego z klawiszy ⌘, ⌃ lub ⌥.
+264: Używane są ustawienia standardowe
+265: Bardzo podobny do „%@” – mogą być mylone.
+266: Ciszej
+267: Głośniej
+268: Oczekiwanie na dostęp do funkcji dostępności
+269: Przewodnik powitalny…
+270: Witaj w MouseLine
+271: Okno
+272: Czynności okien, multimediów i systemu, skrypty
+273: Okna
+274: Przy wymaganym klawiszu modyfikującym gesty zaczynają się tylko wtedy, gdy jest przytrzymany; w przeciwnym razie przycisk działa normalnie. Skrót włącz/wyłącz działa wszędzie.
+275: Twoje obecne gesty, własne kształty, ustawienia aplikacji i wykluczenia zostaną zastąpione tymi z tego pliku. Najpierw je wyeksportuj, jeśli chcesz je zachować.
+276: Twoje ostatnie pociągnięcie
+277: Twoje osobiste przykłady zostaną usunięte, a minimalna długość gestu i tolerancja rozpoznawania wrócą do wartości domyślnych. Możesz skalibrować ponownie w dowolnym momencie.
+278: „%@” nie ma czynności – zwykłe kliknięcie środkowe
+279: „%@” nie ma czynności – zwykłe kliknięcie prawe
+280: „%@” → %@
+281: ⇧ Shift
+282: ⌃ Control
+283: ⌘ Command
+284: ⌥ Option
+285: Nie można ponownie uruchomić MouseLine.
+286: Język
+287: Uruchom ponownie MouseLine, aby używać nowego języka.
+288: Uruchom ponownie teraz
+289: Ten plik nie jest plikiem ustawień MouseLine.
+plist.NSAppleEventsUsageDescription: MouseLine wysyła Apple Events tylko wtedy, gdy narysujesz gest powiązany z czynnością „Uruchom AppleScript”, aby Twój skrypt mógł sterować innymi aplikacjami.

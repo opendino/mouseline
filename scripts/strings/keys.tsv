@@ -1,0 +1,291 @@
+# id	English text — managed by scripts/strings.py sync; do not renumber.
+1	%d of %d
+2	%d strokes
+3	A quick click always works normally. With this option, pressing and holding without moving does too, so you can press, drag to a menu item and release.
+4	A quick click with this button still works normally. You can also require a modifier key in Settings.
+5	About MouseLine
+6	Accessibility access is required to capture mouse gestures.
+7	Action
+8	Active · %@
+9	Add App…
+10	Add Running App
+11	Advanced
+12	All Apps
+13	All custom gestures are unassigned.
+14	All gestures, custom shapes, app settings and exclusions are replaced with the defaults. Export first if you want to keep them.
+15	All set
+16	All Shapes
+17	All shapes will use the All Apps settings in this app again.
+18	Allow Accessibility access
+19	Allow MouseLine in System Settings → General → Login Items.
+20	Always open a new instance (arguments only apply to new instances)
+21	App
+22	App-Specific Gestures
+23	Appearance
+24	Application path
+25	Applies to MouseLine's settings, welcome guide and gesture name. The menu bar follows macOS.
+26	Arguments (optional)
+27	Back
+28	Basic
+29	C
+30	C Mirror
+31	C Mirror Rev
+32	C Shape
+33	C Shape Rev
+34	Calibrate again if gestures are missed or happen by accident.
+35	Calibrate Again…
+36	Calibrate Gestures
+37	Calibrate…
+38	Calibration
+39	Cancel
+40	Cancelled
+41	Center window
+42	Chevron
+43	Chevron Left
+44	Chevron Left Rev
+45	Chevron Right
+46	Chevron Right Rev
+47	Choose the button you draw with
+48	Choose…
+49	Clear
+50	Close window
+51	Close Window
+52	Closest shapes
+53	Command (runs in zsh)
+54	Context menu
+55	Copy
+56	Corners
+57	Could not change the login item: %@
+58	Could not export the settings.
+59	Could not import the settings.
+60	Could not move the app: %@
+61	Could not open the copy in Applications: %@
+62	Custom
+63	Custom Gesture
+64	Cut
+65	Dark
+66	Default (%@)
+67	Delete
+68	Delete gesture
+69	Delete “%@”?
+70	Diagonal
+71	Diagonal ↖
+72	Diagonal ↗
+73	Diagonal ↘
+74	Diagonal ↙
+75	Different gestures for each app
+76	Directional
+77	Disable in %@
+78	Down
+79	Down-Left
+80	Down-Left Rev
+81	Draw a few shapes with your trigger button and MouseLine learns how you draw them: how precisely, and how long your strokes are.
+82	Draw a longer stroke.
+83	Draw a shape to see how it is recognized. Here you draw with the left mouse button and nothing is run.
+84	Draw each shape twice, the way you normally would. MouseLine adjusts itself to your hand.
+85	Draw here with the left mouse button
+86	Draw shapes with the mouse to control windows, apps and more.
+87	Draw the shape once, in the direction you will draw it with the trigger button.
+88	Draw your own shape and give it an action.
+89	Draw “%@”
+90	Edit
+91	Evaluate for
+92	Excluded Apps
+93	Export…
+94	Fit it to your hand
+95	Fitted to your strokes
+96	Force Touch trackpads only
+97	Forward
+98	Gamma
+99	Gamma Rev
+100	General
+101	Gesture name
+102	Gestures
+103	Gestures are off
+104	Gestures enabled
+105	Gestures Enabled
+106	Gestures off
+107	Gestures on
+108	Get Started
+109	Grant Accessibility Access…
+110	Haptic feedback
+111	Help
+112	Hide app
+113	Hold a mouse button, draw a shape, release.
+114	Hold still to open the context menu
+115	Hold the middle mouse button and draw a line to the left or right: the focused window snaps to that half of the screen. Up maximizes, down minimizes.
+116	Hold the middle mouse button and draw a shape. The dot marks where the stroke starts.
+117	Hold the middle mouse button and draw the shape anywhere on the screen, as you normally would. Nothing runs while calibrating.
+118	Hold the right mouse button and draw a line to the left or right: the focused window snaps to that half of the screen. Up maximizes, down minimizes.
+119	Hold the right mouse button and draw a shape. The dot marks where the stroke starts.
+120	Hold the right mouse button and draw the shape anywhere on the screen, as you normally would. Nothing runs while calibrating.
+121	Hold time
+122	How MouseLine looks and sounds while you draw.
+123	Import
+124	Import…
+125	In these apps the mouse button works normally and gestures are off — useful for 3D tools, games, remote desktops and virtual machines. The app under the cursor decides, not the active one.
+126	Its actions are removed too, in all apps.
+127	Keyboard shortcut
+128	L Shape
+129	L Shape Rev
+130	Later
+131	Launch at login
+132	Left
+133	Length %.0f pt (minimum %.0f) · tolerance %.0f
+134	Licensed under the Apache License 2.0.
+135	Light
+136	Lock screen
+137	macOS asks once for each app the script controls (Privacy & Security → Automation).
+138	Match System
+139	Maximize window
+140	Media
+141	Middle button
+142	Minimize window
+143	Minimum gesture length
+144	Mission Control
+145	MouseLine
+146	MouseLine (inactive)
+147	MouseLine cannot write to %@. Changes you make are lost when the app quits.
+148	MouseLine is running from %@. Launch at login and permissions work reliably only from Applications.
+149	MouseLine needs this to see the mouse buttons and to move windows. It does not record or send anything; the keyboard is only observed while you are drawing, to catch Esc.
+150	MouseLine Settings
+151	Move to Applications
+152	Move to the Applications folder
+153	Move window to next display
+154	Mute
+155	Name
+156	Navigation
+157	Next track
+158	No action
+159	No custom gestures yet
+160	No excluded apps. Gestures work everywhere.
+161	No shape within tolerance — normal middle click
+162	No shape within tolerance — normal right click
+163	None
+164	Not Now
+165	On/off shortcut, sound and haptics
+166	Open Accessibility Settings…
+167	Open application
+168	Open Login Items Settings…
+169	Open Settings…
+170	Open URL
+171	Optional, about 30 seconds: draw four shapes twice and MouseLine tunes recognition to your strokes.
+172	Paste
+173	Personal examples
+174	Play / pause
+175	Press a shortcut… (Esc to cancel)
+176	Preview
+177	Previous track
+178	Quit app
+179	Quit MouseLine
+180	Recognition
+181	Recognition is now fitted to your strokes. Your drawings are also kept as examples, so shapes are recognized the way you draw them.
+182	Recognition tolerance
+183	Recognized “%@”. You're all set.
+184	Record a Gesture
+185	Record Gesture…
+186	Record Shortcut
+187	Record your own shapes
+188	Redo
+189	Remove
+190	Remove App…
+191	Remove the gestures for %@?
+192	Replace all settings?
+193	Required modifier key
+194	Reset
+195	Reset all settings?
+196	Reset All Settings…
+197	Reset Recognition
+198	Reset recognition?
+199	Right
+200	Right button
+201	Run AppleScript
+202	Run shell command
+203	Save
+204	Select All
+205	Settings
+206	Settings cannot be saved
+207	Settings file
+208	Settings…
+209	Shapes
+210	Shapes set to Default use the All Apps setting. Choose “No action” to turn a shape off in %@.
+211	Shortcuts, apps, URLs, commands and scripts can be set up in the list after saving.
+212	Shorter strokes act as a normal click. A lower tolerance means fewer accidental matches, but shapes must be drawn more precisely.
+213	Show
+214	Show desktop
+215	Show gesture name after drawing
+216	Show in Finder
+217	Show trail while drawing
+218	Show unassigned
+219	Sleep display
+220	Sound
+221	Sound and haptics
+222	Start Over
+223	System
+224	Takes about 30 seconds: draw four shapes twice.
+225	Test area
+226	Test strokes before you use them
+227	That looked like “%@”. Try again.
+228	The result appears here.
+229	The shape recognizer is an adaptation of the “$1 Unistroke Recognizer” by J. O. Wobbrock, A. D. Wilson and Y. Li (UIST 2007).
+230	Theme
+231	There's more
+232	This file is not an MouseLine settings file.
+233	Tile window bottom
+234	Tile window left
+235	Tile window right
+236	Tile window top
+237	Toggle full screen
+238	Too short — acts as a normal middle click
+239	Too short — acts as a normal right click
+240	Trail
+241	Trail color
+242	Trail width
+243	Trigger
+244	Trigger button
+245	Try a gesture
+246	Turn gestures off in apps that need the button
+247	Turn gestures on/off
+248	Turn on MouseLine in the list. This window updates by itself.
+249	U / Arch
+250	U / Arch (round)
+251	U Round
+252	U Round Mirror
+253	U Round Mirror Rev
+254	U Round Rev
+255	U Shape
+256	U Shape Mirror
+257	U Shape Mirror Rev
+258	U Shape Rev
+259	Undo
+260	Up
+261	Up-Right
+262	Up-Right Rev
+263	Use at least one of ⌘, ⌃ or ⌥ in the shortcut.
+264	Using the standard settings
+265	Very similar to “%@” — they may be confused.
+266	Volume down
+267	Volume up
+268	Waiting for Accessibility access
+269	Welcome Guide…
+270	Welcome to MouseLine
+271	Window
+272	Window, media and system actions, scripts
+273	Windows
+274	With a required modifier key, gestures start only while it is held; otherwise the button works normally. The on/off shortcut works everywhere.
+275	Your current gestures, custom shapes, app settings and exclusions are replaced by the ones in this file. Export first if you want to keep them.
+276	Your last stroke
+277	Your personal examples are removed and the minimum gesture length and recognition tolerance go back to their defaults. You can calibrate again at any time.
+278	“%@” has no action — normal middle click
+279	“%@” has no action — normal right click
+280	“%@” → %@
+281	⇧ Shift
+282	⌃ Control
+283	⌘ Command
+284	⌥ Option
+285	Could not restart MouseLine.
+286	Language
+287	Restart MouseLine to use the new language.
+288	Restart Now
+289	This file is not a MouseLine settings file.
+plist.NSAppleEventsUsageDescription	MouseLine sends Apple Events only when you draw a gesture bound to a “Run AppleScript” action, so that your script can control other apps.

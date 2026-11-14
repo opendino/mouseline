@@ -1,0 +1,290 @@
+# Dutch
+1: %d van %d
+2: %d streken
+3: Een snelle klik werkt altijd normaal. Met deze optie ook ingedrukt houden zonder te bewegen, zodat je kunt drukken, naar een menu-onderdeel slepen en loslaten.
+4: Een snelle klik met deze knop werkt nog steeds normaal. In Instellingen kun je ook een speciale toets verplicht maken.
+5: Over MouseLine
+6: Toegang tot toegankelijkheid is nodig om muisgebaren op te vangen.
+7: Actie
+8: Actief · %@
+9: Voeg app toe…
+10: Voeg geopende app toe
+11: Geavanceerd
+12: Alle apps
+13: Geen enkel eigen gebaar heeft een actie.
+14: Alle gebaren, eigen vormen, app-instellingen en uitzonderingen worden vervangen door de standaardwaarden. Exporteer ze eerst als je ze wilt bewaren.
+15: Klaar
+16: Alle vormen
+17: Alle vormen gebruiken in deze app weer de instellingen voor alle apps.
+18: Sta toegang tot toegankelijkheid toe
+19: Sta MouseLine toe in Systeeminstellingen → Algemeen → Inloggen.
+20: Altijd een nieuwe instantie openen (argumenten gelden alleen voor nieuwe instanties)
+21: App
+22: Gebaren per app
+23: Weergave
+24: Pad van de app
+25: Geldt voor de instellingen, de welkomstgids en de gebaarnaam van MouseLine. De menubalk volgt macOS.
+26: Argumenten (optioneel)
+27: Terug
+28: Basis
+29: C
+30: C (gespiegeld)
+31: C (gespiegeld, omgekeerd)
+32: C-vorm
+33: C-vorm (omgekeerd)
+34: Kalibreer opnieuw als gebaren gemist worden of per ongeluk gebeuren.
+35: Opnieuw kalibreren…
+36: Gebaren kalibreren
+37: Kalibreer…
+38: Kalibratie
+39: Annuleer
+40: Geannuleerd
+41: Venster centreren
+42: Punthaak
+43: Punthaak links
+44: Punthaak links (omgekeerd)
+45: Punthaak rechts
+46: Punthaak rechts (omgekeerd)
+47: Kies de knop waarmee je tekent
+48: Kies…
+49: Wis
+50: Venster sluiten
+51: Sluit venster
+52: Meest gelijkende vormen
+53: Opdracht (draait in zsh)
+54: Contextmenu
+55: Kopieer
+56: Hoeken
+57: Kan het inlogonderdeel niet wijzigen: %@
+58: Kan de instellingen niet exporteren.
+59: Kan de instellingen niet importeren.
+60: Kan de app niet verplaatsen: %@
+61: Kan de kopie in Programma’s niet openen: %@
+62: Eigen
+63: Eigen gebaar
+64: Knip
+65: Donker
+66: Standaard (%@)
+67: Verwijder
+68: Verwijder gebaar
+69: ‘%@’ verwijderen?
+70: Diagonalen
+71: Diagonaal ↖
+72: Diagonaal ↗
+73: Diagonaal ↘
+74: Diagonaal ↙
+75: Andere gebaren voor elke app
+76: Richtingen
+77: Schakel uit in %@
+78: Omlaag
+79: Omlaag-links
+80: Omlaag-links (omgekeerd)
+81: Teken een paar vormen met je activeringsknop en MouseLine leert hoe je ze tekent: hoe nauwkeurig en hoe lang je streken zijn.
+82: Teken een langere streek.
+83: Teken een vorm om te zien hoe hij herkend wordt. Hier teken je met de linkermuisknop en wordt niets uitgevoerd.
+84: Teken elke vorm twee keer, zoals je dat normaal doet. MouseLine past zich aan je hand aan.
+85: Teken hier met de linkermuisknop
+86: Teken vormen met de muis om vensters, apps en meer te bedienen.
+87: Teken de vorm één keer, in de richting waarin je hem met de activeringsknop gaat tekenen.
+88: Teken je eigen vorm en geef hem een actie.
+89: Teken ‘%@’
+90: Wijzig
+91: Evalueer voor
+92: Uitgesloten apps
+93: Exporteer…
+94: Pas het aan je hand aan
+95: Afgestemd op je streken
+96: Alleen Force Touch-trackpads
+97: Vooruit
+98: Gamma
+99: Gamma (omgekeerd)
+100: Algemeen
+101: Gebaarnaam
+102: Gebaren
+103: Gebaren zijn uit
+104: Gebaren ingeschakeld
+105: Gebaren ingeschakeld
+106: Gebaren uit
+107: Gebaren aan
+108: Aan de slag
+109: Sta toegang tot toegankelijkheid toe…
+110: Haptische feedback
+111: Help
+112: Verberg app
+113: Houd een muisknop ingedrukt, teken een vorm en laat los.
+114: Stilhouden opent het contextmenu
+115: Houd de middelste muisknop ingedrukt en teken een lijn naar links of rechts: het actieve venster klikt vast op die helft van het scherm. Omhoog maximaliseert, omlaag minimaliseert.
+116: Houd de middelste muisknop ingedrukt en teken een vorm. De stip markeert het begin van de streek.
+117: Houd de middelste muisknop ingedrukt en teken de vorm ergens op het scherm, zoals je gewend bent. Tijdens het kalibreren wordt niets uitgevoerd.
+118: Houd de rechtermuisknop ingedrukt en teken een lijn naar links of rechts: het actieve venster klikt vast op die helft van het scherm. Omhoog maximaliseert, omlaag minimaliseert.
+119: Houd de rechtermuisknop ingedrukt en teken een vorm. De stip markeert het begin van de streek.
+120: Houd de rechtermuisknop ingedrukt en teken de vorm ergens op het scherm, zoals je gewend bent. Tijdens het kalibreren wordt niets uitgevoerd.
+121: Vasthoudtijd
+122: Hoe MouseLine eruitziet en klinkt terwijl je tekent.
+123: Importeer
+124: Importeer…
+125: In deze apps werkt de muisknop normaal en zijn gebaren uit – handig voor 3D-programma’s, games, externe bureaubladen en virtuele machines. De app onder de aanwijzer bepaalt het, niet de actieve app.
+126: De acties ervan worden ook verwijderd, in alle apps.
+127: Toetscombinatie
+128: L-vorm
+129: L-vorm (omgekeerd)
+130: Later
+131: Open bij inloggen
+132: Links
+133: Lengte %.0f pt (minimaal %.0f) · tolerantie %.0f
+134: Gelicentieerd onder de Apache-licentie 2.0.
+135: Licht
+136: Scherm vergrendelen
+137: macOS vraagt het één keer voor elke app die het script bestuurt (Privacy en beveiliging → Automatisering).
+138: Zoals systeem
+139: Venster maximaliseren
+140: Media
+141: Middelste knop
+142: Venster minimaliseren
+143: Minimale gebaarlengte
+144: Mission Control
+145: MouseLine
+146: MouseLine (inactief)
+147: MouseLine kan niet schrijven in %@. Je wijzigingen gaan verloren als je de app stopt.
+148: MouseLine draait vanuit %@. Openen bij inloggen en toestemmingen werken alleen betrouwbaar vanuit Programma’s.
+149: MouseLine heeft dit nodig om de muisknoppen te zien en vensters te verplaatsen. Er wordt niets opgenomen of verstuurd; het toetsenbord wordt alleen gevolgd terwijl je tekent, om Esc op te vangen.
+150: MouseLine-instellingen
+151: Verplaats naar Programma’s
+152: Verplaats naar de map Programma’s
+153: Venster naar volgend scherm
+154: Geluid uit
+155: Naam
+156: Navigatie
+157: Volgende nummer
+158: Geen actie
+159: Nog geen eigen gebaren
+160: Geen uitgesloten apps. Gebaren werken overal.
+161: Geen vorm binnen de tolerantie – normale middelklik
+162: Geen vorm binnen de tolerantie – normale rechterklik
+163: Geen
+164: Niet nu
+165: Aan/uit-toetscombinatie, geluid en haptiek
+166: Open instellingen voor toegankelijkheid…
+167: Open programma
+168: Open instellingen voor inloggen…
+169: Open instellingen…
+170: Open URL
+171: Optioneel, ongeveer 30 seconden: teken vier vormen twee keer en MouseLine stemt de herkenning af op je streken.
+172: Plak
+173: Persoonlijke voorbeelden
+174: Afspelen / pauzeren
+175: Druk op een toetscombinatie… (Esc om te annuleren)
+176: Voorvertoning
+177: Vorige nummer
+178: Stop app
+179: Stop MouseLine
+180: Herkenning
+181: De herkenning is nu afgestemd op je streken. Je tekeningen worden ook bewaard als voorbeelden, zodat vormen herkend worden zoals jij ze tekent.
+182: Herkenningstolerantie
+183: ‘%@’ herkend. Alles is klaar.
+184: Neem een gebaar op
+185: Neem gebaar op…
+186: Neem toetscombinatie op
+187: Neem je eigen vormen op
+188: Opnieuw
+189: Verwijder
+190: Verwijder app…
+191: Gebaren voor %@ verwijderen?
+192: Alle instellingen vervangen?
+193: Verplichte speciale toets
+194: Herstel
+195: Alle instellingen herstellen?
+196: Herstel alle instellingen…
+197: Herstel herkenning
+198: Herkenning herstellen?
+199: Rechts
+200: Rechterknop
+201: Voer AppleScript uit
+202: Voer shell-opdracht uit
+203: Bewaar
+204: Selecteer alles
+205: Instellingen
+206: Instellingen kunnen niet worden bewaard
+207: Instellingenbestand
+208: Instellingen…
+209: Vormen
+210: Vormen op Standaard gebruiken de instelling voor alle apps. Kies ‘Geen actie’ om een vorm in %@ uit te schakelen.
+211: Toetscombinaties, apps, URL’s, opdrachten en scripts stel je na het bewaren in de lijst in.
+212: Kortere streken werken als een normale klik. Een lagere tolerantie betekent minder toevallige treffers, maar vormen moeten nauwkeuriger getekend worden.
+213: Toon
+214: Toon bureaublad
+215: Toon gebaarnaam na het tekenen
+216: Toon in Finder
+217: Toon spoor tijdens het tekenen
+218: Toon niet toegewezen
+219: Scherm in sluimerstand
+220: Geluid
+221: Geluid en haptiek
+222: Begin opnieuw
+223: Systeem
+224: Duurt ongeveer 30 seconden: teken vier vormen twee keer.
+225: Testgebied
+226: Test streken voordat je ze gebruikt
+227: Dat leek op ‘%@’. Probeer het opnieuw.
+228: Het resultaat verschijnt hier.
+229: De vormherkenning is een bewerking van de ‘$1 Unistroke Recognizer’ van J. O. Wobbrock, A. D. Wilson en Y. Li (UIST 2007).
+230: Thema
+231: Er is meer
+233: Venster onderaan plaatsen
+234: Venster links plaatsen
+235: Venster rechts plaatsen
+236: Venster bovenaan plaatsen
+237: Schermvullende weergave aan/uit
+238: Te kort – werkt als een normale middelklik
+239: Te kort – werkt als een normale rechterklik
+240: Spoor
+241: Kleur van het spoor
+242: Dikte van het spoor
+243: Activering
+244: Activeringsknop
+245: Probeer een gebaar
+246: Schakel gebaren uit in apps die de knop nodig hebben
+247: Gebaren aan/uit
+248: Schakel MouseLine in de lijst in. Dit venster werkt zichzelf bij.
+249: U / Boog
+250: U / Boog (rond)
+251: Ronde U
+252: Ronde U (gespiegeld)
+253: Ronde U (gespiegeld, omgekeerd)
+254: Ronde U (omgekeerd)
+255: U-vorm
+256: U-vorm (gespiegeld)
+257: U-vorm (gespiegeld, omgekeerd)
+258: U-vorm (omgekeerd)
+259: Herstel
+260: Omhoog
+261: Omhoog-rechts
+262: Omhoog-rechts (omgekeerd)
+263: Gebruik minstens één van ⌘, ⌃ of ⌥ in de toetscombinatie.
+264: Standaardinstellingen in gebruik
+265: Lijkt erg op ‘%@’ – ze kunnen verward worden.
+266: Volume omlaag
+267: Volume omhoog
+268: Wacht op toegang tot toegankelijkheid
+269: Welkomstgids…
+270: Welkom bij MouseLine
+271: Venster
+272: Venster-, media- en systeemacties, scripts
+273: Vensters
+274: Met een verplichte speciale toets starten gebaren alleen terwijl je die ingedrukt houdt; anders werkt de knop normaal. De aan/uit-toetscombinatie werkt overal.
+275: Je huidige gebaren, eigen vormen, app-instellingen en uitzonderingen worden vervangen door die uit dit bestand. Exporteer ze eerst als je ze wilt bewaren.
+276: Je laatste streek
+277: Je persoonlijke voorbeelden worden verwijderd en de minimale gebaarlengte en de herkenningstolerantie gaan terug naar hun standaardwaarden. Je kunt op elk moment opnieuw kalibreren.
+278: ‘%@’ heeft geen actie – normale middelklik
+279: ‘%@’ heeft geen actie – normale rechterklik
+280: ‘%@’ → %@
+281: ⇧ Shift
+282: ⌃ Control
+283: ⌘ Command
+284: ⌥ Option
+285: Kan MouseLine niet opnieuw starten.
+286: Taal
+287: Start MouseLine opnieuw om de nieuwe taal te gebruiken.
+288: Start nu opnieuw
+289: Dit bestand is geen instellingenbestand van MouseLine.
+plist.NSAppleEventsUsageDescription: MouseLine verstuurt alleen Apple Events als je een gebaar tekent dat aan de actie ‘Voer AppleScript uit’ is gekoppeld, zodat je script andere apps kan bedienen.

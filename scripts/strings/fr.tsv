@@ -1,0 +1,290 @@
+# French
+1: %d sur %d
+2: %d tracés
+3: Un clic rapide fonctionne toujours normalement. Avec cette option, appuyer sans bouger aussi : vous pouvez appuyer, glisser vers un élément du menu et relâcher.
+4: Un clic rapide avec ce bouton fonctionne toujours normalement. Vous pouvez aussi exiger une touche de modification dans les réglages.
+5: À propos de MouseLine
+6: L’accès d’accessibilité est nécessaire pour capter les gestes de la souris.
+7: Action
+8: Actif · %@
+9: Ajouter une app…
+10: Ajouter une app ouverte
+11: Avancé
+12: Toutes les apps
+13: Aucun geste personnalisé n’a d’action.
+14: Tous les gestes, formes personnalisées, réglages d’apps et exclusions sont remplacés par les valeurs par défaut. Exportez-les d’abord si vous voulez les garder.
+15: Terminé
+16: Toutes les formes
+17: Toutes les formes utiliseront de nouveau les réglages de Toutes les apps dans cette app.
+18: Autoriser l’accès d’accessibilité
+19: Autorisez MouseLine dans Réglages Système → Général → Ouverture.
+20: Toujours ouvrir une nouvelle instance (les arguments ne s’appliquent qu’aux nouvelles instances)
+21: App
+22: Gestes par app
+23: Apparence
+24: Chemin de l’app
+25: S’applique aux réglages, au guide de bienvenue et au nom du geste de MouseLine. La barre des menus suit macOS.
+26: Arguments (facultatif)
+27: Précédent
+28: Simples
+29: C
+30: C (miroir)
+31: C (miroir, inversé)
+32: Forme en C
+33: Forme en C (inversée)
+34: Recalibrez si des gestes ne sont pas reconnus ou se déclenchent par erreur.
+35: Recalibrer…
+36: Calibrer les gestes
+37: Calibrer…
+38: Calibrage
+39: Annuler
+40: Annulé
+41: Centrer la fenêtre
+42: Chevron
+43: Chevron gauche
+44: Chevron gauche (inversé)
+45: Chevron droit
+46: Chevron droit (inversé)
+47: Choisissez le bouton avec lequel vous dessinez
+48: Choisir…
+49: Effacer
+50: Fermer la fenêtre
+51: Fermer la fenêtre
+52: Formes les plus proches
+53: Commande (exécutée dans zsh)
+54: Menu contextuel
+55: Copier
+56: Coins
+57: Impossible de modifier l’élément d’ouverture : %@
+58: Impossible d’exporter les réglages.
+59: Impossible d’importer les réglages.
+60: Impossible de déplacer l’app : %@
+61: Impossible d’ouvrir la copie dans Applications : %@
+62: Personnalisé
+63: Geste personnalisé
+64: Couper
+65: Sombre
+66: Par défaut (%@)
+67: Supprimer
+68: Supprimer le geste
+69: Supprimer « %@ » ?
+70: Diagonales
+71: Diagonale ↖
+72: Diagonale ↗
+73: Diagonale ↘
+74: Diagonale ↙
+75: Des gestes différents pour chaque app
+76: Directions
+77: Désactiver dans %@
+78: Bas
+79: Bas-gauche
+80: Bas-gauche (inversé)
+81: Dessinez quelques formes avec votre bouton de déclenchement et MouseLine apprend comment vous les dessinez : avec quelle précision et quelle longueur de tracé.
+82: Dessinez un tracé plus long.
+83: Dessinez une forme pour voir comment elle est reconnue. Ici, vous dessinez avec le bouton gauche et rien n’est exécuté.
+84: Dessinez chaque forme deux fois, comme d’habitude. MouseLine s’adapte à votre main.
+85: Dessinez ici avec le bouton gauche de la souris
+86: Dessinez des formes avec la souris pour contrôler les fenêtres, les apps et plus encore.
+87: Dessinez la forme une fois, dans le sens où vous la dessinerez avec le bouton de déclenchement.
+88: Dessinez votre propre forme et attribuez-lui une action.
+89: Dessinez « %@ »
+90: Édition
+91: Évaluer pour
+92: Apps exclues
+93: Exporter…
+94: Adaptez-le à votre main
+95: Adapté à vos tracés
+96: Trackpads Force Touch uniquement
+97: Suivant
+98: Gamma
+99: Gamma (inversé)
+100: Général
+101: Nom du geste
+102: Gestes
+103: Les gestes sont désactivés
+104: Gestes activés
+105: Gestes activés
+106: Gestes désactivés
+107: Gestes activés
+108: Commencer
+109: Autoriser l’accès d’accessibilité…
+110: Retour haptique
+111: Aide
+112: Masquer l’app
+113: Maintenez un bouton de la souris, dessinez une forme, relâchez.
+114: Maintenir immobile pour ouvrir le menu contextuel
+115: Maintenez le bouton du milieu et dessinez une ligne vers la gauche ou la droite : la fenêtre active se cale sur cette moitié de l’écran. Vers le haut, elle s’agrandit ; vers le bas, elle se réduit.
+116: Maintenez le bouton du milieu et dessinez une forme. Le point marque le début du tracé.
+117: Maintenez le bouton du milieu et dessinez la forme n’importe où sur l’écran, comme d’habitude. Rien n’est exécuté pendant le calibrage.
+118: Maintenez le bouton droit et dessinez une ligne vers la gauche ou la droite : la fenêtre active se cale sur cette moitié de l’écran. Vers le haut, elle s’agrandit ; vers le bas, elle se réduit.
+119: Maintenez le bouton droit et dessinez une forme. Le point marque le début du tracé.
+120: Maintenez le bouton droit et dessinez la forme n’importe où sur l’écran, comme d’habitude. Rien n’est exécuté pendant le calibrage.
+121: Durée d’appui
+122: L’apparence et le son de MouseLine pendant que vous dessinez.
+123: Importer
+124: Importer…
+125: Dans ces apps, le bouton de la souris fonctionne normalement et les gestes sont désactivés : utile pour les outils 3D, les jeux, les bureaux à distance et les machines virtuelles. C’est l’app sous le pointeur qui compte, pas l’app active.
+126: Ses actions sont aussi supprimées, dans toutes les apps.
+127: Raccourci clavier
+128: Forme en L
+129: Forme en L (inversée)
+130: Plus tard
+131: Ouvrir à la connexion
+132: Gauche
+133: Longueur %.0f pt (minimum %.0f) · tolérance %.0f
+134: Sous licence Apache 2.0.
+135: Clair
+136: Verrouiller l’écran
+137: macOS demande une fois pour chaque app que le script contrôle (Confidentialité et sécurité → Automatisation).
+138: Comme le système
+139: Agrandir la fenêtre
+140: Médias
+141: Bouton du milieu
+142: Réduire la fenêtre
+143: Longueur minimale du geste
+144: Mission Control
+145: MouseLine
+146: MouseLine (inactif)
+147: MouseLine ne peut pas écrire dans %@. Vos modifications seront perdues à la fermeture de l’app.
+148: MouseLine s’exécute depuis %@. L’ouverture à la connexion et les autorisations ne fonctionnent de façon fiable que depuis Applications.
+149: MouseLine en a besoin pour voir les boutons de la souris et déplacer les fenêtres. Rien n’est enregistré ni envoyé ; le clavier n’est observé que pendant que vous dessinez, pour détecter Échap.
+150: Réglages de MouseLine
+151: Déplacer vers Applications
+152: Déplacer vers le dossier Applications
+153: Déplacer la fenêtre sur l’écran suivant
+154: Couper le son
+155: Nom
+156: Navigation
+157: Piste suivante
+158: Aucune action
+159: Pas encore de geste personnalisé
+160: Aucune app exclue. Les gestes fonctionnent partout.
+161: Aucune forme dans la tolérance — clic du milieu normal
+162: Aucune forme dans la tolérance — clic droit normal
+163: Aucun
+164: Pas maintenant
+165: Raccourci marche/arrêt, son et retour haptique
+166: Ouvrir les réglages d’accessibilité…
+167: Ouvrir une application
+168: Ouvrir les réglages d’ouverture…
+169: Ouvrir les réglages…
+170: Ouvrir une URL
+171: Facultatif, environ 30 secondes : dessinez quatre formes deux fois et MouseLine ajuste la reconnaissance à vos tracés.
+172: Coller
+173: Exemples personnels
+174: Lecture / pause
+175: Appuyez sur un raccourci… (Échap pour annuler)
+176: Aperçu
+177: Piste précédente
+178: Quitter l’app
+179: Quitter MouseLine
+180: Reconnaissance
+181: La reconnaissance est maintenant adaptée à vos tracés. Vos dessins sont aussi conservés comme exemples, pour que les formes soient reconnues comme vous les dessinez.
+182: Tolérance de reconnaissance
+183: « %@ » reconnu. Tout est prêt.
+184: Enregistrer un geste
+185: Enregistrer un geste…
+186: Enregistrer un raccourci
+187: Enregistrez vos propres formes
+188: Rétablir
+189: Retirer
+190: Retirer l’app…
+191: Retirer les gestes de %@ ?
+192: Remplacer tous les réglages ?
+193: Touche de modification requise
+194: Réinitialiser
+195: Réinitialiser tous les réglages ?
+196: Réinitialiser tous les réglages…
+197: Réinitialiser la reconnaissance
+198: Réinitialiser la reconnaissance ?
+199: Droite
+200: Bouton droit
+201: Exécuter un AppleScript
+202: Exécuter une commande shell
+203: Enregistrer
+204: Tout sélectionner
+205: Réglages
+206: Impossible d’enregistrer les réglages
+207: Fichier de réglages
+208: Réglages…
+209: Formes
+210: Les formes réglées sur Par défaut utilisent le réglage Toutes les apps. Choisissez « Aucune action » pour désactiver une forme dans %@.
+211: Les raccourcis, apps, URL, commandes et scripts peuvent être configurés dans la liste après l’enregistrement.
+212: Les tracés plus courts agissent comme un clic normal. Une tolérance plus faible signifie moins de correspondances accidentelles, mais les formes doivent être dessinées plus précisément.
+213: Afficher
+214: Afficher le bureau
+215: Afficher le nom du geste après le tracé
+216: Afficher dans le Finder
+217: Afficher la trace pendant le tracé
+218: Afficher les non attribués
+219: Mettre l’écran en veille
+220: Son
+221: Son et retour haptique
+222: Recommencer
+223: Système
+224: Environ 30 secondes : dessinez quatre formes deux fois.
+225: Zone de test
+226: Testez les tracés avant de les utiliser
+227: Cela ressemblait à « %@ ». Réessayez.
+228: Le résultat apparaît ici.
+229: Le moteur de reconnaissance des formes est une adaptation du « $1 Unistroke Recognizer » de J. O. Wobbrock, A. D. Wilson et Y. Li (UIST 2007).
+230: Thème
+231: Et ce n’est pas tout
+233: Placer la fenêtre en bas
+234: Placer la fenêtre à gauche
+235: Placer la fenêtre à droite
+236: Placer la fenêtre en haut
+237: Activer/désactiver le plein écran
+238: Trop court — agit comme un clic du milieu normal
+239: Trop court — agit comme un clic droit normal
+240: Trace
+241: Couleur de la trace
+242: Épaisseur de la trace
+243: Déclenchement
+244: Bouton de déclenchement
+245: Essayez un geste
+246: Désactivez les gestes dans les apps qui ont besoin du bouton
+247: Activer/désactiver les gestes
+248: Activez MouseLine dans la liste. Cette fenêtre se met à jour toute seule.
+249: U / Arche
+250: U / Arche (arrondie)
+251: U arrondi
+252: U arrondi (miroir)
+253: U arrondi (miroir, inversé)
+254: U arrondi (inversé)
+255: Forme en U
+256: Forme en U (miroir)
+257: Forme en U (miroir, inversée)
+258: Forme en U (inversée)
+259: Annuler
+260: Haut
+261: Haut-droite
+262: Haut-droite (inversé)
+263: Utilisez au moins une des touches ⌘, ⌃ ou ⌥ dans le raccourci.
+264: Réglages standard utilisés
+265: Très proche de « %@ » — ils pourraient être confondus.
+266: Baisser le volume
+267: Monter le volume
+268: En attente de l’accès d’accessibilité
+269: Guide de bienvenue…
+270: Bienvenue dans MouseLine
+271: Fenêtre
+272: Actions de fenêtre, de médias et système, scripts
+273: Fenêtres
+274: Avec une touche de modification requise, les gestes ne démarrent que si elle est maintenue ; sinon le bouton fonctionne normalement. Le raccourci marche/arrêt fonctionne partout.
+275: Vos gestes, formes personnalisées, réglages d’apps et exclusions actuels sont remplacés par ceux de ce fichier. Exportez-les d’abord si vous voulez les garder.
+276: Votre dernier tracé
+277: Vos exemples personnels sont supprimés et la longueur minimale du geste et la tolérance de reconnaissance reviennent à leurs valeurs par défaut. Vous pouvez recalibrer à tout moment.
+278: « %@ » n’a pas d’action — clic du milieu normal
+279: « %@ » n’a pas d’action — clic droit normal
+280: « %@ » → %@
+281: ⇧ Maj
+282: ⌃ Contrôle
+283: ⌘ Commande
+284: ⌥ Option
+285: Impossible de redémarrer MouseLine.
+286: Langue
+287: Redémarrez MouseLine pour utiliser la nouvelle langue.
+288: Redémarrer maintenant
+289: Ce fichier n’est pas un fichier de réglages MouseLine.
+plist.NSAppleEventsUsageDescription: MouseLine n’envoie des Apple Events que lorsque vous dessinez un geste associé à l’action « Exécuter un AppleScript », afin que votre script puisse contrôler d’autres apps.

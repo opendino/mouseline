@@ -1,0 +1,290 @@
+1	%d / %d
+2	%d çizgi
+3	Kısa bir tıklama her zaman normal çalışır. Bu seçenekle, hareket etmeden basılı tutmak da normal çalışır; böylece basıp bir menü öğesine sürükleyip bırakabilirsiniz.
+4	Bu tuşla yapılan kısa bir tıklama yine normal çalışır. Ayarlar'dan ayrıca bir değiştirici tuş da zorunlu tutabilirsiniz.
+5	MouseLine Hakkında
+6	Fare jestlerini yakalamak için Erişilebilirlik izni gerekiyor.
+7	Eylem
+8	Etkin · %@
+9	Uygulama Ekle…
+10	Çalışan Uygulamayı Ekle
+11	Gelişmiş
+12	Tüm Uygulamalar
+13	Özel jestlerin hiçbirine eylem atanmamış.
+14	Tüm jestler, özel şekiller, uygulama ayarları ve hariç tutulanlar varsayılanlarla değiştirilir. Saklamak istiyorsanız önce dışa aktarın.
+15	Hazır
+16	Tüm Şekiller
+17	Bu uygulamada tüm şekiller yeniden Tüm Uygulamalar ayarlarını kullanır.
+18	Erişilebilirlik iznini verin
+19	MouseLine'a Sistem Ayarları → Genel → Giriş Öğeleri bölümünden izin verin.
+20	Her zaman yeni bir kopya aç (argümanlar yalnızca yeni kopyalarda geçerlidir)
+21	Uygulama
+22	Uygulamaya Özel Jestler
+23	Görünüm
+24	Uygulama yolu
+25	MouseLine'ın ayarlarına, hoş geldin rehberine ve jest adına uygulanır. Menü çubuğu macOS'u izler.
+26	Argümanlar (isteğe bağlı)
+27	Geri
+28	Temel
+29	C
+30	C (Ayna)
+31	C (Ayna, Ters)
+32	C Şekli
+33	C Şekli (Ters)
+34	Jestler kaçırılıyor ya da istemeden tetikleniyorsa yeniden kalibre edin.
+35	Yeniden Kalibre Et…
+36	Jestleri Kalibre Et
+37	Kalibre Et…
+38	Kalibrasyon
+39	Vazgeç
+40	İptal edildi
+41	Pencereyi ortala
+42	Köşeli Ok
+43	Sol Köşeli Ok
+44	Sol Köşeli Ok (Ters)
+45	Sağ Köşeli Ok
+46	Sağ Köşeli Ok (Ters)
+47	Çizeceğiniz tuşu seçin
+48	Seç…
+49	Temizle
+50	Pencereyi kapat
+51	Pencereyi Kapat
+52	En yakın şekiller
+53	Komut (zsh ile çalışır)
+54	Bağlam menüsü
+55	Kopyala
+56	Köşeler
+57	Giriş öğesi değiştirilemedi: %@
+58	Ayarlar dışa aktarılamadı.
+59	Ayarlar içe aktarılamadı.
+60	Uygulama taşınamadı: %@
+61	Uygulamalar klasöründeki kopya açılamadı: %@
+62	Özel
+63	Özel Jest
+64	Kes
+65	Koyu
+66	Varsayılan (%@)
+67	Sil
+68	Jesti sil
+69	“%@” silinsin mi?
+70	Çaprazlar
+71	Çapraz ↖
+72	Çapraz ↗
+73	Çapraz ↘
+74	Çapraz ↙
+75	Her uygulama için farklı jestler
+76	Yönler
+77	%@ içinde kapat
+78	Aşağı
+79	Aşağı-Sol
+80	Aşağı-Sol (Ters)
+81	Tetik tuşunuzla birkaç şekil çizin; MouseLine onları nasıl çizdiğinizi öğrensin: ne kadar özenli ve ne uzunlukta.
+82	Daha uzun bir çizgi çizin.
+83	Nasıl tanındığını görmek için bir şekil çizin. Burada sol fare tuşuyla çizersiniz ve hiçbir eylem çalışmaz.
+84	Her şekli normalde nasıl çiziyorsanız öyle, ikişer kez çizin. MouseLine kendini elinize göre ayarlar.
+85	Buraya sol fare tuşuyla çizin
+86	Fareyle şekiller çizerek pencereleri, uygulamaları ve daha fazlasını yönetin.
+87	Şekli bir kez, tetik tuşuyla çizeceğiniz yönde çizin.
+88	Kendi şeklinizi çizin ve ona bir eylem atayın.
+89	“%@” çizin
+90	Düzen
+91	Değerlendirilecek yer
+92	Hariç Uygulamalar
+93	Dışa Aktar…
+94	Elinize uydurun
+95	Çizgilerinize göre ayarlandı
+96	Yalnızca Force Touch izleme dörtgenlerinde
+97	İleri
+98	Gama
+99	Gama (Ters)
+100	Genel
+101	Jest adı
+102	Jestler
+103	Jestler kapalı
+104	Jestler açık
+105	Jestler Açık
+106	Jestler kapalı
+107	Jestler açık
+108	Başlayalım
+109	Erişilebilirlik İzni Ver…
+110	Dokunsal geri bildirim
+111	Yardım
+112	Uygulamayı gizle
+113	Bir fare tuşunu basılı tutun, bir şekil çizin, bırakın.
+114	Hareketsiz basılı tutunca bağlam menüsünü aç
+115	Orta fare tuşunu basılı tutup sola ya da sağa bir çizgi çizin: etkin pencere ekranın o yarısına yerleşir. Yukarı büyütür, aşağı küçültür.
+116	Orta fare tuşunu basılı tutup bir şekil çizin. Nokta, çizginin başladığı yeri gösterir.
+117	Orta fare tuşu basılıyken şekli ekranın herhangi bir yerinde, her zamanki gibi çizin. Kalibrasyon sırasında hiçbir eylem çalışmaz.
+118	Sağ fare tuşunu basılı tutup sola ya da sağa bir çizgi çizin: etkin pencere ekranın o yarısına yerleşir. Yukarı büyütür, aşağı küçültür.
+119	Sağ fare tuşunu basılı tutup bir şekil çizin. Nokta, çizginin başladığı yeri gösterir.
+120	Sağ fare tuşu basılıyken şekli ekranın herhangi bir yerinde, her zamanki gibi çizin. Kalibrasyon sırasında hiçbir eylem çalışmaz.
+121	Basılı tutma süresi
+122	Çizerken MouseLine'ın görünümü ve sesi.
+123	İçe Aktar
+124	İçe Aktar…
+125	Bu uygulamalarda fare tuşu normal çalışır ve jestler kapalıdır; 3B araçlar, oyunlar, uzak masaüstü ve sanal makineler için kullanışlıdır. Karar, etkin uygulamaya değil imlecin altındaki uygulamaya göre verilir.
+126	Eylemleri de tüm uygulamalarda kaldırılır.
+127	Klavye kısayolu
+128	L Şekli
+129	L Şekli (Ters)
+130	Sonra
+131	Girişte başlat
+132	Sol
+133	Uzunluk %.0f pt (en az %.0f) · tolerans %.0f
+134	Apache Lisansı 2.0 ile lisanslanmıştır.
+135	Açık
+136	Ekranı kilitle
+137	macOS, scriptin denetlediği her uygulama için bir kez izin ister (Gizlilik ve Güvenlik → Otomasyon).
+138	Sistemle Aynı
+139	Pencereyi büyüt
+140	Medya
+141	Orta tuş
+142	Pencereyi küçült
+143	En kısa jest uzunluğu
+144	Mission Control
+145	MouseLine
+146	MouseLine (devre dışı)
+147	MouseLine, %@ klasörüne yazamıyor. Yaptığınız değişiklikler uygulamadan çıkıldığında kaybolur.
+148	MouseLine şu an %@ konumundan çalışıyor. Girişte başlatma ve izinler yalnızca Uygulamalar klasöründen güvenilir şekilde çalışır.
+149	MouseLine'ın fare tuşlarını görebilmesi ve pencereleri taşıyabilmesi için bu izin gerekli. Hiçbir şey kaydetmez ya da göndermez; klavye yalnızca çizim sırasında, Esc tuşunu yakalamak için dinlenir.
+150	MouseLine Ayarları
+151	Uygulamalar'a Taşı
+152	Uygulamalar klasörüne taşıyın
+153	Pencereyi sonraki ekrana taşı
+154	Sessiz
+155	Ad
+156	Gezinme
+157	Sonraki parça
+158	Eylem yok
+159	Henüz özel jest yok
+160	Hariç uygulama yok. Jestler her yerde çalışır.
+161	Tolerans içinde şekil yok — normal orta tık
+162	Tolerans içinde şekil yok — normal sağ tık
+163	Yok
+164	Şimdi Değil
+165	Aç/kapat kısayolu, ses ve dokunsal geri bildirim
+166	Erişilebilirlik Ayarlarını Aç…
+167	Uygulama aç
+168	Giriş Öğeleri Ayarlarını Aç…
+169	Ayarları Aç…
+170	URL aç
+171	İsteğe bağlı, yaklaşık 30 saniye: dört şekli ikişer kez çizin, MouseLine tanımayı çizgilerinize göre ayarlasın.
+172	Yapıştır
+173	Kişisel örnekler
+174	Oynat / duraklat
+175	Bir kısayola basın… (iptal için Esc)
+176	Önizleme
+177	Önceki parça
+178	Uygulamadan çık
+179	MouseLine'dan Çık
+180	Tanıma
+181	Tanıma artık çizgilerinize göre ayarlandı. Çizimleriniz örnek olarak da saklanır; şekiller sizin çizdiğiniz gibi tanınır.
+182	Tanıma toleransı
+183	“%@” tanındı. Her şey hazır.
+184	Jest Kaydet
+185	Jest Kaydet…
+186	Kısayol Kaydet
+187	Kendi şekillerinizi kaydedin
+188	Yinele
+189	Kaldır
+190	Uygulamayı Kaldır…
+191	%@ için ayarlanan jestler kaldırılsın mı?
+192	Tüm ayarlar değiştirilsin mi?
+193	Gerekli değiştirici tuş
+194	Sıfırla
+195	Tüm ayarlar sıfırlansın mı?
+196	Tüm Ayarları Sıfırla…
+197	Tanımayı Sıfırla
+198	Tanıma sıfırlansın mı?
+199	Sağ
+200	Sağ tuş
+201	AppleScript çalıştır
+202	Kabuk komutu çalıştır
+203	Kaydet
+204	Tümünü Seç
+205	Ayarlar
+206	Ayarlar kaydedilemiyor
+207	Ayar dosyası
+208	Ayarlar…
+209	Şekiller
+210	Varsayılan olarak bırakılan şekiller Tüm Uygulamalar ayarını kullanır. Bir şekli %@ içinde kapatmak için “Eylem yok”u seçin.
+211	Kısayol, uygulama, URL, komut ve script ayrıntıları kaydettikten sonra listeden ayarlanabilir.
+212	Daha kısa çizgiler normal tıklama gibi davranır. Düşük tolerans yanlışlıkla eşleşmeyi azaltır ama şekillerin daha özenli çizilmesi gerekir.
+213	Göster
+214	Masaüstünü göster
+215	Çizdikten sonra jestin adını göster
+216	Finder'da Göster
+217	Çizerken izi göster
+218	Atanmamışları göster
+219	Ekranı uyut
+220	Ses
+221	Ses ve dokunsal geri bildirim
+222	Baştan Başla
+223	Sistem
+224	Yaklaşık 30 saniye sürer: dört şekli ikişer kez çizin.
+225	Deneme alanı
+226	Çizgileri kullanmadan önce deneyin
+227	Bu “%@” gibi göründü. Yeniden deneyin.
+228	Sonuç burada görünür.
+229	Şekil tanıyıcı, J. O. Wobbrock, A. D. Wilson ve Y. Li'nin “$1 Unistroke Recognizer” çalışmasının (UIST 2007) bir uyarlamasıdır.
+230	Tema
+231	Dahası da var
+232	Bu dosya bir MouseLine ayar dosyası değil.
+233	Pencereyi alta yerleştir
+234	Pencereyi sola yerleştir
+235	Pencereyi sağa yerleştir
+236	Pencereyi üste yerleştir
+237	Tam ekranı aç/kapat
+238	Çok kısa — normal orta tık gibi davranır
+239	Çok kısa — normal sağ tık gibi davranır
+240	İz
+241	İz rengi
+242	İz kalınlığı
+243	Tetik
+244	Tetik tuşu
+245	Bir jest deneyin
+246	Fare tuşuna ihtiyaç duyan uygulamalarda jestleri kapatın
+247	Jestleri aç/kapat
+248	Listede MouseLine'ı açın. Bu pencere kendiliğinden güncellenir.
+249	U / Kemer
+250	U / Kemer (yuvarlak)
+251	Yuvarlak U
+252	Yuvarlak U (Ayna)
+253	Yuvarlak U (Ayna, Ters)
+254	Yuvarlak U (Ters)
+255	U Şekli
+256	U Şekli (Ayna)
+257	U Şekli (Ayna, Ters)
+258	U Şekli (Ters)
+259	Geri Al
+260	Yukarı
+261	Yukarı-Sağ
+262	Yukarı-Sağ (Ters)
+263	Kısayolda ⌘, ⌃ veya ⌥ tuşlarından en az biri olmalı.
+264	Standart ayarlar kullanılıyor
+265	“%@” şekline çok benziyor; karışabilirler.
+266	Sesi kıs
+267	Sesi aç
+268	Erişilebilirlik izni bekleniyor
+269	Hoş Geldin Rehberi…
+270	MouseLine'a Hoş Geldiniz
+271	Pencere
+272	Pencere, medya ve sistem eylemleri, betikler
+273	Pencereler
+274	Gerekli bir değiştirici tuş seçilirse jestler yalnızca o tuş basılıyken başlar; aksi hâlde fare tuşu normal çalışır. Aç/kapat kısayolu her yerde çalışır.
+275	Mevcut jestleriniz, özel şekilleriniz, uygulama ayarlarınız ve hariç tutulanlar bu dosyadakilerle değiştirilir. Saklamak istiyorsanız önce dışa aktarın.
+276	Son çizginiz
+277	Kişisel örnekleriniz silinir; en kısa jest uzunluğu ve tanıma toleransı varsayılan değerlerine döner. İstediğiniz zaman yeniden kalibre edebilirsiniz.
+278	“%@” için eylem yok — normal orta tık
+279	“%@” için eylem yok — normal sağ tık
+280	“%@” → %@
+281	⇧ Shift
+282	⌃ Control
+283	⌘ Command
+284	⌥ Option
+plist.NSAppleEventsUsageDescription	MouseLine, Apple Events'i yalnızca “AppleScript çalıştır” eylemine bağlı bir hareket çizdiğinizde gönderir; böylece betiğiniz diğer uygulamaları denetleyebilir.
+285	MouseLine yeniden başlatılamadı.
+286	Dil
+287	Yeni dili kullanmak için MouseLine'ı yeniden başlatın.
+288	Şimdi Yeniden Başlat
+289	Bu dosya bir MouseLine ayar dosyası değil.
