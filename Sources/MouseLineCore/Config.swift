@@ -257,6 +257,23 @@ public enum TriggerButton: String, Codable, CaseIterable, Identifiable, Sendable
 }
 
 /// A modifier key that must be held for gestures to start.
+/// The look of MouseLine's own windows: follow macOS, or always light or dark.
+public enum AppearanceMode: String, Codable, CaseIterable, Identifiable, Sendable {
+    case system
+    case light
+    case dark
+
+    public var id: String { rawValue }
+
+    public var title: String {
+        switch self {
+        case .system: return "Match System"
+        case .light: return "Light"
+        case .dark: return "Dark"
+        }
+    }
+}
+
 public enum RequiredModifier: String, Codable, CaseIterable, Identifiable, Sendable {
     case none
     case option
@@ -398,6 +415,8 @@ public struct AppConfig: Codable, Equatable, Sendable {
     public var feedbackSound: String
     /// Haptic feedback on Force Touch trackpads.
     public var hapticFeedback: Bool
+    /// Light or dark windows, or the macOS setting.
+    public var appearance: AppearanceMode
 
     // Recognition
     public var clickMaxPath: Double
@@ -419,6 +438,7 @@ public struct AppConfig: Codable, Equatable, Sendable {
         showTrail: Bool = true,
         trailColor: RGBAColor = .orange, trailWidth: Double = 5, showGestureName: Bool = true,
         feedbackSound: String = "", hapticFeedback: Bool = false,
+        appearance: AppearanceMode = .system,
         clickMaxPath: Double = 70, matchMaxDistance: Double = 30,
         customGestures: [CustomGesture] = [],
         personalSamples: [PersonalSample] = [],
@@ -435,6 +455,7 @@ public struct AppConfig: Codable, Equatable, Sendable {
         self.holdDelay = holdDelay
         self.excludedApps = excludedApps
         self.showTrail = showTrail
+        self.appearance = appearance
         self.trailColor = trailColor
         self.trailWidth = trailWidth
         self.showGestureName = showGestureName
@@ -581,6 +602,8 @@ public struct AppConfig: Codable, Equatable, Sendable {
         holdDelay = try c.decodeIfPresent(Double.self, forKey: .holdDelay) ?? d.holdDelay
         excludedApps = c.decodeLossyArray(ExcludedApp.self, forKey: .excludedApps) ?? d.excludedApps
         showTrail = try c.decodeIfPresent(Bool.self, forKey: .showTrail) ?? d.showTrail
+        // An unknown value (e.g. from a newer version) falls back to following macOS.
+        appearance = (try? c.decodeIfPresent(AppearanceMode.self, forKey: .appearance)) ?? d.appearance
         trailColor = (try? c.decodeIfPresent(RGBAColor.self, forKey: .trailColor)) ?? d.trailColor
         trailWidth = try c.decodeIfPresent(Double.self, forKey: .trailWidth) ?? d.trailWidth
         showGestureName = try c.decodeIfPresent(Bool.self, forKey: .showGestureName) ?? d.showGestureName

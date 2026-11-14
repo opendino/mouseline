@@ -338,6 +338,14 @@ TR = {
     "Settings cannot be saved": "Ayarlar kaydedilemiyor",
     "MouseLine cannot write to %@. Changes you make are lost when the app quits.": "MouseLine, %@ klasörüne yazamıyor. Yaptığınız değişiklikler uygulamadan çıkıldığında kaybolur.",
     "Could not open the copy in Applications: %@": "Uygulamalar klasöründeki kopya açılamadı: %@",
+
+    # Theme
+    "Theme": "Tema",
+    "Match System": "Sistemle Aynı",
+    "Light": "Açık",
+    "Dark": "Koyu",
+    "Windows": "Pencereler",
+    "Applies to MouseLine's settings, welcome guide and gesture name. The menu bar follows macOS.": "MouseLine'ın ayarlarına, hoş geldin rehberine ve jest adına uygulanır. Menü çubuğu macOS'u izler.",
 }
 
 

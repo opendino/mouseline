@@ -15,6 +15,20 @@ struct AppearanceSettingsView: View {
             }
 
             Section {
+                Picker("Theme", selection: $store.config.appearance) {
+                    ForEach(AppearanceMode.allCases) { mode in
+                        Text(L(mode.title)).tag(mode)
+                    }
+                }
+                .pickerStyle(.segmented)
+            } header: {
+                Text("Windows")
+            } footer: {
+                Text("Applies to MouseLine's settings, welcome guide and gesture name. The menu bar follows macOS.")
+                    .footerStyle()
+            }
+
+            Section {
                 TrailPreview(color: Color(nsColor: store.config.trailColor.nsColor), width: store.config.trailWidth)
                     .frame(height: 110)
                     .opacity(store.config.showTrail ? 1 : 0.35)

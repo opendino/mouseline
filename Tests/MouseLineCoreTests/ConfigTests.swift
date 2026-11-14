@@ -159,4 +159,13 @@ struct ConfigTests {
         #expect(splitArguments(#"'single quoted' plain\ space"#) == ["single quoted", "plain space"])
         #expect(splitArguments(#"empty "" arg"#) == ["empty", "", "arg"])
     }
+
+    @Test func appearanceDefaultsToSystemAndSurvivesUnknownValues() throws {
+        #expect(AppConfig().appearance == .system)
+        #expect(try AppConfig.decode(Data(#"{"version":1}"#.utf8)).appearance == .system)
+        #expect(try AppConfig.decode(Data(#"{"version":1,"appearance":"sepia"}"#.utf8)).appearance == .system)
+        var config = AppConfig()
+        config.appearance = .light
+        #expect(try AppConfig.decode(config.encoded()).appearance == .light)
+    }
 }

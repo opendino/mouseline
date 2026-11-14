@@ -24,6 +24,7 @@
 "App-Specific Gestures" = "Uygulamaya Özel Jestler";
 "Appearance" = "Görünüm";
 "Application path" = "Uygulama yolu";
+"Applies to MouseLine's settings, welcome guide and gesture name. The menu bar follows macOS." = "MouseLine'ın ayarlarına, hoş geldin rehberine ve jest adına uygulanır. Menü çubuğu macOS'u izler.";
 "Arguments (optional)" = "Argümanlar (isteğe bağlı)";
 "Back" = "Geri";
 "Basic" = "Temel";
@@ -63,6 +64,7 @@
 "Custom" = "Özel";
 "Custom Gesture" = "Özel Jest";
 "Cut" = "Kes";
+"Dark" = "Koyu";
 "Default (%@)" = "Varsayılan (%@)";
 "Delete" = "Sil";
 "Delete gesture" = "Jesti sil";
@@ -132,8 +134,10 @@
 "Left" = "Sol";
 "Length %.0f pt (minimum %.0f) · tolerance %.0f" = "Uzunluk %.0f pt (en az %.0f) · tolerans %.0f";
 "Licensed under the Apache License 2.0." = "Apache Lisansı 2.0 ile lisanslanmıştır.";
+"Light" = "Açık";
 "Lock screen" = "Ekranı kilitle";
 "macOS asks once for each app the script controls (Privacy & Security → Automation)." = "macOS, scriptin denetlediği her uygulama için bir kez izin ister (Gizlilik ve Güvenlik → Otomasyon).";
+"Match System" = "Sistemle Aynı";
 "Maximize window" = "Pencereyi büyüt";
 "Media" = "Medya";
 "Middle button" = "Orta tuş";
@@ -225,6 +229,7 @@
 "That looked like “%@”. Try again." = "Bu “%@” gibi göründü. Yeniden deneyin.";
 "The result appears here." = "Sonuç burada görünür.";
 "The shape recognizer is an adaptation of the “$1 Unistroke Recognizer” by J. O. Wobbrock, A. D. Wilson and Y. Li (UIST 2007)." = "Şekil tanıyıcı, J. O. Wobbrock, A. D. Wilson ve Y. Li'nin “$1 Unistroke Recognizer” çalışmasının (UIST 2007) bir uyarlamasıdır.";
+"Theme" = "Tema";
 "There's more" = "Dahası da var";
 "This file is not an MouseLine settings file." = "Bu dosya bir MouseLine ayar dosyası değil.";
 "Tile window bottom" = "Pencereyi alta yerleştir";
@@ -267,6 +272,7 @@
 "Welcome to MouseLine" = "MouseLine'a Hoş Geldiniz";
 "Window" = "Pencere";
 "Window, media and system actions, scripts" = "Pencere, medya ve sistem eylemleri, betikler";
+"Windows" = "Pencereler";
 "With a required modifier key, gestures start only while it is held; otherwise the button works normally. The on/off shortcut works everywhere." = "Gerekli bir değiştirici tuş seçilirse jestler yalnızca o tuş basılıyken başlar; aksi hâlde fare tuşu normal çalışır. Aç/kapat kısayolu her yerde çalışır.";
 "Your current gestures, custom shapes, app settings and exclusions are replaced by the ones in this file. Export first if you want to keep them." = "Mevcut jestleriniz, özel şekilleriniz, uygulama ayarlarınız ve hariç tutulanlar bu dosyadakilerle değiştirilir. Saklamak istiyorsanız önce dışa aktarın.";
 "Your last stroke" = "Son çizginiz";

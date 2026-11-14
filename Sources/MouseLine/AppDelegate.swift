@@ -60,6 +60,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             .removeDuplicates()
             .sink { [weak self] _ in DispatchQueue.main.async { self?.updateStatusIcon() } }
             .store(in: &cancellables)
+        // Light / dark / follow macOS for all of MouseLine's windows (settings, guide, HUD).
+        store.$config
+            .map(\.appearance)
+            .removeDuplicates()
+            .sink { mode in
+                MainActor.assumeIsolated {
+                    switch mode {
+                    case .system: NSApp.appearance = nil
+                    case .light: NSApp.appearance = NSAppearance(named: .aqua)
+                    case .dark: NSApp.appearance = NSAppearance(named: .darkAqua)
+                    }
+                }
+            }
+            .store(in: &cancellables)
         // The global on/off shortcut; re-registered whenever it changes in Settings.
         store.$config
             .map(\.toggleShortcut)
