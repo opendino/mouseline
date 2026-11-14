@@ -36,13 +36,26 @@ enum AppLanguage {
             return (domain["AppleLanguages"] as? [String])?.first ?? ""
         }
         set {
+            let defaults = UserDefaults.standard
             if newValue.isEmpty {
-                UserDefaults.standard.removeObject(forKey: "AppleLanguages")
+                defaults.removeObject(forKey: "AppleLanguages")
             } else {
-                UserDefaults.standard.set([newValue], forKey: "AppleLanguages")
+                defaults.set([newValue], forKey: "AppleLanguages")
+            }
+            // A per-app language does not always switch AppKit to a right-to-left layout,
+            // so ask for it explicitly for Arabic; with "Match System" macOS decides.
+            if rightToLeft.contains(newValue) {
+                defaults.set(true, forKey: "AppleTextDirection")
+                defaults.set(true, forKey: "NSForceRightToLeftWritingDirection")
+            } else {
+                defaults.removeObject(forKey: "AppleTextDirection")
+                defaults.removeObject(forKey: "NSForceRightToLeftWritingDirection")
             }
         }
     }
+
+    /// Languages written right to left.
+    static let rightToLeft: Set<String> = ["ar"]
 
     /// Starts a fresh copy of the app and quits this one, so a new language takes effect.
     @MainActor

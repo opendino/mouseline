@@ -1,0 +1,290 @@
+# Vietnamese
+1: %d / %d
+2: %d nét
+3: Bấm nhanh luôn hoạt động bình thường. Với tùy chọn này, nhấn giữ mà không di chuyển cũng vậy, nên bạn có thể nhấn, kéo đến một mục menu rồi thả.
+4: Bấm nhanh bằng nút này vẫn hoạt động bình thường. Bạn cũng có thể yêu cầu một phím bổ trợ trong Cài đặt.
+5: Giới thiệu về MouseLine
+6: Cần quyền Trợ năng để ghi nhận cử chỉ chuột.
+7: Tác vụ
+8: Đang bật · %@
+9: Thêm ứng dụng…
+10: Thêm ứng dụng đang chạy
+11: Nâng cao
+12: Tất cả ứng dụng
+13: Không có cử chỉ tùy chỉnh nào được gán tác vụ.
+14: Tất cả cử chỉ, hình tùy chỉnh, cài đặt ứng dụng và mục loại trừ sẽ được thay bằng giá trị mặc định. Hãy xuất trước nếu bạn muốn giữ lại.
+15: Xong
+16: Tất cả hình
+17: Tất cả hình trong ứng dụng này sẽ lại dùng cài đặt Tất cả ứng dụng.
+18: Cho phép quyền Trợ năng
+19: Cho phép MouseLine trong Cài đặt hệ thống → Cài đặt chung → Mục đăng nhập.
+20: Luôn mở một phiên bản mới (đối số chỉ áp dụng cho phiên bản mới)
+21: Ứng dụng
+22: Cử chỉ theo ứng dụng
+23: Giao diện
+24: Đường dẫn ứng dụng
+25: Áp dụng cho cài đặt, hướng dẫn chào mừng và tên cử chỉ của MouseLine. Thanh menu theo macOS.
+26: Đối số (tùy chọn)
+27: Quay lại
+28: Cơ bản
+29: C
+30: C (đối xứng)
+31: C (đối xứng, ngược)
+32: Hình chữ C
+33: Hình chữ C (ngược)
+34: Hãy hiệu chỉnh lại nếu cử chỉ bị bỏ sót hoặc xảy ra ngoài ý muốn.
+35: Hiệu chỉnh lại…
+36: Hiệu chỉnh cử chỉ
+37: Hiệu chỉnh…
+38: Hiệu chỉnh
+39: Hủy
+40: Đã hủy
+41: Căn giữa cửa sổ
+42: Chữ V
+43: Chữ V trái
+44: Chữ V trái (ngược)
+45: Chữ V phải
+46: Chữ V phải (ngược)
+47: Chọn nút bạn dùng để vẽ
+48: Chọn…
+49: Xóa
+50: Đóng cửa sổ
+51: Đóng cửa sổ
+52: Các hình gần nhất
+53: Lệnh (chạy trong zsh)
+54: Menu ngữ cảnh
+55: Sao chép
+56: Góc
+57: Không thể thay đổi mục đăng nhập: %@
+58: Không thể xuất cài đặt.
+59: Không thể nhập cài đặt.
+60: Không thể di chuyển ứng dụng: %@
+61: Không thể mở bản sao trong Ứng dụng: %@
+62: Tùy chỉnh
+63: Cử chỉ tùy chỉnh
+64: Cắt
+65: Tối
+66: Mặc định (%@)
+67: Xóa
+68: Xóa cử chỉ
+69: Xóa “%@”?
+70: Đường chéo
+71: Chéo ↖
+72: Chéo ↗
+73: Chéo ↘
+74: Chéo ↙
+75: Cử chỉ khác nhau cho từng ứng dụng
+76: Hướng
+77: Tắt trong %@
+78: Xuống
+79: Xuống-trái
+80: Xuống-trái (ngược)
+81: Vẽ vài hình bằng nút kích hoạt và MouseLine sẽ học cách bạn vẽ: độ chính xác và độ dài nét vẽ của bạn.
+82: Hãy vẽ nét dài hơn.
+83: Vẽ một hình để xem nó được nhận dạng thế nào. Ở đây bạn vẽ bằng nút trái và không có gì được thực hiện.
+84: Vẽ mỗi hình hai lần, như bạn vẫn thường vẽ. MouseLine sẽ tự điều chỉnh theo tay bạn.
+85: Vẽ ở đây bằng nút chuột trái
+86: Vẽ hình bằng chuột để điều khiển cửa sổ, ứng dụng và nhiều hơn nữa.
+87: Vẽ hình một lần, theo hướng bạn sẽ vẽ bằng nút kích hoạt.
+88: Vẽ hình của riêng bạn và gán cho nó một tác vụ.
+89: Vẽ “%@”
+90: Sửa
+91: Đánh giá cho
+92: Ứng dụng bị loại trừ
+93: Xuất…
+94: Điều chỉnh theo tay bạn
+95: Đã điều chỉnh theo nét vẽ của bạn
+96: Chỉ bàn di chuột Force Touch
+97: Tiếp
+98: Gamma
+99: Gamma (ngược)
+100: Cài đặt chung
+101: Tên cử chỉ
+102: Cử chỉ
+103: Cử chỉ đang tắt
+104: Bật cử chỉ
+105: Bật cử chỉ
+106: Đã tắt cử chỉ
+107: Đã bật cử chỉ
+108: Bắt đầu
+109: Cho phép quyền Trợ năng…
+110: Phản hồi xúc giác
+111: Trợ giúp
+112: Ẩn ứng dụng
+113: Giữ một nút chuột, vẽ một hình, rồi thả.
+114: Giữ yên để mở menu ngữ cảnh
+115: Giữ nút chuột giữa và vẽ một đường sang trái hoặc phải: cửa sổ đang dùng sẽ khớp vào nửa màn hình đó. Lên để phóng to, xuống để thu nhỏ.
+116: Giữ nút chuột giữa và vẽ một hình. Dấu chấm đánh dấu điểm bắt đầu nét vẽ.
+117: Giữ nút chuột giữa và vẽ hình ở bất kỳ đâu trên màn hình, như bạn vẫn làm. Không có gì được thực hiện trong khi hiệu chỉnh.
+118: Giữ nút chuột phải và vẽ một đường sang trái hoặc phải: cửa sổ đang dùng sẽ khớp vào nửa màn hình đó. Lên để phóng to, xuống để thu nhỏ.
+119: Giữ nút chuột phải và vẽ một hình. Dấu chấm đánh dấu điểm bắt đầu nét vẽ.
+120: Giữ nút chuột phải và vẽ hình ở bất kỳ đâu trên màn hình, như bạn vẫn làm. Không có gì được thực hiện trong khi hiệu chỉnh.
+121: Thời gian giữ
+122: MouseLine trông và nghe như thế nào khi bạn vẽ.
+123: Nhập
+124: Nhập…
+125: Trong các ứng dụng này, nút chuột hoạt động bình thường và cử chỉ bị tắt — hữu ích cho công cụ 3D, trò chơi, máy tính từ xa và máy ảo. Ứng dụng nằm dưới con trỏ quyết định, không phải ứng dụng đang dùng.
+126: Các tác vụ của nó cũng bị xóa, trong tất cả ứng dụng.
+127: Phím tắt
+128: Hình chữ L
+129: Hình chữ L (ngược)
+130: Để sau
+131: Mở khi đăng nhập
+132: Trái
+133: Độ dài %.0f pt (tối thiểu %.0f) · dung sai %.0f
+134: Được cấp phép theo Giấy phép Apache 2.0.
+135: Sáng
+136: Khóa màn hình
+137: macOS hỏi một lần cho mỗi ứng dụng mà tập lệnh điều khiển (Quyền riêng tư & Bảo mật → Tự động hóa).
+138: Theo hệ thống
+139: Phóng to cửa sổ
+140: Phương tiện
+141: Nút giữa
+142: Thu nhỏ cửa sổ
+143: Độ dài cử chỉ tối thiểu
+144: Mission Control
+145: MouseLine
+146: MouseLine (không hoạt động)
+147: MouseLine không thể ghi vào %@. Các thay đổi của bạn sẽ mất khi thoát ứng dụng.
+148: MouseLine đang chạy từ %@. Mở khi đăng nhập và quyền truy cập chỉ hoạt động ổn định khi chạy từ Ứng dụng.
+149: MouseLine cần quyền này để nhận biết các nút chuột và di chuyển cửa sổ. Không có gì được ghi lại hay gửi đi; bàn phím chỉ được theo dõi khi bạn đang vẽ, để bắt phím Esc.
+150: Cài đặt MouseLine
+151: Chuyển đến Ứng dụng
+152: Chuyển vào thư mục Ứng dụng
+153: Di chuyển cửa sổ sang màn hình tiếp theo
+154: Tắt tiếng
+155: Tên
+156: Điều hướng
+157: Bài tiếp theo
+158: Không có tác vụ
+159: Chưa có cử chỉ tùy chỉnh
+160: Không có ứng dụng bị loại trừ. Cử chỉ hoạt động ở mọi nơi.
+161: Không có hình nào trong dung sai — bấm nút giữa bình thường
+162: Không có hình nào trong dung sai — bấm chuột phải bình thường
+163: Không có
+164: Không phải bây giờ
+165: Phím tắt bật/tắt, âm thanh và xúc giác
+166: Mở cài đặt Trợ năng…
+167: Mở ứng dụng
+168: Mở cài đặt Mục đăng nhập…
+169: Mở Cài đặt…
+170: Mở URL
+171: Tùy chọn, khoảng 30 giây: vẽ bốn hình, mỗi hình hai lần, và MouseLine sẽ điều chỉnh nhận dạng theo nét vẽ của bạn.
+172: Dán
+173: Ví dụ cá nhân
+174: Phát / tạm dừng
+175: Nhấn một phím tắt… (Esc để hủy)
+176: Xem trước
+177: Bài trước
+178: Thoát ứng dụng
+179: Thoát MouseLine
+180: Nhận dạng
+181: Nhận dạng giờ đã được điều chỉnh theo nét vẽ của bạn. Các hình bạn vẽ cũng được giữ làm ví dụ, để hình được nhận dạng đúng như cách bạn vẽ.
+182: Dung sai nhận dạng
+183: Đã nhận dạng “%@”. Mọi thứ đã sẵn sàng.
+184: Ghi một cử chỉ
+185: Ghi cử chỉ…
+186: Ghi phím tắt
+187: Ghi lại hình của riêng bạn
+188: Làm lại
+189: Gỡ bỏ
+190: Gỡ bỏ ứng dụng…
+191: Gỡ bỏ cử chỉ cho %@?
+192: Thay thế tất cả cài đặt?
+193: Phím bổ trợ bắt buộc
+194: Đặt lại
+195: Đặt lại tất cả cài đặt?
+196: Đặt lại tất cả cài đặt…
+197: Đặt lại nhận dạng
+198: Đặt lại nhận dạng?
+199: Phải
+200: Nút phải
+201: Chạy AppleScript
+202: Chạy lệnh shell
+203: Lưu
+204: Chọn tất cả
+205: Cài đặt
+206: Không thể lưu cài đặt
+207: Tệp cài đặt
+208: Cài đặt…
+209: Hình
+210: Các hình đặt là Mặc định dùng cài đặt Tất cả ứng dụng. Chọn “Không có tác vụ” để tắt một hình trong %@.
+211: Phím tắt, ứng dụng, URL, lệnh và tập lệnh có thể được thiết lập trong danh sách sau khi lưu.
+212: Nét ngắn hơn hoạt động như một lần bấm bình thường. Dung sai thấp hơn nghĩa là ít khớp nhầm hơn, nhưng hình phải được vẽ chính xác hơn.
+213: Hiển thị
+214: Hiển thị màn hình nền
+215: Hiển thị tên cử chỉ sau khi vẽ
+216: Hiển thị trong Finder
+217: Hiển thị vệt khi vẽ
+218: Hiển thị mục chưa gán
+219: Tắt màn hình
+220: Âm thanh
+221: Âm thanh và xúc giác
+222: Bắt đầu lại
+223: Hệ thống
+224: Mất khoảng 30 giây: vẽ bốn hình, mỗi hình hai lần.
+225: Khu vực thử
+226: Thử nét vẽ trước khi dùng
+227: Trông giống “%@”. Hãy thử lại.
+228: Kết quả hiển thị ở đây.
+229: Bộ nhận dạng hình là bản chuyển thể của “$1 Unistroke Recognizer” của J. O. Wobbrock, A. D. Wilson và Y. Li (UIST 2007).
+230: Chủ đề
+231: Còn nhiều hơn nữa
+233: Xếp cửa sổ ở dưới
+234: Xếp cửa sổ bên trái
+235: Xếp cửa sổ bên phải
+236: Xếp cửa sổ ở trên
+237: Bật/tắt toàn màn hình
+238: Quá ngắn — hoạt động như bấm nút giữa bình thường
+239: Quá ngắn — hoạt động như bấm chuột phải bình thường
+240: Vệt
+241: Màu vệt
+242: Độ dày vệt
+243: Kích hoạt
+244: Nút kích hoạt
+245: Thử một cử chỉ
+246: Tắt cử chỉ trong ứng dụng cần dùng nút đó
+247: Bật/tắt cử chỉ
+248: Bật MouseLine trong danh sách. Cửa sổ này sẽ tự cập nhật.
+249: U / Vòm
+250: U / Vòm (tròn)
+251: U tròn
+252: U tròn (đối xứng)
+253: U tròn (đối xứng, ngược)
+254: U tròn (ngược)
+255: Hình chữ U
+256: Hình chữ U (đối xứng)
+257: Hình chữ U (đối xứng, ngược)
+258: Hình chữ U (ngược)
+259: Hoàn tác
+260: Lên
+261: Lên-phải
+262: Lên-phải (ngược)
+263: Dùng ít nhất một trong các phím ⌘, ⌃ hoặc ⌥ trong phím tắt.
+264: Đang dùng cài đặt chuẩn
+265: Rất giống “%@” — có thể bị nhầm lẫn.
+266: Giảm âm lượng
+267: Tăng âm lượng
+268: Đang chờ quyền Trợ năng
+269: Hướng dẫn chào mừng…
+270: Chào mừng bạn đến với MouseLine
+271: Cửa sổ
+272: Tác vụ cửa sổ, phương tiện và hệ thống, tập lệnh
+273: Cửa sổ
+274: Với phím bổ trợ bắt buộc, cử chỉ chỉ bắt đầu khi bạn giữ phím đó; nếu không, nút chuột hoạt động bình thường. Phím tắt bật/tắt hoạt động ở mọi nơi.
+275: Các cử chỉ, hình tùy chỉnh, cài đặt ứng dụng và mục loại trừ hiện tại sẽ được thay bằng nội dung trong tệp này. Hãy xuất trước nếu bạn muốn giữ lại.
+276: Nét vẽ cuối của bạn
+277: Các ví dụ cá nhân sẽ bị xóa, độ dài cử chỉ tối thiểu và dung sai nhận dạng trở về mặc định. Bạn có thể hiệu chỉnh lại bất cứ lúc nào.
+278: “%@” không có tác vụ — bấm nút giữa bình thường
+279: “%@” không có tác vụ — bấm chuột phải bình thường
+280: “%@” → %@
+281: ⇧ Shift
+282: ⌃ Control
+283: ⌘ Command
+284: ⌥ Option
+285: Không thể khởi động lại MouseLine.
+286: Ngôn ngữ
+287: Khởi động lại MouseLine để dùng ngôn ngữ mới.
+288: Khởi động lại ngay
+289: Tệp này không phải tệp cài đặt của MouseLine.
+plist.NSAppleEventsUsageDescription: MouseLine chỉ gửi Apple Events khi bạn vẽ một cử chỉ được gán tác vụ “Chạy AppleScript”, để tập lệnh của bạn có thể điều khiển các ứng dụng khác.

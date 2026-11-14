@@ -1,0 +1,290 @@
+# Indonesian
+1: %d dari %d
+2: %d goresan
+3: Klik cepat selalu berfungsi normal. Dengan pilihan ini, menekan dan menahan tanpa bergerak juga, jadi Anda bisa menekan, menyeret ke item menu, lalu melepas.
+4: Klik cepat dengan tombol ini tetap berfungsi normal. Anda juga bisa mewajibkan tombol pengubah di Pengaturan.
+5: Tentang MouseLine
+6: Akses Aksesibilitas diperlukan untuk menangkap gerakan mouse.
+7: Tindakan
+8: Aktif · %@
+9: Tambahkan App…
+10: Tambahkan App yang Berjalan
+11: Lanjutan
+12: Semua App
+13: Tidak ada gerakan khusus yang memiliki tindakan.
+14: Semua gerakan, bentuk khusus, pengaturan app, dan pengecualian diganti dengan nilai default. Ekspor dulu jika Anda ingin menyimpannya.
+15: Selesai
+16: Semua Bentuk
+17: Semua bentuk di app ini akan kembali memakai pengaturan Semua App.
+18: Izinkan akses Aksesibilitas
+19: Izinkan MouseLine di Pengaturan Sistem → Umum → Item Login.
+20: Selalu buka instans baru (argumen hanya berlaku untuk instans baru)
+21: App
+22: Gerakan per App
+23: Tampilan
+24: Jalur aplikasi
+25: Berlaku untuk pengaturan, panduan sambutan, dan nama gerakan MouseLine. Bar menu mengikuti macOS.
+26: Argumen (opsional)
+27: Kembali
+28: Dasar
+29: C
+30: C (cermin)
+31: C (cermin, terbalik)
+32: Bentuk C
+33: Bentuk C (terbalik)
+34: Kalibrasi lagi jika gerakan tidak dikenali atau terjadi tanpa sengaja.
+35: Kalibrasi Lagi…
+36: Kalibrasi Gerakan
+37: Kalibrasi…
+38: Kalibrasi
+39: Batal
+40: Dibatalkan
+41: Tengahkan jendela
+42: Chevron
+43: Chevron Kiri
+44: Chevron Kiri (terbalik)
+45: Chevron Kanan
+46: Chevron Kanan (terbalik)
+47: Pilih tombol yang Anda gunakan untuk menggambar
+48: Pilih…
+49: Hapus
+50: Tutup jendela
+51: Tutup Jendela
+52: Bentuk terdekat
+53: Perintah (berjalan di zsh)
+54: Menu konteks
+55: Salin
+56: Sudut
+57: Tidak dapat mengubah item login: %@
+58: Tidak dapat mengekspor pengaturan.
+59: Tidak dapat mengimpor pengaturan.
+60: Tidak dapat memindahkan app: %@
+61: Tidak dapat membuka salinan di Aplikasi: %@
+62: Khusus
+63: Gerakan Khusus
+64: Potong
+65: Gelap
+66: Default (%@)
+67: Hapus
+68: Hapus gerakan
+69: Hapus “%@”?
+70: Diagonal
+71: Diagonal ↖
+72: Diagonal ↗
+73: Diagonal ↘
+74: Diagonal ↙
+75: Gerakan berbeda untuk tiap app
+76: Arah
+77: Nonaktifkan di %@
+78: Bawah
+79: Bawah-Kiri
+80: Bawah-Kiri (terbalik)
+81: Gambar beberapa bentuk dengan tombol pemicu dan MouseLine mempelajari cara Anda menggambarnya: seberapa tepat dan seberapa panjang goresan Anda.
+82: Gambar goresan yang lebih panjang.
+83: Gambar sebuah bentuk untuk melihat cara bentuk itu dikenali. Di sini Anda menggambar dengan tombol kiri dan tidak ada yang dijalankan.
+84: Gambar setiap bentuk dua kali, seperti biasanya. MouseLine menyesuaikan diri dengan tangan Anda.
+85: Gambar di sini dengan tombol kiri mouse
+86: Gambar bentuk dengan mouse untuk mengontrol jendela, app, dan lainnya.
+87: Gambar bentuk sekali, ke arah yang akan Anda gambar dengan tombol pemicu.
+88: Gambar bentuk Anda sendiri dan beri tindakan.
+89: Gambar “%@”
+90: Edit
+91: Evaluasi untuk
+92: App yang Dikecualikan
+93: Ekspor…
+94: Sesuaikan dengan tangan Anda
+95: Disesuaikan dengan goresan Anda
+96: Khusus trackpad Force Touch
+97: Maju
+98: Gamma
+99: Gamma (terbalik)
+100: Umum
+101: Nama gerakan
+102: Gerakan
+103: Gerakan nonaktif
+104: Gerakan diaktifkan
+105: Gerakan Diaktifkan
+106: Gerakan nonaktif
+107: Gerakan aktif
+108: Mulai
+109: Izinkan Akses Aksesibilitas…
+110: Umpan balik haptik
+111: Bantuan
+112: Sembunyikan app
+113: Tahan tombol mouse, gambar bentuk, lalu lepaskan.
+114: Tahan diam untuk membuka menu konteks
+115: Tahan tombol tengah mouse dan gambar garis ke kiri atau kanan: jendela aktif menempel ke separuh layar itu. Ke atas memaksimalkan, ke bawah meminimalkan.
+116: Tahan tombol tengah mouse dan gambar sebuah bentuk. Titik menandai awal goresan.
+117: Tahan tombol tengah mouse dan gambar bentuk di mana saja di layar, seperti biasa. Tidak ada yang dijalankan selama kalibrasi.
+118: Tahan tombol kanan mouse dan gambar garis ke kiri atau kanan: jendela aktif menempel ke separuh layar itu. Ke atas memaksimalkan, ke bawah meminimalkan.
+119: Tahan tombol kanan mouse dan gambar sebuah bentuk. Titik menandai awal goresan.
+120: Tahan tombol kanan mouse dan gambar bentuk di mana saja di layar, seperti biasa. Tidak ada yang dijalankan selama kalibrasi.
+121: Waktu tahan
+122: Tampilan dan suara MouseLine saat Anda menggambar.
+123: Impor
+124: Impor…
+125: Di app ini tombol mouse berfungsi normal dan gerakan dinonaktifkan — berguna untuk alat 3D, game, desktop jarak jauh, dan mesin virtual. Yang menentukan adalah app di bawah kursor, bukan app yang aktif.
+126: Tindakannya juga dihapus, di semua app.
+127: Pintasan papan ketik
+128: Bentuk L
+129: Bentuk L (terbalik)
+130: Nanti
+131: Buka saat login
+132: Kiri
+133: Panjang %.0f pt (minimal %.0f) · toleransi %.0f
+134: Dilisensikan di bawah Lisensi Apache 2.0.
+135: Terang
+136: Kunci layar
+137: macOS bertanya sekali untuk setiap app yang dikontrol skrip (Privasi & Keamanan → Otomatisasi).
+138: Ikuti Sistem
+139: Maksimalkan jendela
+140: Media
+141: Tombol tengah
+142: Minimalkan jendela
+143: Panjang gerakan minimum
+144: Mission Control
+145: MouseLine
+146: MouseLine (tidak aktif)
+147: MouseLine tidak dapat menulis ke %@. Perubahan yang Anda buat akan hilang saat app ditutup.
+148: MouseLine berjalan dari %@. Buka saat login dan izin hanya berfungsi dengan andal dari Aplikasi.
+149: MouseLine memerlukan ini untuk melihat tombol mouse dan memindahkan jendela. Tidak ada yang direkam atau dikirim; papan ketik hanya dipantau saat Anda menggambar, untuk menangkap Esc.
+150: Pengaturan MouseLine
+151: Pindahkan ke Aplikasi
+152: Pindahkan ke folder Aplikasi
+153: Pindahkan jendela ke layar berikutnya
+154: Bisukan
+155: Nama
+156: Navigasi
+157: Lagu berikutnya
+158: Tidak ada tindakan
+159: Belum ada gerakan khusus
+160: Tidak ada app yang dikecualikan. Gerakan berfungsi di mana saja.
+161: Tidak ada bentuk dalam toleransi — klik tengah biasa
+162: Tidak ada bentuk dalam toleransi — klik kanan biasa
+163: Tidak Ada
+164: Jangan Sekarang
+165: Pintasan aktif/nonaktif, suara, dan haptik
+166: Buka Pengaturan Aksesibilitas…
+167: Buka aplikasi
+168: Buka Pengaturan Item Login…
+169: Buka Pengaturan…
+170: Buka URL
+171: Opsional, sekitar 30 detik: gambar empat bentuk dua kali dan MouseLine menyesuaikan pengenalan dengan goresan Anda.
+172: Tempel
+173: Contoh pribadi
+174: Putar / jeda
+175: Tekan pintasan… (Esc untuk batal)
+176: Pratinjau
+177: Lagu sebelumnya
+178: Keluar dari app
+179: Keluar dari MouseLine
+180: Pengenalan
+181: Pengenalan kini disesuaikan dengan goresan Anda. Gambar Anda juga disimpan sebagai contoh, jadi bentuk dikenali sesuai cara Anda menggambarnya.
+182: Toleransi pengenalan
+183: “%@” dikenali. Semuanya siap.
+184: Rekam Gerakan
+185: Rekam Gerakan…
+186: Rekam Pintasan
+187: Rekam bentuk Anda sendiri
+188: Ulangi
+189: Hapus
+190: Hapus App…
+191: Hapus gerakan untuk %@?
+192: Ganti semua pengaturan?
+193: Tombol pengubah wajib
+194: Atur Ulang
+195: Atur ulang semua pengaturan?
+196: Atur Ulang Semua Pengaturan…
+197: Atur Ulang Pengenalan
+198: Atur ulang pengenalan?
+199: Kanan
+200: Tombol kanan
+201: Jalankan AppleScript
+202: Jalankan perintah shell
+203: Simpan
+204: Pilih Semua
+205: Pengaturan
+206: Pengaturan tidak dapat disimpan
+207: File pengaturan
+208: Pengaturan…
+209: Bentuk
+210: Bentuk yang disetel ke Default memakai pengaturan Semua App. Pilih “Tidak ada tindakan” untuk menonaktifkan bentuk di %@.
+211: Pintasan, app, URL, perintah, dan skrip dapat diatur di daftar setelah disimpan.
+212: Goresan yang lebih pendek berfungsi sebagai klik biasa. Toleransi lebih rendah berarti lebih sedikit kecocokan tak sengaja, tetapi bentuk harus digambar lebih tepat.
+213: Tampilkan
+214: Tampilkan desktop
+215: Tampilkan nama gerakan setelah menggambar
+216: Tampilkan di Finder
+217: Tampilkan jejak saat menggambar
+218: Tampilkan yang belum ditetapkan
+219: Tidurkan layar
+220: Suara
+221: Suara dan haptik
+222: Mulai Lagi
+223: Sistem
+224: Butuh sekitar 30 detik: gambar empat bentuk dua kali.
+225: Area uji
+226: Uji goresan sebelum digunakan
+227: Itu tampak seperti “%@”. Coba lagi.
+228: Hasilnya muncul di sini.
+229: Pengenal bentuk adalah adaptasi dari “$1 Unistroke Recognizer” karya J. O. Wobbrock, A. D. Wilson, dan Y. Li (UIST 2007).
+230: Tema
+231: Masih ada lagi
+233: Tempatkan jendela di bawah
+234: Tempatkan jendela di kiri
+235: Tempatkan jendela di kanan
+236: Tempatkan jendela di atas
+237: Aktifkan/nonaktifkan layar penuh
+238: Terlalu pendek — berfungsi sebagai klik tengah biasa
+239: Terlalu pendek — berfungsi sebagai klik kanan biasa
+240: Jejak
+241: Warna jejak
+242: Lebar jejak
+243: Pemicu
+244: Tombol pemicu
+245: Coba sebuah gerakan
+246: Nonaktifkan gerakan di app yang membutuhkan tombol tersebut
+247: Aktifkan/nonaktifkan gerakan
+248: Aktifkan MouseLine di daftar. Jendela ini diperbarui dengan sendirinya.
+249: U / Lengkung
+250: U / Lengkung (bulat)
+251: U Bulat
+252: U Bulat (cermin)
+253: U Bulat (cermin, terbalik)
+254: U Bulat (terbalik)
+255: Bentuk U
+256: Bentuk U (cermin)
+257: Bentuk U (cermin, terbalik)
+258: Bentuk U (terbalik)
+259: Urungkan
+260: Atas
+261: Atas-Kanan
+262: Atas-Kanan (terbalik)
+263: Gunakan setidaknya satu dari ⌘, ⌃, atau ⌥ dalam pintasan.
+264: Memakai pengaturan standar
+265: Sangat mirip dengan “%@” — keduanya bisa tertukar.
+266: Volume turun
+267: Volume naik
+268: Menunggu akses Aksesibilitas
+269: Panduan Sambutan…
+270: Selamat Datang di MouseLine
+271: Jendela
+272: Tindakan jendela, media, dan sistem, skrip
+273: Jendela
+274: Dengan tombol pengubah wajib, gerakan hanya dimulai saat tombol itu ditahan; jika tidak, tombol mouse berfungsi normal. Pintasan aktif/nonaktif berfungsi di mana saja.
+275: Gerakan, bentuk khusus, pengaturan app, dan pengecualian Anda saat ini diganti dengan yang ada di file ini. Ekspor dulu jika Anda ingin menyimpannya.
+276: Goresan terakhir Anda
+277: Contoh pribadi Anda dihapus, dan panjang gerakan minimum serta toleransi pengenalan kembali ke nilai default. Anda bisa mengkalibrasi lagi kapan saja.
+278: “%@” tidak memiliki tindakan — klik tengah biasa
+279: “%@” tidak memiliki tindakan — klik kanan biasa
+280: “%@” → %@
+281: ⇧ Shift
+282: ⌃ Control
+283: ⌘ Command
+284: ⌥ Option
+285: Tidak dapat memulai ulang MouseLine.
+286: Bahasa
+287: Mulai ulang MouseLine untuk memakai bahasa baru.
+288: Mulai Ulang Sekarang
+289: File ini bukan file pengaturan MouseLine.
+plist.NSAppleEventsUsageDescription: MouseLine hanya mengirim Apple Events saat Anda menggambar gerakan yang terhubung ke tindakan “Jalankan AppleScript”, agar skrip Anda dapat mengontrol app lain.

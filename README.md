@@ -30,7 +30,11 @@ music pauses. A short click still works normally.
   (⌥ ⌃ ⌘ ⇧), and a global shortcut that turns gestures on and off.
 - **Feedback**: optional sound and haptic feedback (Force Touch trackpads) on a recognized
   gesture.
-- **English and Turkish** interface, following the system language.
+- **20 languages**: English, Türkçe, Español, हिन्दी, Português (Brasil), Deutsch, 日本語, Français,
+  Italiano, Русский, Українська, Polski, Nederlands, Bahasa Indonesia, Tiếng Việt, ไทย, 한국어,
+  简体中文, 繁體中文 and العربية (right to left). The app follows the macOS language; Settings →
+  General → Language picks another one.
+- **Light, dark or system** appearance (Settings → Appearance → Theme).
 - **Liquid Glass** on macOS 26 (settings sidebar, buttons, HUD, the lens at the tip of
   the trail); blur materials and bordered buttons on macOS 13–15.
 - Settings can be exported, imported and reset (Settings → General).
@@ -216,7 +220,8 @@ is covered by unit tests.
 swift build                                        # build (host architecture, debug)
 scripts/test.sh                                    # run unit tests
 python3 -I scripts/check-strings.py                # check that every UI string is translated
-python3 -I scripts/tr_strings.py                   # regenerate Support/tr.lproj from its table
+python3 -I scripts/strings.py sync                 # add new UI strings to scripts/strings/keys.tsv
+python3 -I scripts/strings.py build                # regenerate Support/*.lproj from the tables
 CONFIG=debug ARCHS=arm64 scripts/build-app.sh      # quick debug app bundle
 scripts/build-app.sh                               # universal release app bundle
 swift scripts/make-icon.swift Support/AppIcon.icns # regenerate the app icon
@@ -264,10 +269,23 @@ right mouse button.
 
 UI strings are English in the code and used as keys. SwiftUI literals are looked up
 automatically; other strings go through `L()` / `LF()` (`Sources/MouseLine/Localization.swift`).
-Turkish translations live in `scripts/tr_strings.py`, which writes
-`Support/tr.lproj/Localizable.strings`; `scripts/check-strings.py` reports missing keys and
-placeholder mismatches. To add a language, add a `<lang>.lproj/Localizable.strings` and the
-language code to `CFBundleLocalizations` in `Support/Info.plist`.
+
+Translations live in `scripts/strings/`: `keys.tsv` numbers every English string once, and
+each language has a table (`de.tsv`, `zh-Hans.tsv`, …) of `id: translation` lines, so a
+translator only touches one small file. `plist.*` ids are Info.plist texts
+(`InfoPlist.strings`).
+
+```bash
+python3 -I scripts/strings.py sync      # after adding UI text: new strings get the next ids
+python3 -I scripts/strings.py missing   # ids each language still lacks
+python3 -I scripts/strings.py build     # write Support/<lang>.lproj/*.strings
+python3 -I scripts/check-strings.py     # coverage and placeholder check per language
+```
+
+To add a language: create `scripts/strings/<lang>.tsv`, add it to `LANGUAGES` in
+`scripts/strings.py`, to `AppLanguage.all` in `Sources/MouseLine/Settings/LanguageSettings.swift`
+and to `CFBundleLocalizations` in `Support/Info.plist`. Translations of new languages are
+welcome as pull requests; native speakers reviewing the existing ones are even more welcome.
 
 ## Releasing
 
