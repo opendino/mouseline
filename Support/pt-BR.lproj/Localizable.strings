@@ -107,7 +107,9 @@
 "Gestures enabled" = "Gestos ativados";
 "Gestures Enabled" = "Gestos Ativados";
 "Gestures off" = "Gestos desativados";
+"Gestures off in %@" = "Gestos desativados no %@";
 "Gestures on" = "Gestos ativados";
+"Gestures on in %@" = "Gestos ativados no %@";
 "Get Started" = "Começar";
 "Grant Accessibility Access…" = "Permitir acesso de Acessibilidade…";
 "Haptic feedback" = "Resposta tátil";

@@ -107,7 +107,9 @@
 "Gestures enabled" = "제스처 켜기";
 "Gestures Enabled" = "제스처 켜기";
 "Gestures off" = "제스처 꺼짐";
+"Gestures off in %@" = "%@에서 제스처 꺼짐";
 "Gestures on" = "제스처 켜짐";
+"Gestures on in %@" = "%@에서 제스처 켜짐";
 "Get Started" = "시작하기";
 "Grant Accessibility Access…" = "손쉬운 사용 접근 허용…";
 "Haptic feedback" = "햅틱 피드백";

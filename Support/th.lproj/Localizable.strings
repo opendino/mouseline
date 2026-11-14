@@ -107,7 +107,9 @@
 "Gestures enabled" = "เปิดใช้ท่าทาง";
 "Gestures Enabled" = "เปิดใช้ท่าทาง";
 "Gestures off" = "ปิดท่าทางแล้ว";
+"Gestures off in %@" = "ปิดท่าทางใน %@ แล้ว";
 "Gestures on" = "เปิดท่าทางแล้ว";
+"Gestures on in %@" = "เปิดท่าทางใน %@ แล้ว";
 "Get Started" = "เริ่มต้นใช้งาน";
 "Grant Accessibility Access…" = "อนุญาตสิทธิ์การช่วยการเข้าถึง…";
 "Haptic feedback" = "การตอบสนองแบบสัมผัส";

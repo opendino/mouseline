@@ -288,3 +288,5 @@
 288: Mulai Ulang Sekarang
 289: File ini bukan file pengaturan MouseLine.
 plist.NSAppleEventsUsageDescription: MouseLine hanya mengirim Apple Events saat Anda menggambar gerakan yang terhubung ke tindakan “Jalankan AppleScript”, agar skrip Anda dapat mengontrol app lain.
+290: Gerakan nonaktif di %@
+291: Gerakan aktif di %@

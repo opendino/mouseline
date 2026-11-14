@@ -288,3 +288,5 @@ plist.NSAppleEventsUsageDescription	MouseLine, Apple Events'i yalnızca “Apple
 287	Yeni dili kullanmak için MouseLine'ı yeniden başlatın.
 288	Şimdi Yeniden Başlat
 289	Bu dosya bir MouseLine ayar dosyası değil.
+290: Jestler %@ içinde kapalı
+291: Jestler %@ içinde açık

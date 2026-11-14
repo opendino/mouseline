@@ -212,6 +212,24 @@ shows the distances for your own strokes.
 Settings → General shows where the settings file is and has *Export…*, *Import…* and
 *Reset All Settings…*.
 
+## Automation (mouseline:// URLs)
+
+Launchers and scripts can control MouseLine with URLs — this is what the Raycast extension
+uses. Only switching gestures and opening windows is possible; a URL can never run a
+gesture action.
+
+| URL | Does |
+|---|---|
+| `mouseline://toggle` | Turn gestures on or off |
+| `mouseline://enable`, `mouseline://disable` | Turn gestures on / off |
+| `mouseline://toggle-app` | Turn gestures off (or back on) in the frontmost app |
+| `mouseline://settings` | Open Settings; add a pane: `/gestures`, `/appearance`, `/recognition`, `/calibration`, `/excluded-apps`, `/general` |
+| `mouseline://welcome` | Open the welcome guide |
+
+```bash
+open mouseline://toggle
+```
+
 ## How recognition works
 
 MouseLine uses a rotation-sensitive variant of the

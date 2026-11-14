@@ -288,3 +288,5 @@
 288: 지금 재시동
 289: 이 파일은 MouseLine 설정 파일이 아닙니다.
 plist.NSAppleEventsUsageDescription: MouseLine은 ‘AppleScript 실행’ 동작에 연결된 제스처를 그릴 때만 Apple Events를 보내며, 이를 통해 스크립트가 다른 앱을 제어할 수 있습니다.
+290: %@에서 제스처 꺼짐
+291: %@에서 제스처 켜짐

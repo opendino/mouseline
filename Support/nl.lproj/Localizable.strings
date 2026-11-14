@@ -107,7 +107,9 @@
 "Gestures enabled" = "Gebaren ingeschakeld";
 "Gestures Enabled" = "Gebaren ingeschakeld";
 "Gestures off" = "Gebaren uit";
+"Gestures off in %@" = "Gebaren uit in %@";
 "Gestures on" = "Gebaren aan";
+"Gestures on in %@" = "Gebaren aan in %@";
 "Get Started" = "Aan de slag";
 "Grant Accessibility Access…" = "Sta toegang tot toegankelijkheid toe…";
 "Haptic feedback" = "Haptische feedback";

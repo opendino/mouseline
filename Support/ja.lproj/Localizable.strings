@@ -107,7 +107,9 @@
 "Gestures enabled" = "ジェスチャを有効にする";
 "Gestures Enabled" = "ジェスチャを有効にする";
 "Gestures off" = "ジェスチャ オフ";
+"Gestures off in %@" = "%@ でジェスチャ オフ";
 "Gestures on" = "ジェスチャ オン";
+"Gestures on in %@" = "%@ でジェスチャ オン";
 "Get Started" = "始める";
 "Grant Accessibility Access…" = "アクセシビリティへのアクセスを許可…";
 "Haptic feedback" = "触覚フィードバック";

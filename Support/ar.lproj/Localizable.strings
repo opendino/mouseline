@@ -107,7 +107,9 @@
 "Gestures enabled" = "الإيماءات مفعّلة";
 "Gestures Enabled" = "الإيماءات مفعّلة";
 "Gestures off" = "الإيماءات متوقفة";
+"Gestures off in %@" = "الإيماءات متوقفة في %@";
 "Gestures on" = "الإيماءات مفعّلة";
+"Gestures on in %@" = "الإيماءات مفعّلة في %@";
 "Get Started" = "ابدأ";
 "Grant Accessibility Access…" = "السماح بإذن تسهيلات الاستخدام…";
 "Haptic feedback" = "الاستجابة اللمسية";

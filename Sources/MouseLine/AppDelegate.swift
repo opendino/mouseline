@@ -108,6 +108,46 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         ActionRunner.run(action)
     }
 
+    // MARK: - mouseline:// URLs (Raycast, Alfred, Shortcuts, scripts)
+
+    func application(_ application: NSApplication, open urls: [URL]) {
+        for url in urls {
+            guard let command = URLCommand(url: url) else { continue }
+            handle(command)
+        }
+    }
+
+    private func handle(_ command: URLCommand) {
+        switch command {
+        case .setEnabled(let value):
+            store.config.enabled = value ?? !store.config.enabled
+            let on = store.config.enabled
+            hud.show(on ? L("Gestures on") : L("Gestures off"), symbol: on ? "hand.draw" : "hand.raised.slash")
+        case .toggleFrontmostApp:
+            // The launcher that sent the URL has closed by now, so this is the user's app.
+            guard let front = NSWorkspace.shared.frontmostApplication,
+                  front.bundleIdentifier != Bundle.main.bundleIdentifier,
+                  let app = AppInfo.excludedApp(for: front)
+            else { return }
+            if store.config.isExcluded(bundleID: app.bundleID) {
+                store.config.excludedApps.removeAll { $0.bundleID == app.bundleID }
+                hud.show(LF("Gestures on in %@", app.name), symbol: "hand.draw")
+            } else {
+                store.config.excludedApps.append(app)
+                hud.show(LF("Gestures off in %@", app.name), symbol: "hand.raised.slash")
+            }
+        case .openSettings(let pane):
+            let panes: [String: SettingsPane] = [
+                "general": .general, "gestures": .gestures, "appearance": .appearance,
+                "recognition": .recognition, "calibration": .calibration, "excluded-apps": .excludedApps,
+            ]
+            if let pane, let target = panes[pane] { settingsModel.selection = target }
+            openSettings()
+        case .openWelcome:
+            openOnboarding()
+        }
+    }
+
     private func registerToggleShortcut(_ combo: KeyCombo?) {
         hotKeys.register(combo) { [weak self] in
             guard let self else { return }

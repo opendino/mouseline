@@ -288,3 +288,5 @@
 288: Uruchom ponownie teraz
 289: Ten plik nie jest plikiem ustawień MouseLine.
 plist.NSAppleEventsUsageDescription: MouseLine wysyła Apple Events tylko wtedy, gdy narysujesz gest powiązany z czynnością „Uruchom AppleScript”, aby Twój skrypt mógł sterować innymi aplikacjami.
+290: Gesty wyłączone w %@
+291: Gesty włączone w %@

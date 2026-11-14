@@ -107,7 +107,9 @@
 "Gestures enabled" = "Jestler açık";
 "Gestures Enabled" = "Jestler Açık";
 "Gestures off" = "Jestler kapalı";
+"Gestures off in %@" = "Jestler %@ içinde kapalı";
 "Gestures on" = "Jestler açık";
+"Gestures on in %@" = "Jestler %@ içinde açık";
 "Get Started" = "Başlayalım";
 "Grant Accessibility Access…" = "Erişilebilirlik İzni Ver…";
 "Haptic feedback" = "Dokunsal geri bildirim";

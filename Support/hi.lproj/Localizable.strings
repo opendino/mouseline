@@ -107,7 +107,9 @@
 "Gestures enabled" = "जेस्चर चालू";
 "Gestures Enabled" = "जेस्चर चालू";
 "Gestures off" = "जेस्चर बंद";
+"Gestures off in %@" = "%@ में जेस्चर बंद";
 "Gestures on" = "जेस्चर चालू";
+"Gestures on in %@" = "%@ में जेस्चर चालू";
 "Get Started" = "शुरू करें";
 "Grant Accessibility Access…" = "ऐक्सेसिबिलिटी ऐक्सेस की अनुमति दें…";
 "Haptic feedback" = "हैप्टिक फ़ीडबैक";

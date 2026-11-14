@@ -288,4 +288,6 @@
 287	Restart MouseLine to use the new language.
 288	Restart Now
 289	This file is not a MouseLine settings file.
+290	Gestures off in %@
+291	Gestures on in %@
 plist.NSAppleEventsUsageDescription	MouseLine sends Apple Events only when you draw a gesture bound to a “Run AppleScript” action, so that your script can control other apps.

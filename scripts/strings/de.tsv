@@ -288,3 +288,5 @@
 288: Jetzt neu starten
 289: Diese Datei ist keine MouseLine-Einstellungsdatei.
 plist.NSAppleEventsUsageDescription: MouseLine sendet Apple Events nur, wenn du eine Geste zeichnest, die mit der Aktion „AppleScript ausführen“ verknüpft ist, damit dein Skript andere Apps steuern kann.
+290: Gesten in %@ aus
+291: Gesten in %@ an

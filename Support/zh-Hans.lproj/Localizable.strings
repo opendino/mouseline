@@ -107,7 +107,9 @@
 "Gestures enabled" = "已启用手势";
 "Gestures Enabled" = "已启用手势";
 "Gestures off" = "手势已关闭";
+"Gestures off in %@" = "已在 %@ 中关闭手势";
 "Gestures on" = "手势已打开";
+"Gestures on in %@" = "已在 %@ 中打开手势";
 "Get Started" = "开始使用";
 "Grant Accessibility Access…" = "允许辅助功能权限…";
 "Haptic feedback" = "触感反馈";

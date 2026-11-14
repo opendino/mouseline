@@ -107,7 +107,9 @@
 "Gestures enabled" = "Жесты включены";
 "Gestures Enabled" = "Жесты включены";
 "Gestures off" = "Жесты выключены";
+"Gestures off in %@" = "Жесты выключены в %@";
 "Gestures on" = "Жесты включены";
+"Gestures on in %@" = "Жесты включены в %@";
 "Get Started" = "Начать";
 "Grant Accessibility Access…" = "Разрешить универсальный доступ…";
 "Haptic feedback" = "Тактильный отклик";

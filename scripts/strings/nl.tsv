@@ -288,3 +288,5 @@
 288: Start nu opnieuw
 289: Dit bestand is geen instellingenbestand van MouseLine.
 plist.NSAppleEventsUsageDescription: MouseLine verstuurt alleen Apple Events als je een gebaar tekent dat aan de actie ‘Voer AppleScript uit’ is gekoppeld, zodat je script andere apps kan bedienen.
+290: Gebaren uit in %@
+291: Gebaren aan in %@

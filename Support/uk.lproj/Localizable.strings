@@ -107,7 +107,9 @@
 "Gestures enabled" = "Жести ввімкнено";
 "Gestures Enabled" = "Жести ввімкнено";
 "Gestures off" = "Жести вимкнено";
+"Gestures off in %@" = "Жести вимкнено в %@";
 "Gestures on" = "Жести ввімкнено";
+"Gestures on in %@" = "Жести ввімкнено в %@";
 "Get Started" = "Почати";
 "Grant Accessibility Access…" = "Дозволити доступ до параметрів доступності…";
 "Haptic feedback" = "Тактильний відгук";

@@ -107,7 +107,9 @@
 "Gestures enabled" = "Gerakan diaktifkan";
 "Gestures Enabled" = "Gerakan Diaktifkan";
 "Gestures off" = "Gerakan nonaktif";
+"Gestures off in %@" = "Gerakan nonaktif di %@";
 "Gestures on" = "Gerakan aktif";
+"Gestures on in %@" = "Gerakan aktif di %@";
 "Get Started" = "Mulai";
 "Grant Accessibility Access…" = "Izinkan Akses Aksesibilitas…";
 "Haptic feedback" = "Umpan balik haptik";

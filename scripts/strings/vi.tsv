@@ -288,3 +288,5 @@
 288: Khởi động lại ngay
 289: Tệp này không phải tệp cài đặt của MouseLine.
 plist.NSAppleEventsUsageDescription: MouseLine chỉ gửi Apple Events khi bạn vẽ một cử chỉ được gán tác vụ “Chạy AppleScript”, để tập lệnh của bạn có thể điều khiển các ứng dụng khác.
+290: Đã tắt cử chỉ trong %@
+291: Đã bật cử chỉ trong %@

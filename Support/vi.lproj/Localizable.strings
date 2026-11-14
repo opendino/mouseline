@@ -107,7 +107,9 @@
 "Gestures enabled" = "Bật cử chỉ";
 "Gestures Enabled" = "Bật cử chỉ";
 "Gestures off" = "Đã tắt cử chỉ";
+"Gestures off in %@" = "Đã tắt cử chỉ trong %@";
 "Gestures on" = "Đã bật cử chỉ";
+"Gestures on in %@" = "Đã bật cử chỉ trong %@";
 "Get Started" = "Bắt đầu";
 "Grant Accessibility Access…" = "Cho phép quyền Trợ năng…";
 "Haptic feedback" = "Phản hồi xúc giác";

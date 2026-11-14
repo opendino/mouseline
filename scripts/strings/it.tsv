@@ -288,3 +288,5 @@
 288: Riavvia ora
 289: Questo file non è un file di impostazioni di MouseLine.
 plist.NSAppleEventsUsageDescription: MouseLine invia Apple Events solo quando disegni un gesto associato all’azione “Esegui AppleScript”, così il tuo script può controllare altre app.
+290: Gesti disattivati in %@
+291: Gesti attivati in %@

@@ -288,3 +288,5 @@
 288: 立即重新啟動
 289: 此檔案不是 MouseLine 設定檔。
 plist.NSAppleEventsUsageDescription: 只有當你繪製連結到「執行 AppleScript」動作的手勢時，MouseLine 才會傳送 Apple Events，讓你的腳本可以控制其他 App。
+290: 已在 %@ 中關閉手勢
+291: 已在 %@ 中開啟手勢
