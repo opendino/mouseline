@@ -58,6 +58,7 @@ Status legend: ✅ done · 🚧 in progress · ⏳ later (needs a decision or ou
 | **Release script** — DMG (app + Applications link), SHA-256 | ✅ | `scripts/make-release.sh`; ad hoc signed without `SIGN_IDENTITY` |
 | Developer ID signing + notarization support | ✅ | `SIGN_IDENTITY` + `NOTARY_PROFILE`: secure timestamp, DMG signing, notarytool, stapler |
 | First notarized release | ⏳ | Needs an Apple Developer Program membership (Developer ID certificate) |
-| GitHub Releases + CI | ⏳ | Needs the GitHub repository |
+| GitHub Releases + CI | ✅ | `.github/workflows`: tests, translations and build on every push; a `v*` tag publishes the DMG |
 | Automatic updates (Sparkle) | ⏳ | Needs signing and a release feed |
-| Homebrew cask | ⏳ | After the first public release |
+| Homebrew cask | ✅ | Tap `opendino/tap` (`scripts/update-cask.sh`); the official cask needs notarization |
+| Raycast extension | ✅ | `raycast/`, via `mouseline://` URLs; Store submission pending |

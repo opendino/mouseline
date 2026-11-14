@@ -357,8 +357,9 @@ described under [If macOS blocks the app](#if-macos-blocks-the-app).
 
 ## Roadmap
 
-See [docs/FEATURES.md](docs/FEATURES.md). Still open: a first notarized release (needs a
-Developer ID), GitHub Releases with CI, automatic updates, and a Homebrew cask.
+See [docs/FEATURES.md](docs/FEATURES.md). Still open: a notarized release (needs a
+Developer ID), which also unlocks the official Homebrew cask (`brew install --cask mouseline`
+without a tap), and automatic updates.
 
 ## License
 
