@@ -50,8 +50,10 @@ enum Snapshot {
             let model = SettingsModel()
             model.selection = pane
             guard shouldRender(name) else { continue }
-            let window = SettingsWindow.make(store: store, state: state, model: model) { _ in }
-            window.title = name
+            // The real pane title, as the settings window shows it.
+            var built: NSWindow?
+            let window = SettingsWindow.make(store: store, state: state, model: model) { built?.title = $0 }
+            built = window
             show(window, name: name, in: folder)
         }
 
