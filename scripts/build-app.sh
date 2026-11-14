@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Builds build/mgestures.app from the Swift package.
+# Builds build/MouseLine.app from the Swift package.
 #
 #   scripts/build-app.sh                 # release build, universal (arm64 + x86_64), signed with
 #                                        # the local dev certificate if present, else ad hoc
@@ -13,14 +13,20 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 CONFIG="${CONFIG:-release}"
-DEV_CERT="mgestures Local Development"
-DEV_KEYCHAIN="$HOME/Library/Keychains/mgestures-dev.keychain-db"
+DEV_CERT="MouseLine Local Development"
+DEV_KEYCHAIN="$HOME/Library/Keychains/mouseline-dev.keychain-db"
 SIGN_LABEL="${SIGN_IDENTITY:-}"
 if [[ -z "${SIGN_IDENTITY:-}" ]]; then
   # Prefer the local development certificate (scripts/make-dev-cert.sh): its signature
   # stays the same across builds, so the Accessibility permission is kept. It is
   # self-signed and untrusted, so codesign takes it by SHA-1 fingerprint, not by name.
   dev_sha1=""
+  # Before the rename to MouseLine the certificate was "mgestures Local Development" in
+  # mgestures-dev.keychain-db; keep using it if that is the one this machine has.
+  if [[ ! -f "$DEV_KEYCHAIN" && -f "$HOME/Library/Keychains/mgestures-dev.keychain-db" ]]; then
+    DEV_CERT="mgestures Local Development"
+    DEV_KEYCHAIN="$HOME/Library/Keychains/mgestures-dev.keychain-db"
+  fi
   if [[ -f "$DEV_KEYCHAIN" ]]; then
     dev_sha1="$(security find-certificate -c "$DEV_CERT" -Z "$DEV_KEYCHAIN" 2>/dev/null | sed -n 's/^SHA-1 hash: //p' | head -1)"
   fi
@@ -49,9 +55,9 @@ if [[ -z "${SIGN_IDENTITY:-}" ]]; then
   fi
 fi
 ARCHS="${ARCHS:-arm64 x86_64}"        # space-separated
-ENTITLEMENTS="Support/mgestures.entitlements"
-APP="build/mgestures.app"
-PRODUCT="mgestures"
+ENTITLEMENTS="Support/MouseLine.entitlements"
+APP="build/MouseLine.app"
+PRODUCT="MouseLine"
 
 read -r -a arch_list <<< "$ARCHS"
 if [[ ${#arch_list[@]} -eq 0 ]]; then

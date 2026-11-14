@@ -11,7 +11,7 @@ Keys come from:
   - string literals passed to SwiftUI views and modifiers (Text, Button, Toggle, Label,
     Section, TextField, Picker, Menu, ColorPicker, .help) and to L() / LF();
   - LocalizedStringKey parameters of our own views (title:, text:);
-  - titles in MGesturesCore that the app shows through L(): ActionKind / TriggerButton /
+  - titles in MouseLineCore that the app shows through L(): ActionKind / TriggerButton /
     RequiredModifier titles, ActionCategory / GestureGroup raw values, built-in gesture ids.
 String interpolations "\\(...)" inside SwiftUI literals become "%@" (all interpolated
 values in this app's literals are strings).
@@ -21,8 +21,8 @@ import re
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-APP = ROOT / "Sources" / "mgestures"
-CORE = ROOT / "Sources" / "MGesturesCore"
+APP = ROOT / "Sources" / "MouseLine"
+CORE = ROOT / "Sources" / "MouseLineCore"
 SUPPORT = ROOT / "Support"
 
 # A Swift string literal on one line (no multi-line literals are used for UI text).
@@ -33,7 +33,7 @@ PATTERNS = [
     re.compile(r'\b(?:title|text):\s*' + LIT),
 ]
 # Literals that are not UI text.
-IGNORE_PREFIXES = ("x-apple.", "/", "dev.mgestures", "--", "https://example.com")
+IGNORE_PREFIXES = ("x-apple.", "/", "app.mouseline", "--", "https://example.com")
 
 
 def swift_key(literal: str) -> str:

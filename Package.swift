@@ -2,23 +2,23 @@
 import PackageDescription
 
 let package = Package(
-    name: "mgestures",
+    name: "MouseLine",
     platforms: [.macOS(.v13)],
     products: [
-        .executable(name: "mgestures", targets: ["mgestures"]),
-        .library(name: "MGesturesCore", targets: ["MGesturesCore"]),
+        .executable(name: "MouseLine", targets: ["MouseLine"]),
+        .library(name: "MouseLineCore", targets: ["MouseLineCore"]),
     ],
     targets: [
         // Pure Swift: shape recognition + configuration model. No AppKit, fully unit-tested.
-        .target(name: "MGesturesCore"),
+        .target(name: "MouseLineCore"),
         // The menu bar app: event tap, trail overlay, actions, settings UI.
         .executableTarget(
-            name: "mgestures",
-            dependencies: ["MGesturesCore"]
+            name: "MouseLine",
+            dependencies: ["MouseLineCore"]
         ),
         .testTarget(
-            name: "MGesturesCoreTests",
-            dependencies: ["MGesturesCore"]
+            name: "MouseLineCoreTests",
+            dependencies: ["MouseLineCore"]
         ),
     ]
 )

@@ -5,11 +5,11 @@ Status legend: ✅ done · 🚧 in progress · ⏳ later (needs a decision or ou
 ## Recognition
 | Feature | Status | Notes |
 |---|---|---|
-| 32 built-in shapes, direction-sensitive $1 recognizer | ✅ | `MGesturesCore/Recognizer.swift` |
+| 32 built-in shapes, direction-sensitive $1 recognizer | ✅ | `MouseLineCore/Recognizer.swift` |
 | Shapes without an action act as a normal right click | ✅ | |
 | **Custom gestures** — draw and name your own shapes | ✅ | Stored normalized in the config; warns when too similar to an existing shape |
 | **Recognition test area** — draw in Settings and see the top matches with distances | ✅ | Recognition pane; drawn with the left button, nothing runs |
-| **Calibration** — draw Left/Right/Up/Down twice with the real trigger button, anywhere on screen | ✅ | Fits tolerance and minimum length; strokes kept as personal examples (`MGesturesCore/Calibration.swift`) |
+| **Calibration** — draw Left/Right/Up/Down twice with the real trigger button, anywhere on screen | ✅ | Fits tolerance and minimum length; strokes kept as personal examples (`MouseLineCore/Calibration.swift`) |
 | Manual tolerance / minimum length sliders | ✅ | Calibration pane → Advanced (collapsed), with Reset Recognition |
 | Basic / all shapes view | ✅ | Basic = lines, diagonals and custom gestures |
 
@@ -58,6 +58,6 @@ Status legend: ✅ done · 🚧 in progress · ⏳ later (needs a decision or ou
 | **Release script** — DMG (app + Applications link), SHA-256 | ✅ | `scripts/make-release.sh`; ad hoc signed without `SIGN_IDENTITY` |
 | Developer ID signing + notarization support | ✅ | `SIGN_IDENTITY` + `NOTARY_PROFILE`: secure timestamp, DMG signing, notarytool, stapler |
 | First notarized release | ⏳ | Needs an Apple Developer Program membership (Developer ID certificate) |
-| GitHub Releases + CI | ⏳ | Needs the final name and repository |
+| GitHub Releases + CI | ⏳ | Needs the GitHub repository |
 | Automatic updates (Sparkle) | ⏳ | Needs signing and a release feed |
 | Homebrew cask | ⏳ | After the first public release |

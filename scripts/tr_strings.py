@@ -8,16 +8,16 @@ import pathlib
 
 TR = {
     # Menu bar, windows, HUD
-    "About mgestures": "mgestures Hakkında",
+    "About MouseLine": "MouseLine Hakkında",
     "Gestures Enabled": "Jestler Açık",
     "Disable in %@": "%@ içinde kapat",
     "Grant Accessibility Access…": "Erişilebilirlik İzni Ver…",
     "Settings…": "Ayarlar…",
     "Welcome Guide…": "Hoş Geldin Rehberi…",
-    "Quit mgestures": "mgestures'tan Çık",
-    "mgestures (inactive)": "mgestures (devre dışı)",
-    "mgestures Settings": "mgestures Ayarları",
-    "Welcome to mgestures": "mgestures'a Hoş Geldiniz",
+    "Quit MouseLine": "MouseLine'dan Çık",
+    "MouseLine (inactive)": "MouseLine (devre dışı)",
+    "MouseLine Settings": "MouseLine Ayarları",
+    "Welcome to MouseLine": "MouseLine'a Hoş Geldiniz",
     "Cancelled": "İptal edildi",
     "Gestures on": "Jestler açık",
     "Gestures off": "Jestler kapalı",
@@ -138,15 +138,15 @@ TR = {
     # Welcome guide
     "Hold a mouse button, draw a shape, release.": "Bir fare tuşunu basılı tutun, bir şekil çizin, bırakın.",
     "Move to the Applications folder": "Uygulamalar klasörüne taşıyın",
-    "mgestures is running from %@. Launch at login and permissions work reliably only from Applications.":
-        "mgestures şu an %@ konumundan çalışıyor. Girişte başlatma ve izinler yalnızca Uygulamalar klasöründen güvenilir şekilde çalışır.",
+    "MouseLine is running from %@. Launch at login and permissions work reliably only from Applications.":
+        "MouseLine şu an %@ konumundan çalışıyor. Girişte başlatma ve izinler yalnızca Uygulamalar klasöründen güvenilir şekilde çalışır.",
     "Move to Applications": "Uygulamalar'a Taşı",
     "Not Now": "Şimdi Değil",
     "Could not move the app: %@": "Uygulama taşınamadı: %@",
     "Allow Accessibility access": "Erişilebilirlik iznini verin",
-    "mgestures needs this to see the mouse buttons and to move windows. It does not record or send anything; the keyboard is only observed while you are drawing, to catch Esc.":
-        "mgestures'ın fare tuşlarını görebilmesi ve pencereleri taşıyabilmesi için bu izin gerekli. Hiçbir şey kaydetmez ya da göndermez; klavye yalnızca çizim sırasında, Esc tuşunu yakalamak için dinlenir.",
-    "Turn on mgestures in the list. This window updates by itself.": "Listede mgestures'ı açın. Bu pencere kendiliğinden güncellenir.",
+    "MouseLine needs this to see the mouse buttons and to move windows. It does not record or send anything; the keyboard is only observed while you are drawing, to catch Esc.":
+        "MouseLine'ın fare tuşlarını görebilmesi ve pencereleri taşıyabilmesi için bu izin gerekli. Hiçbir şey kaydetmez ya da göndermez; klavye yalnızca çizim sırasında, Esc tuşunu yakalamak için dinlenir.",
+    "Turn on MouseLine in the list. This window updates by itself.": "Listede MouseLine'ı açın. Bu pencere kendiliğinden güncellenir.",
     "Choose the button you draw with": "Çizeceğiniz tuşu seçin",
     "A quick click with this button still works normally. You can also require a modifier key in Settings.":
         "Bu tuşla yapılan kısa bir tıklama yine normal çalışır. Ayarlar'dan ayrıca bir değiştirici tuş da zorunlu tutabilirsiniz.",
@@ -263,7 +263,7 @@ TR = {
     "Gesture name": "Jest adı",
     "Gestures are off": "Jestler kapalı",
     "Get Started": "Başlayalım",
-    "How mgestures looks and sounds while you draw.": "Çizerken mgestures'ın görünümü ve sesi.",
+    "How MouseLine looks and sounds while you draw.": "Çizerken MouseLine'ın görünümü ve sesi.",
     "Later": "Sonra",
     "No custom gestures yet": "Henüz özel jest yok",
     "No excluded apps. Gestures work everywhere.": "Hariç uygulama yok. Jestler her yerde çalışır.",
@@ -281,7 +281,7 @@ TR = {
     "Trail": "İz",
     "Waiting for Accessibility access": "Erişilebilirlik izni bekleniyor",
     "Window, media and system actions, scripts": "Pencere, medya ve sistem eylemleri, betikler",
-    "mgestures": "mgestures",
+    "MouseLine": "MouseLine",
 
     # Calibration and Advanced
     "%d of %d": "%d / %d",
@@ -292,10 +292,10 @@ TR = {
     "Calibrate again if gestures are missed or happen by accident.": "Jestler kaçırılıyor ya da istemeden tetikleniyorsa yeniden kalibre edin.",
     "Calibrate…": "Kalibre Et…",
     "Calibration": "Kalibrasyon",
-    "Draw each shape twice, the way you normally would. mgestures adjusts itself to your hand.": "Her şekli normalde nasıl çiziyorsanız öyle, ikişer kez çizin. mgestures kendini elinize göre ayarlar.",
+    "Draw each shape twice, the way you normally would. MouseLine adjusts itself to your hand.": "Her şekli normalde nasıl çiziyorsanız öyle, ikişer kez çizin. MouseLine kendini elinize göre ayarlar.",
     "Draw “%@”": "“%@” çizin",
     "Fit it to your hand": "Elinize uydurun",
-    "Optional, about 30 seconds: draw four shapes twice and mgestures tunes recognition to your strokes.": "İsteğe bağlı, yaklaşık 30 saniye: dört şekli ikişer kez çizin, mgestures tanımayı çizgilerinize göre ayarlasın.",
+    "Optional, about 30 seconds: draw four shapes twice and MouseLine tunes recognition to your strokes.": "İsteğe bağlı, yaklaşık 30 saniye: dört şekli ikişer kez çizin, MouseLine tanımayı çizgilerinize göre ayarlasın.",
     "Personal examples": "Kişisel örnekler",
     "Recognition is now fitted to your strokes. Your drawings are also kept as examples, so shapes are recognized the way you draw them.": "Tanıma artık çizgilerinize göre ayarlandı. Çizimleriniz örnek olarak da saklanır; şekiller sizin çizdiğiniz gibi tanınır.",
     "Reset Recognition": "Tanımayı Sıfırla",
@@ -307,7 +307,7 @@ TR = {
     "%d strokes": "%d çizgi",
 
     # Real-button calibration
-    "Draw a few shapes with your trigger button and mgestures learns how you draw them: how precisely, and how long your strokes are.": "Tetik tuşunuzla birkaç şekil çizin; mgestures onları nasıl çizdiğinizi öğrensin: ne kadar özenli ve ne uzunlukta.",
+    "Draw a few shapes with your trigger button and MouseLine learns how you draw them: how precisely, and how long your strokes are.": "Tetik tuşunuzla birkaç şekil çizin; MouseLine onları nasıl çizdiğinizi öğrensin: ne kadar özenli ve ne uzunlukta.",
     "Shorter strokes act as a normal click. A lower tolerance means fewer accidental matches, but shapes must be drawn more precisely.": "Daha kısa çizgiler normal tıklama gibi davranır. Düşük tolerans yanlışlıkla eşleşmeyi azaltır ama şekillerin daha özenli çizilmesi gerekir.",
     "Your last stroke": "Son çizginiz",
 
@@ -321,11 +321,11 @@ TR = {
     "“%@” has no action — normal middle click": "“%@” için eylem yok — normal orta tık",
     "Reset recognition?": "Tanıma sıfırlansın mı?",
     "Your personal examples are removed and the minimum gesture length and recognition tolerance go back to their defaults. You can calibrate again at any time.": "Kişisel örnekleriniz silinir; en kısa jest uzunluğu ve tanıma toleransı varsayılan değerlerine döner. İstediğiniz zaman yeniden kalibre edebilirsiniz.",
-    "This file is not an mgestures settings file.": "Bu dosya bir mgestures ayar dosyası değil.",
+    "This file is not an MouseLine settings file.": "Bu dosya bir MouseLine ayar dosyası değil.",
     "Replace all settings?": "Tüm ayarlar değiştirilsin mi?",
     "Your current gestures, custom shapes, app settings and exclusions are replaced by the ones in this file. Export first if you want to keep them.": "Mevcut jestleriniz, özel şekilleriniz, uygulama ayarlarınız ve hariç tutulanlar bu dosyadakilerle değiştirilir. Saklamak istiyorsanız önce dışa aktarın.",
     "Import": "İçe Aktar",
-    "Allow mgestures in System Settings → General → Login Items.": "mgestures'a Sistem Ayarları → Genel → Giriş Öğeleri bölümünden izin verin.",
+    "Allow MouseLine in System Settings → General → Login Items.": "MouseLine'a Sistem Ayarları → Genel → Giriş Öğeleri bölümünden izin verin.",
     "Open Login Items Settings…": "Giriş Öğeleri Ayarlarını Aç…",
     "Close Window": "Pencereyi Kapat",
     "Edit": "Düzen",
@@ -336,7 +336,7 @@ TR = {
     "Paste": "Yapıştır",
     "Select All": "Tümünü Seç",
     "Settings cannot be saved": "Ayarlar kaydedilemiyor",
-    "mgestures cannot write to %@. Changes you make are lost when the app quits.": "mgestures, %@ klasörüne yazamıyor. Yaptığınız değişiklikler uygulamadan çıkıldığında kaybolur.",
+    "MouseLine cannot write to %@. Changes you make are lost when the app quits.": "MouseLine, %@ klasörüne yazamıyor. Yaptığınız değişiklikler uygulamadan çıkıldığında kaybolur.",
     "Could not open the copy in Applications: %@": "Uygulamalar klasöründeki kopya açılamadı: %@",
 }
 

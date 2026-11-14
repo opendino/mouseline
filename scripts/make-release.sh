@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Builds a distributable release: dist/mgestures-<version>.dmg.
+# Builds a distributable release: dist/MouseLine-<version>.dmg.
 #
 #   scripts/make-release.sh
 #       Ad hoc signed, not notarized. Fine for testing; users get a Gatekeeper warning.
@@ -7,11 +7,11 @@
 #   SIGN_IDENTITY="Developer ID Application: Your Name (TEAMID)" scripts/make-release.sh
 #       Signed with Developer ID (app and DMG), ready to notarize.
 #
-#   SIGN_IDENTITY="Developer ID Application: Your Name (TEAMID)" NOTARY_PROFILE=mgestures \
+#   SIGN_IDENTITY="Developer ID Application: Your Name (TEAMID)" NOTARY_PROFILE=MouseLine \
 #     scripts/make-release.sh
 #       Also notarizes the DMG with notarytool and staples the ticket to it. Create the
 #       keychain profile once with:
-#         xcrun notarytool store-credentials mgestures --apple-id <id> --team-id <TEAMID>
+#         xcrun notarytool store-credentials MouseLine --apple-id <id> --team-id <TEAMID>
 #
 # The version comes from CFBundleShortVersionString in Support/Info.plist. Unlike
 # scripts/build-app.sh, this script never signs with the local development certificate:
@@ -21,7 +21,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 PLIST="Support/Info.plist"
-APP="build/mgestures.app"
+APP="build/MouseLine.app"
 DIST="dist"
 
 VERSION="$(/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$PLIST")"
@@ -29,8 +29,8 @@ if [[ -z "$VERSION" ]]; then
   echo "error: CFBundleShortVersionString is empty in $PLIST" >&2
   exit 1
 fi
-DMG="$DIST/mgestures-$VERSION.dmg"
-VOLUME_NAME="mgestures $VERSION"
+DMG="$DIST/MouseLine-$VERSION.dmg"
+VOLUME_NAME="MouseLine $VERSION"
 
 warn() { printf 'warning: %s\n' "$*" >&2; }
 
@@ -56,7 +56,7 @@ fi
 
 # --- Build ------------------------------------------------------------------
 
-echo "==> Building mgestures $VERSION"
+echo "==> Building MouseLine $VERSION"
 CONFIG=release SIGN_IDENTITY="$IDENTITY" scripts/build-app.sh
 
 built_version="$(/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$APP/Contents/Info.plist")"
@@ -69,11 +69,11 @@ fi
 
 echo "==> Creating $DMG"
 mkdir -p "$DIST"
-staging="$(mktemp -d "${TMPDIR:-/tmp}/mgestures-dmg.XXXXXX")"
+staging="$(mktemp -d "${TMPDIR:-/tmp}/MouseLine-dmg.XXXXXX")"
 trap 'rm -rf "$staging"' EXIT
 
 # ditto keeps the signature, extended attributes and symlinks intact.
-ditto "$APP" "$staging/mgestures.app"
+ditto "$APP" "$staging/MouseLine.app"
 ln -s /Applications "$staging/Applications"
 
 rm -f "$DMG"

@@ -4,7 +4,7 @@
 "%d strokes" = "%d çizgi";
 "A quick click always works normally. With this option, pressing and holding without moving does too, so you can press, drag to a menu item and release." = "Kısa bir tıklama her zaman normal çalışır. Bu seçenekle, hareket etmeden basılı tutmak da normal çalışır; böylece basıp bir menü öğesine sürükleyip bırakabilirsiniz.";
 "A quick click with this button still works normally. You can also require a modifier key in Settings." = "Bu tuşla yapılan kısa bir tıklama yine normal çalışır. Ayarlar'dan ayrıca bir değiştirici tuş da zorunlu tutabilirsiniz.";
-"About mgestures" = "mgestures Hakkında";
+"About MouseLine" = "MouseLine Hakkında";
 "Accessibility access is required to capture mouse gestures." = "Fare jestlerini yakalamak için Erişilebilirlik izni gerekiyor.";
 "Action" = "Eylem";
 "Active · %@" = "Etkin · %@";
@@ -18,7 +18,7 @@
 "All Shapes" = "Tüm Şekiller";
 "All shapes will use the All Apps settings in this app again." = "Bu uygulamada tüm şekiller yeniden Tüm Uygulamalar ayarlarını kullanır.";
 "Allow Accessibility access" = "Erişilebilirlik iznini verin";
-"Allow mgestures in System Settings → General → Login Items." = "mgestures'a Sistem Ayarları → Genel → Giriş Öğeleri bölümünden izin verin.";
+"Allow MouseLine in System Settings → General → Login Items." = "MouseLine'a Sistem Ayarları → Genel → Giriş Öğeleri bölümünden izin verin.";
 "Always open a new instance (arguments only apply to new instances)" = "Her zaman yeni bir kopya aç (argümanlar yalnızca yeni kopyalarda geçerlidir)";
 "App" = "Uygulama";
 "App-Specific Gestures" = "Uygulamaya Özel Jestler";
@@ -78,10 +78,10 @@
 "Down" = "Aşağı";
 "Down-Left" = "Aşağı-Sol";
 "Down-Left Rev" = "Aşağı-Sol (Ters)";
-"Draw a few shapes with your trigger button and mgestures learns how you draw them: how precisely, and how long your strokes are." = "Tetik tuşunuzla birkaç şekil çizin; mgestures onları nasıl çizdiğinizi öğrensin: ne kadar özenli ve ne uzunlukta.";
+"Draw a few shapes with your trigger button and MouseLine learns how you draw them: how precisely, and how long your strokes are." = "Tetik tuşunuzla birkaç şekil çizin; MouseLine onları nasıl çizdiğinizi öğrensin: ne kadar özenli ve ne uzunlukta.";
 "Draw a longer stroke." = "Daha uzun bir çizgi çizin.";
 "Draw a shape to see how it is recognized. Here you draw with the left mouse button and nothing is run." = "Nasıl tanındığını görmek için bir şekil çizin. Burada sol fare tuşuyla çizersiniz ve hiçbir eylem çalışmaz.";
-"Draw each shape twice, the way you normally would. mgestures adjusts itself to your hand." = "Her şekli normalde nasıl çiziyorsanız öyle, ikişer kez çizin. mgestures kendini elinize göre ayarlar.";
+"Draw each shape twice, the way you normally would. MouseLine adjusts itself to your hand." = "Her şekli normalde nasıl çiziyorsanız öyle, ikişer kez çizin. MouseLine kendini elinize göre ayarlar.";
 "Draw here with the left mouse button" = "Buraya sol fare tuşuyla çizin";
 "Draw shapes with the mouse to control windows, apps and more." = "Fareyle şekiller çizerek pencereleri, uygulamaları ve daha fazlasını yönetin.";
 "Draw the shape once, in the direction you will draw it with the trigger button." = "Şekli bir kez, tetik tuşuyla çizeceğiniz yönde çizin.";
@@ -119,7 +119,7 @@
 "Hold the right mouse button and draw a shape. The dot marks where the stroke starts." = "Sağ fare tuşunu basılı tutup bir şekil çizin. Nokta, çizginin başladığı yeri gösterir.";
 "Hold the right mouse button and draw the shape anywhere on the screen, as you normally would. Nothing runs while calibrating." = "Sağ fare tuşu basılıyken şekli ekranın herhangi bir yerinde, her zamanki gibi çizin. Kalibrasyon sırasında hiçbir eylem çalışmaz.";
 "Hold time" = "Basılı tutma süresi";
-"How mgestures looks and sounds while you draw." = "Çizerken mgestures'ın görünümü ve sesi.";
+"How MouseLine looks and sounds while you draw." = "Çizerken MouseLine'ın görünümü ve sesi.";
 "Import" = "İçe Aktar";
 "Import…" = "İçe Aktar…";
 "In these apps the mouse button works normally and gestures are off — useful for 3D tools, games, remote desktops and virtual machines. The app under the cursor decides, not the active one." = "Bu uygulamalarda fare tuşu normal çalışır ve jestler kapalıdır; 3B araçlar, oyunlar, uzak masaüstü ve sanal makineler için kullanışlıdır. Karar, etkin uygulamaya değil imlecin altındaki uygulamaya göre verilir.";
@@ -136,16 +136,16 @@
 "macOS asks once for each app the script controls (Privacy & Security → Automation)." = "macOS, scriptin denetlediği her uygulama için bir kez izin ister (Gizlilik ve Güvenlik → Otomasyon).";
 "Maximize window" = "Pencereyi büyüt";
 "Media" = "Medya";
-"mgestures" = "mgestures";
-"mgestures (inactive)" = "mgestures (devre dışı)";
-"mgestures cannot write to %@. Changes you make are lost when the app quits." = "mgestures, %@ klasörüne yazamıyor. Yaptığınız değişiklikler uygulamadan çıkıldığında kaybolur.";
-"mgestures is running from %@. Launch at login and permissions work reliably only from Applications." = "mgestures şu an %@ konumundan çalışıyor. Girişte başlatma ve izinler yalnızca Uygulamalar klasöründen güvenilir şekilde çalışır.";
-"mgestures needs this to see the mouse buttons and to move windows. It does not record or send anything; the keyboard is only observed while you are drawing, to catch Esc." = "mgestures'ın fare tuşlarını görebilmesi ve pencereleri taşıyabilmesi için bu izin gerekli. Hiçbir şey kaydetmez ya da göndermez; klavye yalnızca çizim sırasında, Esc tuşunu yakalamak için dinlenir.";
-"mgestures Settings" = "mgestures Ayarları";
 "Middle button" = "Orta tuş";
 "Minimize window" = "Pencereyi küçült";
 "Minimum gesture length" = "En kısa jest uzunluğu";
 "Mission Control" = "Mission Control";
+"MouseLine" = "MouseLine";
+"MouseLine (inactive)" = "MouseLine (devre dışı)";
+"MouseLine cannot write to %@. Changes you make are lost when the app quits." = "MouseLine, %@ klasörüne yazamıyor. Yaptığınız değişiklikler uygulamadan çıkıldığında kaybolur.";
+"MouseLine is running from %@. Launch at login and permissions work reliably only from Applications." = "MouseLine şu an %@ konumundan çalışıyor. Girişte başlatma ve izinler yalnızca Uygulamalar klasöründen güvenilir şekilde çalışır.";
+"MouseLine needs this to see the mouse buttons and to move windows. It does not record or send anything; the keyboard is only observed while you are drawing, to catch Esc." = "MouseLine'ın fare tuşlarını görebilmesi ve pencereleri taşıyabilmesi için bu izin gerekli. Hiçbir şey kaydetmez ya da göndermez; klavye yalnızca çizim sırasında, Esc tuşunu yakalamak için dinlenir.";
+"MouseLine Settings" = "MouseLine Ayarları";
 "Move to Applications" = "Uygulamalar'a Taşı";
 "Move to the Applications folder" = "Uygulamalar klasörüne taşıyın";
 "Move window to next display" = "Pencereyi sonraki ekrana taşı";
@@ -166,7 +166,7 @@
 "Open Login Items Settings…" = "Giriş Öğeleri Ayarlarını Aç…";
 "Open Settings…" = "Ayarları Aç…";
 "Open URL" = "URL aç";
-"Optional, about 30 seconds: draw four shapes twice and mgestures tunes recognition to your strokes." = "İsteğe bağlı, yaklaşık 30 saniye: dört şekli ikişer kez çizin, mgestures tanımayı çizgilerinize göre ayarlasın.";
+"Optional, about 30 seconds: draw four shapes twice and MouseLine tunes recognition to your strokes." = "İsteğe bağlı, yaklaşık 30 saniye: dört şekli ikişer kez çizin, MouseLine tanımayı çizgilerinize göre ayarlasın.";
 "Paste" = "Yapıştır";
 "Personal examples" = "Kişisel örnekler";
 "Play / pause" = "Oynat / duraklat";
@@ -174,7 +174,7 @@
 "Preview" = "Önizleme";
 "Previous track" = "Önceki parça";
 "Quit app" = "Uygulamadan çık";
-"Quit mgestures" = "mgestures'tan Çık";
+"Quit MouseLine" = "MouseLine'dan Çık";
 "Recognition" = "Tanıma";
 "Recognition is now fitted to your strokes. Your drawings are also kept as examples, so shapes are recognized the way you draw them." = "Tanıma artık çizgilerinize göre ayarlandı. Çizimleriniz örnek olarak da saklanır; şekiller sizin çizdiğiniz gibi tanınır.";
 "Recognition tolerance" = "Tanıma toleransı";
@@ -226,7 +226,7 @@
 "The result appears here." = "Sonuç burada görünür.";
 "The shape recognizer is an adaptation of the “$1 Unistroke Recognizer” by J. O. Wobbrock, A. D. Wilson and Y. Li (UIST 2007)." = "Şekil tanıyıcı, J. O. Wobbrock, A. D. Wilson ve Y. Li'nin “$1 Unistroke Recognizer” çalışmasının (UIST 2007) bir uyarlamasıdır.";
 "There's more" = "Dahası da var";
-"This file is not an mgestures settings file." = "Bu dosya bir mgestures ayar dosyası değil.";
+"This file is not an MouseLine settings file." = "Bu dosya bir MouseLine ayar dosyası değil.";
 "Tile window bottom" = "Pencereyi alta yerleştir";
 "Tile window left" = "Pencereyi sola yerleştir";
 "Tile window right" = "Pencereyi sağa yerleştir";
@@ -242,7 +242,7 @@
 "Try a gesture" = "Bir jest deneyin";
 "Turn gestures off in apps that need the button" = "Fare tuşuna ihtiyaç duyan uygulamalarda jestleri kapatın";
 "Turn gestures on/off" = "Jestleri aç/kapat";
-"Turn on mgestures in the list. This window updates by itself." = "Listede mgestures'ı açın. Bu pencere kendiliğinden güncellenir.";
+"Turn on MouseLine in the list. This window updates by itself." = "Listede MouseLine'ı açın. Bu pencere kendiliğinden güncellenir.";
 "U / Arch" = "U / Kemer";
 "U / Arch (round)" = "U / Kemer (yuvarlak)";
 "U Round" = "Yuvarlak U";
@@ -264,7 +264,7 @@
 "Volume up" = "Sesi aç";
 "Waiting for Accessibility access" = "Erişilebilirlik izni bekleniyor";
 "Welcome Guide…" = "Hoş Geldin Rehberi…";
-"Welcome to mgestures" = "mgestures'a Hoş Geldiniz";
+"Welcome to MouseLine" = "MouseLine'a Hoş Geldiniz";
 "Window" = "Pencere";
 "Window, media and system actions, scripts" = "Pencere, medya ve sistem eylemleri, betikler";
 "With a required modifier key, gestures start only while it is held; otherwise the button works normally. The on/off shortcut works everywhere." = "Gerekli bir değiştirici tuş seçilirse jestler yalnızca o tuş basılıyken başlar; aksi hâlde fare tuşu normal çalışır. Aç/kapat kısayolu her yerde çalışır.";

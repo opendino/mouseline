@@ -6,25 +6,25 @@
 # Why: an ad-hoc signature changes with every build, and macOS ties the Accessibility
 # permission to the signature, so each rebuild loses the permission. A certificate that
 # stays the same gives the app a stable designated requirement
-# (identifier "dev.mgestures.app" and certificate leaf = …), so the permission survives
+# (identifier "app.mouseline" and certificate leaf = …), so the permission survives
 # rebuilds. scripts/build-app.sh uses this certificate automatically once it exists.
 #
 # The certificate and its private key live in their own keychain,
-# ~/Library/Keychains/mgestures-dev.keychain-db, which has an empty password so builds
+# ~/Library/Keychains/mouseline-dev.keychain-db, which has an empty password so builds
 # can unlock it without a prompt, and is added to your keychain search list (codesign only
 # looks there). Your login keychain and trust settings are not changed; the certificate stays
 # untrusted, which is fine because builds sign with its SHA-1 fingerprint.
 # Anything running as your user can sign with it; that matters only for apps you grant
 # permissions to while they carry this signature. Delete the keychain to undo everything:
 #
-#   security delete-keychain ~/Library/Keychains/mgestures-dev.keychain-db
+#   security delete-keychain ~/Library/Keychains/mouseline-dev.keychain-db
 #   (this also removes it from the search list)
 #
 # This is for your own machine only. Releases need a Developer ID certificate.
 set -euo pipefail
 
-NAME="mgestures Local Development"
-KEYCHAIN="$HOME/Library/Keychains/mgestures-dev.keychain-db"
+NAME="MouseLine Local Development"
+KEYCHAIN="$HOME/Library/Keychains/mouseline-dev.keychain-db"
 
 # codesign only finds identities in keychains on the search list; adds ours, keeping the rest.
 # ${arr[@]+…} keeps an empty array safe under `set -u` in macOS's bash 3.2.
@@ -70,7 +70,7 @@ openssl req -x509 -newkey rsa:2048 -nodes -days 3650 \
 
 # PKCS#12 with a throwaway password; -legacy keeps it readable by `security` when the
 # openssl in PATH is OpenSSL 3 (LibreSSL, the macOS default, does not know the flag).
-p12_args=(-export -inkey "$work/key.pem" -in "$work/cert.pem" -out "$work/cert.p12" -passout pass:mgestures)
+p12_args=(-export -inkey "$work/key.pem" -in "$work/cert.pem" -out "$work/cert.p12" -passout pass:mouseline)
 if openssl pkcs12 -help 2>&1 | grep -q -- '-legacy'; then p12_args+=(-legacy); fi
 openssl pkcs12 "${p12_args[@]}"
 
@@ -79,7 +79,7 @@ if [[ ! -f "$KEYCHAIN" ]]; then
 fi
 security set-keychain-settings "$KEYCHAIN"   # no auto-lock
 security unlock-keychain -p "" "$KEYCHAIN"
-security import "$work/cert.p12" -k "$KEYCHAIN" -P mgestures -T /usr/bin/codesign
+security import "$work/cert.p12" -k "$KEYCHAIN" -P mouseline -T /usr/bin/codesign
 # Lets codesign use the key without a confirmation dialog.
 security set-key-partition-list -S apple-tool:,apple: -s -k "" "$KEYCHAIN" >/dev/null
 

@@ -1,6 +1,4 @@
-# mgestures
-
-> Working title. The final name is not decided yet.
+# MouseLine
 
 Mouse gestures for macOS. Hold the **right mouse button** (or the middle one), draw a
 shape, release — and a window snaps to half the screen, an app opens, a shortcut fires,
@@ -21,9 +19,9 @@ music pauses. A short click still works normally.
 - **Per-app gestures**: override any shape for one app (e.g. Left = Back in Finder,
   but Tile Left everywhere else), or turn it off there.
 - **Custom gestures**: draw your own shape in Settings and give it a name and an action.
-  mgestures warns you when it is too similar to an existing one.
+  MouseLine warns you when it is too similar to an existing one.
 - **Calibration**: draw Left, Right, Up and Down twice each with your real trigger
-  button, anywhere on screen. mgestures fits the recognition tolerance and the minimum
+  button, anywhere on screen. MouseLine fits the recognition tolerance and the minimum
   gesture length to your hand and keeps your strokes as personal examples, so shapes are
   recognized the way you draw them. Nothing runs while the calibration sheet is open.
 - **Recognition test area**: draw a stroke with the left mouse button and see the closest
@@ -39,9 +37,9 @@ music pauses. A short click still works normally.
 
 ## Privacy
 
-mgestures makes no network connections and collects nothing. It observes the mouse
+MouseLine makes no network connections and collects nothing. It observes the mouse
 buttons system-wide. The keyboard is observed **only while a gesture is being drawn**
-(to detect Esc); the rest of the time mgestures does not see key presses at all. The
+(to detect Esc); the rest of the time MouseLine does not see key presses at all. The
 on/off shortcut is a registered system hot key, which is delivered only for that exact
 combination.
 
@@ -70,13 +68,13 @@ Default bindings: **Left** / **Right** tile the window, **Up** maximizes, **Down
 
 Requirements: macOS 13 or later, on Apple Silicon or Intel.
 
-1. Download `mgestures-<version>.dmg` from the releases page.
-2. Open it and drag **mgestures** onto the **Applications** folder next to it.
-3. Eject the disk image and open mgestures from `/Applications`. It appears in the menu
+1. Download `MouseLine-<version>.dmg` from the releases page.
+2. Open it and drag **MouseLine** onto the **Applications** folder next to it.
+3. Eject the disk image and open MouseLine from `/Applications`. It appears in the menu
    bar, not in the Dock.
 4. The welcome guide walks you through the rest: grant **Accessibility** access when macOS
    asks (or in *System Settings → Privacy & Security → Accessibility*, then switch
-   mgestures on), choose the button you draw with, try a gesture and, optionally,
+   MouseLine on), choose the button you draw with, try a gesture and, optionally,
    calibrate. Gestures start working a couple of seconds after access is granted.
 
 ### If macOS blocks the app
@@ -85,29 +83,29 @@ A build that is not notarized by Apple (for example an ad hoc signed test build)
 stopped by Gatekeeper on first launch with a message that Apple cannot check it for
 malicious software. If you trust the download:
 
-- **macOS 13 and 14**: right-click (or Control-click) mgestures in Applications, choose
+- **macOS 13 and 14**: right-click (or Control-click) MouseLine in Applications, choose
   **Open**, then **Open** again in the dialog.
 - **macOS 15 and later** (right-click → Open no longer skips the check): try to open the
   app once, then go to *System Settings → Privacy & Security*, scroll to *Security* and
-  click **Open Anyway** next to the mgestures message. Confirm with your password.
+  click **Open Anyway** next to the MouseLine message. Confirm with your password.
 
 You only have to do this once per installed version. Notarized releases open normally.
 
 Builds that are not signed with a Developer ID get a new signature with every release, and
 macOS ties the Accessibility permission to the signature: after updating such a build,
-remove mgestures from the Accessibility list (−) and add it again.
+remove MouseLine from the Accessibility list (−) and add it again.
 
 ### Uninstalling
 
-1. Quit mgestures (menu bar icon → Quit mgestures). If you turned on *Launch at login*, turn it off
+1. Quit MouseLine (menu bar icon → Quit MouseLine). If you turned on *Launch at login*, turn it off
    first in Settings → General.
-2. Delete `/Applications/mgestures.app`.
-3. Delete the settings folder: `~/Library/Application Support/mgestures`.
-4. Remove mgestures from *System Settings → Privacy & Security → Accessibility* (select it,
+2. Delete `/Applications/MouseLine.app`.
+3. Delete the settings folder: `~/Library/Application Support/MouseLine`.
+4. Remove MouseLine from *System Settings → Privacy & Security → Accessibility* (select it,
    click −). Optionally, reset its permission from Terminal as well:
 
    ```bash
-   tccutil reset Accessibility dev.mgestures.app
+   tccutil reset Accessibility app.mouseline
    ```
 
 ## Install from source
@@ -117,13 +115,13 @@ Xcode itself is not needed.
 
 ```bash
 git clone <this repository>
-cd mgestures
+cd MouseLine
 scripts/build-app.sh
-open build/mgestures.app
+open build/MouseLine.app
 ```
 
 `scripts/build-app.sh` produces a **universal** app (Apple Silicon and Intel) in
-`build/mgestures.app`, with the app icon and any localizations, signed with the hardened
+`build/MouseLine.app`, with the app icon and any localizations, signed with the hardened
 runtime. For a faster build that only targets your own Mac, pick one architecture:
 
 ```bash
@@ -135,19 +133,19 @@ controls another app; that is a separate, per-app prompt from the Accessibility 
 
 On first launch a welcome guide offers to move the app to `/Applications` (needed for
 "Launch at login"), walks you through the permission and lets you try a gesture.
-Only one copy of mgestures runs at a time: opening another copy while one runs shows the
+Only one copy of MouseLine runs at a time: opening another copy while one runs shows the
 running copy's Settings instead, so quit the running copy before launching a new build.
 
 ### Accessibility permission
 
-mgestures needs **Accessibility** access to see mouse events and to move windows.
+MouseLine needs **Accessibility** access to see mouse events and to move windows.
 On first launch the welcome guide (or the menu's **Grant Accessibility Access…**) opens
 the system prompt; you can also grant it in
 *System Settings → Privacy & Security → Accessibility*. Gestures start working
 within a couple of seconds after access is granted — no restart needed.
 
 macOS ties the Accessibility permission to the app's signature. An ad-hoc signature
-changes with every build, so **without a stable certificate you have to remove mgestures
+changes with every build, so **without a stable certificate you have to remove MouseLine
 from the Accessibility list and add it again after every rebuild**. Create a local
 development certificate once and the build script uses it automatically:
 
@@ -156,7 +154,7 @@ scripts/make-dev-cert.sh
 ```
 
 It creates a self-signed certificate in its own keychain
-(`~/Library/Keychains/mgestures-dev.keychain-db`, added to your keychain search list) and
+(`~/Library/Keychains/mouseline-dev.keychain-db`, added to your keychain search list) and
 leaves your login keychain and trust settings alone. After the first build signed with it,
 grant Accessibility once more; later builds keep the permission. If that keychain drops off
 the search list (for example after a keychain reset), the build signs ad hoc and says so;
@@ -170,7 +168,7 @@ SIGN_IDENTITY="Apple Development: you@example.com (TEAMID)" scripts/build-app.sh
 ## Configuration
 
 Settings are stored as JSON in
-`~/Library/Application Support/mgestures/config.json`. The Settings window edits this
+`~/Library/Application Support/MouseLine/config.json`. The Settings window edits this
 file; you can also edit it by hand while the app is not running. Unknown or missing keys
 fall back to defaults, and an unreadable file is moved aside to `config.broken.json`.
 
@@ -199,7 +197,7 @@ Settings → General shows where the settings file is and has *Export…*, *Impo
 
 ## How recognition works
 
-mgestures uses a rotation-sensitive variant of the
+MouseLine uses a rotation-sensitive variant of the
 [$1 Unistroke Recognizer](https://depts.washington.edu/acelab/proj/dollar/index.html)
 (Wobbrock, Wilson & Li, UIST 2007). A stroke is resampled to 32 evenly spaced points,
 centered and scaled uniformly (so straight lines stay straight), and compared point by
@@ -209,7 +207,7 @@ point with each template. Rotation is *not* normalized: direction matters, so "L
 Personal examples from calibration are added as extra templates for their shape, so a
 stroke is also compared with the way you drew that shape.
 
-The recognizer lives in the `MGesturesCore` library, which has no AppKit dependency and
+The recognizer lives in the `MouseLineCore` library, which has no AppKit dependency and
 is covered by unit tests.
 
 ## Development
@@ -236,7 +234,7 @@ To check the interface without clicking through it, render every window to PNG
 (light or dark; nothing is captured and your settings are not touched):
 
 ```bash
-build/mgestures.app/Contents/MacOS/mgestures --snapshot /tmp/mgestures-shots --light
+build/MouseLine.app/Contents/MacOS/MouseLine --snapshot /tmp/MouseLine-shots --light
 ```
 
 Add `--onscreen` to show each window briefly in the middle of the screen and capture it
@@ -249,8 +247,8 @@ and checked in as `Support/AppIcon.icns`; rerun the script after changing it.
 Project layout:
 
 ```
-Sources/MGesturesCore/   recognizer, templates, gesture state machine, configuration (pure Swift)
-Sources/mgestures/       menu bar app: event tap, trail overlay, actions, settings UI
+Sources/MouseLineCore/   recognizer, templates, gesture state machine, configuration (pure Swift)
+Sources/MouseLine/       menu bar app: event tap, trail overlay, actions, settings UI
 Tests/                   unit tests (Swift Testing)
 Support/                 Info.plist, entitlements, app icon, en/tr string tables
 scripts/                 build, release, test, string and icon helpers
@@ -258,14 +256,14 @@ scripts/                 build, release, test, string and icon helpers
 
 ### Coming from the Hammerspoon script?
 
-mgestures started as a Hammerspoon `gestures.lua` script. If you still have that script
-loaded, disable it before running mgestures — otherwise both will try to capture the
+MouseLine started as a Hammerspoon `gestures.lua` script. If you still have that script
+loaded, disable it before running MouseLine — otherwise both will try to capture the
 right mouse button.
 
 ### Localization
 
 UI strings are English in the code and used as keys. SwiftUI literals are looked up
-automatically; other strings go through `L()` / `LF()` (`Sources/mgestures/Localization.swift`).
+automatically; other strings go through `L()` / `LF()` (`Sources/MouseLine/Localization.swift`).
 Turkish translations live in `scripts/tr_strings.py`, which writes
 `Support/tr.lproj/Localizable.strings`; `scripts/check-strings.py` reports missing keys and
 placeholder mismatches. To add a language, add a `<lang>.lproj/Localizable.strings` and the
@@ -274,7 +272,7 @@ language code to `CFBundleLocalizations` in `Support/Info.plist`.
 ## Releasing
 
 `scripts/make-release.sh` builds a universal release app and packs it into
-`dist/mgestures-<version>.dmg` (the app plus a link to `/Applications`). The version is
+`dist/MouseLine-<version>.dmg` (the app plus a link to `/Applications`). The version is
 `CFBundleShortVersionString` from `Support/Info.plist`; bump it (and `CFBundleVersion`)
 first. The script prints the DMG path and its SHA-256.
 
@@ -288,7 +286,7 @@ Program membership:
    from appleid.apple.com:
 
    ```bash
-   xcrun notarytool store-credentials mgestures \
+   xcrun notarytool store-credentials MouseLine \
      --apple-id you@example.com --team-id TEAMID
    ```
 
@@ -296,7 +294,7 @@ Program membership:
 
    ```bash
    SIGN_IDENTITY="Developer ID Application: Your Name (TEAMID)" \
-   NOTARY_PROFILE=mgestures scripts/make-release.sh
+   NOTARY_PROFILE=MouseLine scripts/make-release.sh
    ```
 
 Pass the identity by name: Developer ID is recognized from the name, and only then are

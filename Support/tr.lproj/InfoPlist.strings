@@ -1,4 +1,4 @@
 /* Localized Info.plist values. Keep in sync with Support/Info.plist. */
 
 /* Shown by macOS when a "Run AppleScript" action first controls another app. */
-"NSAppleEventsUsageDescription" = "mgestures, Apple Events'i yalnızca “AppleScript çalıştır” eylemine bağlı bir hareket çizdiğinizde gönderir; böylece betiğiniz diğer uygulamaları denetleyebilir.";
+"NSAppleEventsUsageDescription" = "MouseLine, Apple Events'i yalnızca “AppleScript çalıştır” eylemine bağlı bir hareket çizdiğinizde gönderir; böylece betiğiniz diğer uygulamaları denetleyebilir.";

@@ -1,5 +1,5 @@
 #!/usr/bin/env swift
-// Draws the mgestures app icon and writes it as an .icns file.
+// Draws the MouseLine app icon and writes it as an .icns file.
 //
 //   swift scripts/make-icon.swift Support/AppIcon.icns
 //
@@ -301,7 +301,7 @@ let outputURL = URL(fileURLWithPath: arguments[1])
 let fileManager = FileManager.default
 
 let workDir = fileManager.temporaryDirectory
-    .appendingPathComponent("mgestures-icon-\(ProcessInfo.processInfo.processIdentifier)")
+    .appendingPathComponent("MouseLine-icon-\(ProcessInfo.processInfo.processIdentifier)")
 let iconset = workDir.appendingPathComponent("AppIcon.iconset")
 try? fileManager.removeItem(at: workDir)
 try fileManager.createDirectory(at: iconset, withIntermediateDirectories: true)

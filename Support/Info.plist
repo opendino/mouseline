@@ -12,17 +12,17 @@
 		<string>tr</string>
 	</array>
 	<key>NSAppleEventsUsageDescription</key>
-	<string>mgestures sends Apple Events only when you draw a gesture bound to a “Run AppleScript” action, so that your script can control other apps.</string>
+	<string>MouseLine sends Apple Events only when you draw a gesture bound to a “Run AppleScript” action, so that your script can control other apps.</string>
 	<key>CFBundleExecutable</key>
-	<string>mgestures</string>
+	<string>MouseLine</string>
 	<key>CFBundleIdentifier</key>
-	<string>dev.mgestures.app</string>
+	<string>app.mouseline</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>mgestures</string>
+	<string>MouseLine</string>
 	<key>CFBundleDisplayName</key>
-	<string>mgestures</string>
+	<string>MouseLine</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -36,7 +36,7 @@
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.utilities</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2026 The mgestures Authors. Apache License 2.0.</string>
+	<string>Copyright © 2026 The MouseLine Authors. Apache License 2.0.</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 </dict>
