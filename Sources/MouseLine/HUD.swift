@@ -133,16 +133,25 @@ struct HUDView: View {
 
 /// Liquid Glass capsule on macOS 26+, the HUD blur material before.
 private struct HUDBackground: ViewModifier {
+    @ViewBuilder
     func body(content: Content) -> some View {
+        #if compiler(>=6.2)
         if #available(macOS 26, *) {
             content.glassEffect(.regular, in: Capsule(style: .continuous))
         } else {
-            content
-                .background(VisualEffectBackground(material: .hudWindow))
-                .clipShape(Capsule(style: .continuous))
-                .overlay(Capsule(style: .continuous).strokeBorder(Color.white.opacity(0.12), lineWidth: 0.5))
-                .shadow(color: .black.opacity(0.25), radius: 14, y: 6)
+            fallback(content)
         }
+        #else
+        fallback(content)
+        #endif
+    }
+
+    private func fallback(_ content: Content) -> some View {
+        content
+            .background(VisualEffectBackground(material: .hudWindow))
+            .clipShape(Capsule(style: .continuous))
+            .overlay(Capsule(style: .continuous).strokeBorder(Color.white.opacity(0.12), lineWidth: 0.5))
+            .shadow(color: .black.opacity(0.25), radius: 14, y: 6)
     }
 }
 

@@ -462,8 +462,10 @@ private struct StepCard<Content: View>: View {
 private struct FloatingGlassPanel: ViewModifier {
     let cornerRadius: CGFloat
 
+    @ViewBuilder
     func body(content: Content) -> some View {
         let shape = RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+        #if compiler(>=6.2)
         if #available(macOS 26, *) {
             content
                 .clipShape(shape)
@@ -473,5 +475,10 @@ private struct FloatingGlassPanel: ViewModifier {
                 .background(VisualEffectBackground(material: .underWindowBackground))
                 .clipShape(shape)
         }
+        #else
+        content
+            .background(VisualEffectBackground(material: .underWindowBackground))
+            .clipShape(shape)
+        #endif
     }
 }

@@ -117,6 +117,7 @@ private final class OverlayWindow: NSWindow {
         line.lineJoin = .round
         line.shadowRadius = 5
         head.shadowRadius = 4
+        #if compiler(>=6.2)
         if #available(macOS 26, *) {
             let glass = NSGlassEffectView(frame: .zero)
             glass.style = .clear
@@ -124,6 +125,7 @@ private final class OverlayWindow: NSWindow {
             view.addSubview(glass)
             lens = glass
         }
+        #endif
         setFrame(screen.frame, display: false)
 
         let primaryHeight = NSScreen.screens.first?.frame.height ?? screen.frame.height
@@ -151,12 +153,14 @@ private final class OverlayWindow: NSWindow {
         head.shadowColor = color.cgColor
         headRadius = max(3, CGFloat(width) * 1.2)
         lensRadius = max(9, CGFloat(width) * 2.4)
+        #if compiler(>=6.2)
         if #available(macOS 26, *), let glass = lens as? NSGlassEffectView {
             glass.cornerRadius = lensRadius
             glass.tintColor = color.withAlphaComponent(0.25)
             // With the lens, the solid head becomes a small bright core inside it.
             headRadius = max(2.5, CGFloat(width) * 0.7)
         }
+        #endif
     }
 
     func update(points: [CGPoint]) {

@@ -158,6 +158,9 @@ extension View {
 }
 
 // MARK: - Liquid Glass (macOS 26+) with a material fallback
+//
+// The glass APIs need the macOS 26 SDK (Swift 6.2, Xcode 26). With an older toolchain the
+// fallbacks are compiled instead, so the project still builds there.
 
 extension View {
     /// Liquid Glass in `shape` on macOS 26 and later; a blur material on older systems.
@@ -168,48 +171,67 @@ extension View {
         interactive: Bool = false,
         fallback: Material = .regularMaterial
     ) -> some View {
+        #if compiler(>=6.2)
         if #available(macOS 26, *) {
             glassEffect(Glass.regular.tint(tint).interactive(interactive), in: shape)
         } else {
             background(fallback, in: shape)
                 .overlay(shape.stroke(Color.primary.opacity(0.08), lineWidth: 0.5))
         }
+        #else
+        background(fallback, in: shape)
+            .overlay(shape.stroke(Color.primary.opacity(0.08), lineWidth: 0.5))
+        #endif
     }
 
     /// Glass buttons on macOS 26 and later, bordered buttons before.
     @ViewBuilder
     func glassButtonStyle(prominent: Bool = false) -> some View {
+        #if compiler(>=6.2)
         if #available(macOS 26, *) {
             if prominent { buttonStyle(.glassProminent) } else { buttonStyle(.glass) }
         } else {
             if prominent { buttonStyle(.borderedProminent) } else { buttonStyle(.bordered) }
         }
+        #else
+        if prominent { buttonStyle(.borderedProminent) } else { buttonStyle(.bordered) }
+        #endif
     }
 
     /// Groups nearby glass shapes so they blend and morph into each other (macOS 26+).
     @ViewBuilder
     func glassGroup(spacing: CGFloat? = nil) -> some View {
+        #if compiler(>=6.2)
         if #available(macOS 26, *) {
             GlassEffectContainer(spacing: spacing) { self }
         } else {
             self
         }
+        #else
+        self
+        #endif
     }
 
     /// The materialize transition for appearing glass on macOS 26; nothing before.
     @ViewBuilder
     func glassAppearance() -> some View {
+        #if compiler(>=6.2)
         if #available(macOS 26, *) {
             glassEffectTransition(.materialize)
         } else {
             self
         }
+        #else
+        self
+        #endif
     }
 }
 
 enum GlassSupport {
     static var isAvailable: Bool {
+        #if compiler(>=6.2)
         if #available(macOS 26, *) { return true }
+        #endif
         return false
     }
 }

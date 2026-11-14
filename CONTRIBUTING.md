@@ -15,6 +15,8 @@ log show --last 10m --predicate 'subsystem == "app.mouseline"' --info
 ## Building
 
 Xcode is not required; the Command Line Tools are enough (`xcode-select --install`).
+The Liquid Glass design needs the macOS 26 SDK (Command Line Tools or Xcode 26); older
+toolchains still build the app, with the macOS 13–15 look.
 
 ```bash
 scripts/test.sh            # unit tests (MouseLineCore)
