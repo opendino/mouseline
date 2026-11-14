@@ -1,0 +1,71 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "mouseline",
+  "title": "MouseLine",
+  "description": "Control MouseLine, the mouse gesture app for macOS: turn gestures on or off, pause them in the current app, open settings or calibrate.",
+  "icon": "icon.png",
+  "author": "opendino",
+  "categories": ["Productivity", "System"],
+  "license": "MIT",
+  "commands": [
+    {
+      "name": "toggle-gestures",
+      "title": "Toggle Gestures",
+      "subtitle": "MouseLine",
+      "description": "Turn MouseLine's mouse gestures on or off.",
+      "mode": "no-view"
+    },
+    {
+      "name": "enable-gestures",
+      "title": "Enable Gestures",
+      "subtitle": "MouseLine",
+      "description": "Turn MouseLine's mouse gestures on.",
+      "mode": "no-view"
+    },
+    {
+      "name": "disable-gestures",
+      "title": "Disable Gestures",
+      "subtitle": "MouseLine",
+      "description": "Turn MouseLine's mouse gestures off.",
+      "mode": "no-view"
+    },
+    {
+      "name": "toggle-frontmost-app",
+      "title": "Toggle Gestures in Current App",
+      "subtitle": "MouseLine",
+      "description": "Turn gestures off (or back on) in the app you are using, e.g. a game or a 3D tool.",
+      "mode": "no-view"
+    },
+    {
+      "name": "open-settings",
+      "title": "Open MouseLine Settings",
+      "subtitle": "MouseLine",
+      "description": "Open the MouseLine settings window.",
+      "mode": "no-view"
+    },
+    {
+      "name": "calibrate",
+      "title": "Calibrate Gestures",
+      "subtitle": "MouseLine",
+      "description": "Open MouseLine's calibration, which fits recognition to how you draw.",
+      "mode": "no-view"
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^1.93.0"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^2.0.4",
+    "@types/node": "22.13.10",
+    "eslint": "^9.22.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.2"
+  },
+  "scripts": {
+    "build": "ray build",
+    "dev": "ray develop",
+    "fix-lint": "ray lint --fix",
+    "lint": "ray lint",
+    "publish": "npx @raycast/api@latest publish"
+  }
+}
