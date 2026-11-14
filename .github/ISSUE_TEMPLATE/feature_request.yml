@@ -1,0 +1,14 @@
+name: Feature request
+description: An idea for a new action, shape or setting
+labels: [enhancement]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like MouseLine to do?
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why? How would you use it?

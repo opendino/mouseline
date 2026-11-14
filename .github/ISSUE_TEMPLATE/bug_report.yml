@@ -1,0 +1,36 @@
+name: Bug report
+description: Something does not work as expected
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: The gesture or setting, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: MouseLine version
+      placeholder: "0.1.0 (menu bar → About MouseLine)"
+    validations:
+      required: true
+  - type: input
+    id: macos
+    attributes:
+      label: macOS version and Mac
+      placeholder: "macOS 26.1, MacBook Pro M3"
+    validations:
+      required: true
+  - type: input
+    id: mouse
+    attributes:
+      label: Mouse or trackpad, and other mouse tools
+      placeholder: "Logitech MX Master 3S, Mac Mouse Fix running"
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs (optional)
+      description: "Output of: log show --last 10m --predicate 'subsystem == \"app.mouseline\"' --info"
+      render: text

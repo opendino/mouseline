@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Toolchain
+        run: |
+          swift --version
+          xcrun --show-sdk-version
+
+      - name: Unit tests
+        run: scripts/test.sh
+
+      - name: Translations are complete and generated files are up to date
+        run: |
+          python3 -I scripts/strings.py build
+          python3 -I scripts/check-strings.py
+          git diff --exit-code -- Support/
+
+      - name: Build the universal app (ad hoc signed)
+        run: SIGN_IDENTITY="-" scripts/build-app.sh
+
+      - name: Upload the app
+        uses: actions/upload-artifact@v4
+        with:
+          name: MouseLine-app
+          path: build/MouseLine.app
+          retention-days: 7

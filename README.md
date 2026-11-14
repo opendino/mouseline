@@ -1,8 +1,19 @@
 # MouseLine
 
-Mouse gestures for macOS. Hold the **right mouse button** (or the middle one), draw a
-shape, release — and a window snaps to half the screen, an app opens, a shortcut fires,
-music pauses. A short click still works normally.
+[![CI](https://github.com/opendino/mouseline/actions/workflows/ci.yml/badge.svg)](https://github.com/opendino/mouseline/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/opendino/mouseline)](https://github.com/opendino/mouseline/releases/latest)
+![macOS 13+](https://img.shields.io/badge/macOS-13%2B-blue)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-green.svg)](LICENSE)
+
+**Draw a line. Get it done.** Mouse gestures for macOS: hold the **right mouse button** (or
+the middle one), draw a shape, release — and a window snaps to half the screen, a page goes
+back, music pauses, your shortcut fires. A short click still works normally.
+
+```bash
+brew install --cask opendino/tap/mouseline
+```
+
+or download the DMG from the [latest release](https://github.com/opendino/mouseline/releases/latest).
 
 - Lives in the menu bar, no Dock icon.
 - 32 built-in shapes: lines, diagonals, L corners, U / arch, C, chevrons — each in
@@ -72,7 +83,9 @@ Default bindings: **Left** / **Right** tile the window, **Up** maximizes, **Down
 
 Requirements: macOS 13 or later, on Apple Silicon or Intel.
 
-1. Download `MouseLine-<version>.dmg` from the releases page.
+1. Install with Homebrew — `brew install --cask opendino/tap/mouseline` — and skip to
+   step 3, or download `MouseLine-<version>.dmg` from the
+   [releases page](https://github.com/opendino/mouseline/releases).
 2. Open it and drag **MouseLine** onto the **Applications** folder next to it.
 3. Eject the disk image and open MouseLine from `/Applications`. It appears in the menu
    bar, not in the Dock.

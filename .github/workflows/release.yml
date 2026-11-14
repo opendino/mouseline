@@ -1,0 +1,60 @@
+name: Release
+
+# Pushing a tag like v0.1.0 builds the DMG and publishes a GitHub release with it.
+# The tag must match CFBundleShortVersionString in Support/Info.plist, and CHANGELOG.md
+# must have a "## <version>" section, which becomes the release notes.
+#
+# Signing: without secrets the DMG is signed ad hoc (users see a Gatekeeper warning).
+# Developer ID signing and notarization can be added later with secrets for the
+# certificate and an App Store Connect API key (see README → Releasing).
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check the version
+        id: version
+        run: |
+          version="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' Support/Info.plist)"
+          if [[ "v$version" != "$GITHUB_REF_NAME" ]]; then
+            echo "Tag $GITHUB_REF_NAME does not match Info.plist version $version" >&2
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Tests
+        run: scripts/test.sh
+
+      - name: Build the DMG
+        run: scripts/make-release.sh
+
+      - name: Release notes from CHANGELOG.md
+        run: |
+          awk -v v="${{ steps.version.outputs.version }}" '
+            $0 ~ "^## " v "( |$)" { on = 1; next }
+            on && /^## / { exit }
+            on { print }
+          ' CHANGELOG.md > notes.md
+          dmg="dist/MouseLine-${{ steps.version.outputs.version }}.dmg"
+          {
+            echo
+            echo "**SHA-256** \`$(shasum -a 256 "$dmg" | awk '{ print $1 }')\` \`$(basename "$dmg")\`"
+          } >> notes.md
+          cat notes.md
+
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" "dist/MouseLine-${{ steps.version.outputs.version }}.dmg" \
+            --title "MouseLine ${{ steps.version.outputs.version }}" \
+            --notes-file notes.md
