@@ -14,9 +14,7 @@ from Raycast.
 Requires MouseLine 0.1.0 or later:
 
 ```bash
-brew tap opendino/tap
-brew trust --cask opendino/tap/mouseline   # Homebrew 7+ asks you to trust third-party casks
-brew install --cask mouseline
+brew install --cask opendino/tap/mouseline
 ```
 
 The commands use MouseLine's `mouseline://` URLs, so they also work as hotkeys or quicklinks.
