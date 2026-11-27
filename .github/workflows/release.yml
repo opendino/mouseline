@@ -58,7 +58,8 @@ jobs:
       - name: Check the signature
         run: |
           codesign --verify --strict --verbose=1 build/MouseLine.app
-          codesign -d -r- build/MouseLine.app 2>&1 | grep '^designated'
+          # Ad hoc signatures print it as a comment ("# designated => cdhash …").
+          codesign -d -r- build/MouseLine.app 2>&1 | grep 'designated =>'
 
       - name: Keep the DMG (dry run)
         if: github.ref_type != 'tag'
