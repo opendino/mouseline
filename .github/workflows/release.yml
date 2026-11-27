@@ -4,13 +4,20 @@ name: Release
 # The tag must match CFBundleShortVersionString in Support/Info.plist, and CHANGELOG.md
 # must have a "## <version>" section, which becomes the release notes.
 #
-# Signing: without secrets the DMG is signed ad hoc (users see a Gatekeeper warning).
-# Developer ID signing and notarization can be added later with secrets for the
-# certificate and an App Store Connect API key (see README → Releasing).
+# Signing: with the RELEASE_SIGNING_P12 and RELEASE_SIGNING_P12_PASSWORD secrets
+# (scripts/make-release-cert.sh --set-secrets) the app is signed with the project's fixed
+# self-signed certificate, so the Accessibility permission survives updates. Without them
+# it is signed ad hoc (forks). Either way users see a Gatekeeper warning when they open a
+# downloaded DMG; Developer ID signing and notarization can be added later with secrets
+# for the certificate and an App Store Connect API key (see README → Releasing).
+#
+# Run it by hand (Actions → Release → Run workflow) for a dry run: it builds and signs the
+# DMG and attaches it to the run as an artifact, without publishing anything.
 
 on:
   push:
     tags: ['v*']
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -25,7 +32,7 @@ jobs:
         id: version
         run: |
           version="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' Support/Info.plist)"
-          if [[ "v$version" != "$GITHUB_REF_NAME" ]]; then
+          if [[ "$GITHUB_REF_TYPE" == tag && "v$version" != "$GITHUB_REF_NAME" ]]; then
             echo "Tag $GITHUB_REF_NAME does not match Info.plist version $version" >&2
             exit 1
           fi
@@ -34,8 +41,31 @@ jobs:
       - name: Tests
         run: scripts/test.sh
 
+      - name: Import the release signing certificate
+        env:
+          RELEASE_SIGNING_P12: ${{ secrets.RELEASE_SIGNING_P12 }}
+          RELEASE_SIGNING_P12_PASSWORD: ${{ secrets.RELEASE_SIGNING_P12_PASSWORD }}
+        run: |
+          if [[ -z "$RELEASE_SIGNING_P12" ]]; then
+            echo "::warning::RELEASE_SIGNING_P12 is not set; signing ad hoc, so users lose the Accessibility permission on every update"
+            exit 0
+          fi
+          echo "SIGN_IDENTITY=$(scripts/import-release-cert.sh)" >> "$GITHUB_ENV"
+
       - name: Build the DMG
         run: scripts/make-release.sh
+
+      - name: Check the signature
+        run: |
+          codesign --verify --strict --verbose=1 build/MouseLine.app
+          codesign -d -r- build/MouseLine.app 2>&1 | grep '^designated'
+
+      - name: Keep the DMG (dry run)
+        if: github.ref_type != 'tag'
+        uses: actions/upload-artifact@v4
+        with:
+          name: MouseLine-${{ steps.version.outputs.version }}-dry-run
+          path: dist/MouseLine-${{ steps.version.outputs.version }}.dmg
 
       - name: Release notes from CHANGELOG.md
         run: |
@@ -52,6 +82,7 @@ jobs:
           cat notes.md
 
       - name: Publish the release
+        if: github.ref_type == 'tag'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |

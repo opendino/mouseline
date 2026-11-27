@@ -4,6 +4,11 @@
 #   scripts/make-release.sh
 #       Ad hoc signed, not notarized. Fine for testing; users get a Gatekeeper warning.
 #
+#   SIGN_IDENTITY=<SHA-1 of the release signing certificate> scripts/make-release.sh
+#       Signed with the project's fixed self-signed certificate, as GitHub Actions does
+#       (scripts/make-release-cert.sh): not notarized, but the Accessibility permission
+#       survives updates.
+#
 #   SIGN_IDENTITY="Developer ID Application: Your Name (TEAMID)" scripts/make-release.sh
 #       Signed with Developer ID (app and DMG), ready to notarize.
 #
@@ -50,6 +55,8 @@ is_developer_id=false
 if [[ "$IDENTITY" == *"Developer ID Application"* ]]; then
   is_developer_id=true
 elif [[ "$IDENTITY" != "-" ]]; then
+  # For example the project's self-signed release certificate (scripts/make-release-cert.sh),
+  # passed by SHA-1: it keeps the Accessibility permission across updates, nothing more.
   warn "\"$IDENTITY\" is not a Developer ID Application identity (by name): the build cannot be notarized,"
   warn "and users will see a Gatekeeper warning."
 fi

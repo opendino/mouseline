@@ -10,10 +10,14 @@ the middle one), draw a shape, release — and a window snaps to half the screen
 back, music pauses, your shortcut fires. A short click still works normally.
 
 ```bash
-brew install --cask opendino/tap/mouseline
+curl -fsSL https://raw.githubusercontent.com/opendino/mouseline/main/install.sh | bash
 ```
 
-or download the DMG from the [latest release](https://github.com/opendino/mouseline/releases/latest).
+Installs or updates MouseLine in `/Applications` without the "cannot be opened" warning
+macOS shows for apps from the internet that are not notarized yet. Or use Homebrew,
+`brew install --cask opendino/tap/mouseline`, or the DMG from the
+[latest release](https://github.com/opendino/mouseline/releases/latest); see
+[Installation](#installation).
 
 - Lives in the menu bar, no Dock icon.
 - 32 built-in shapes: lines, diagonals, L corners, U / arch, C, chevrons — each in
@@ -83,10 +87,22 @@ Default bindings: **Left** / **Right** tile the window, **Up** maximizes, **Down
 
 Requirements: macOS 13 or later, on Apple Silicon or Intel.
 
-1. Install with Homebrew (`brew install --cask opendino/tap/mouseline`) and skip to step 3,
-   or download `MouseLine-<version>.dmg` from the
-   [releases page](https://github.com/opendino/mouseline/releases).
-2. Open it and drag **MouseLine** onto the **Applications** folder next to it.
+1. Install MouseLine in one of three ways:
+   - **Install script** (recommended until MouseLine is notarized):
+
+     ```bash
+     curl -fsSL https://raw.githubusercontent.com/opendino/mouseline/main/install.sh | bash
+     ```
+
+     It downloads the latest release with `curl`, checks its SHA-256 against the one GitHub
+     lists for the release, copies MouseLine to `/Applications` and opens it; skip to step 4.
+     macOS does not stop the first launch, because files downloaded with `curl` are not
+     quarantined. Run it again to update. [Read the script](install.sh) first if you like:
+     it is short.
+   - **Homebrew**: `brew install --cask opendino/tap/mouseline`, then skip to step 3.
+   - **DMG**: download `MouseLine-<version>.dmg` from the
+     [releases page](https://github.com/opendino/mouseline/releases).
+2. Open the DMG and drag **MouseLine** onto the **Applications** folder next to it.
 3. Eject the disk image and open MouseLine from `/Applications`. It appears in the menu
    bar, not in the Dock.
 4. The welcome guide walks you through the rest: grant **Accessibility** access when macOS
@@ -96,9 +112,10 @@ Requirements: macOS 13 or later, on Apple Silicon or Intel.
 
 ### If macOS blocks the app
 
-A build that is not notarized by Apple (for example an ad hoc signed test build) is
-stopped by Gatekeeper on first launch with a message that Apple cannot check it for
-malicious software. If you trust the download:
+MouseLine is not notarized by Apple yet, so when it comes from a browser download or
+Homebrew, Gatekeeper stops the first launch with a message that Apple cannot check it for
+malicious software. The [install script](#installation) avoids this. Otherwise, if you
+trust the download:
 
 - **macOS 13 and 14**: right-click (or Control-click) MouseLine in Applications, choose
   **Open**, then **Open** again in the dialog.
@@ -108,9 +125,10 @@ malicious software. If you trust the download:
 
 You only have to do this once per installed version. Notarized releases open normally.
 
-Builds that are not signed with a Developer ID get a new signature with every release, and
-macOS ties the Accessibility permission to the signature: after updating such a build,
-remove MouseLine from the Accessibility list (−) and add it again.
+macOS ties the Accessibility permission to the app's signature. Releases after 0.1.0 are
+all signed with the same project certificate, so updates keep the permission. Coming from
+0.1.0, which was signed ad hoc, grant it once more: remove MouseLine from the Accessibility
+list (−) and add it again.
 
 ### Uninstalling
 
@@ -352,6 +370,27 @@ signed but not notarized, and the script prints the commands to notarize it late
 Without `SIGN_IDENTITY` the release is signed **ad hoc** (never with the local development
 certificate) and the script warns that it is not notarized: users will have to open it as
 described under [If macOS blocks the app](#if-macos-blocks-the-app).
+
+### Release signing without a Developer ID
+
+Until there is a Developer ID, GitHub Actions signs releases with the project's own
+self-signed certificate. It does not satisfy Gatekeeper, but it never changes, so the
+Accessibility permission survives updates (an ad hoc signature changes with every build).
+
+1. Create it once, which also stores it as the repository secrets `RELEASE_SIGNING_P12`
+   and `RELEASE_SIGNING_P12_PASSWORD` (needs `gh` with access to the repository):
+
+   ```bash
+   scripts/make-release-cert.sh --set-secrets
+   ```
+
+2. Back up `~/.mouseline-release-signing` (a password manager is a good place). Losing it
+   means a new signature and one more Accessibility prompt for every user; anyone who has
+   it can sign apps that macOS treats as MouseLine, so never commit it.
+
+`.github/workflows/release.yml` imports it with `scripts/import-release-cert.sh`; without
+the secrets (forks) it signs ad hoc. Run the workflow by hand (*Actions → Release → Run
+workflow*) for a dry run that builds and signs the DMG without publishing it.
 
 ## Roadmap
 

@@ -57,6 +57,8 @@ Status legend: ✅ done · 🚧 in progress · ⏳ later (needs a decision or ou
 | **Universal binary** (Apple Silicon + Intel) | ✅ | `scripts/build-app.sh` |
 | **Release script** — DMG (app + Applications link), SHA-256 | ✅ | `scripts/make-release.sh`; ad hoc signed without `SIGN_IDENTITY` |
 | Developer ID signing + notarization support | ✅ | `SIGN_IDENTITY` + `NOTARY_PROFILE`: secure timestamp, DMG signing, notarytool, stapler |
+| Fixed release signature (self-signed) | ✅ | `scripts/make-release-cert.sh`; the Accessibility permission survives updates |
+| **Install script** — `curl … \| bash`, no Gatekeeper prompt | ✅ | `install.sh`: latest release, SHA-256 check, installs or updates |
 | First notarized release | ⏳ | Needs an Apple Developer Program membership (Developer ID certificate) |
 | GitHub Releases + CI | ✅ | `.github/workflows`: tests, translations and build on every push; a `v*` tag publishes the DMG |
 | Automatic updates (Sparkle) | ⏳ | Needs signing and a release feed |

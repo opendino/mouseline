@@ -2,6 +2,14 @@
 
 All notable changes to MouseLine. Versions follow [Semantic Versioning](https://semver.org).
 
+## Unreleased
+
+- Install script: `curl -fsSL https://raw.githubusercontent.com/opendino/mouseline/main/install.sh | bash`
+  installs or updates MouseLine without the Gatekeeper warning.
+- Releases are signed with a fixed project certificate, so updates keep the Accessibility
+  permission. Updating from 0.1.0 asks for it once more.
+- Homebrew installs with one command: `brew install --cask opendino/tap/mouseline`.
+
 ## 0.1.0
 
 The first public release.
